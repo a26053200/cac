@@ -34,7 +34,7 @@ end
 --启动测试代码
 function LuaClient.DoTestCo()
     print("Timer" .. Time.time)
-    local prefab = assetsMgr:LoadPrefab("Prefabs/UI/Login/LoginWnd.prefab");
+    local prefab = Res.LoadPrefab("Prefabs/UI/Login/LoginWnd.prefab");
     local go = GameObject.Instantiate(prefab);
     log("测试日志{0}","Info")
     logWarn("测试日志{0}","Warn")

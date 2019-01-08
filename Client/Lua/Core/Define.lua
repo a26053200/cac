@@ -8,7 +8,6 @@
 
 ---Framework
 gameMgr = Framework.GameManager.GetGameManager()
-assetsMgr = Framework.GameManager.GetAssetsManager()
 sceneMgr = Framework.GameManager.GetSceneManager()
 netMgr = Framework.GameManager.GetNetworkManager()
 

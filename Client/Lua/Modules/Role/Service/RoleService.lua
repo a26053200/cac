@@ -10,7 +10,7 @@ RoleAction.RoleInfo = "push@role_info"
 ---@class Game.Modules.Role.Service.RoleService : Game.Core.Ioc.BaseService
 local BaseService = require("Game.Core.Ioc.BaseService")
 local RoleService = class("RoleService",BaseService)
-local RoleVo = require("Modules.Role.Vo.RoleVo")
+local RoleVo = require("Game.Modules.Role.Vo.RoleVo")
 
 function RoleService:Ctor()
     nmgr:AddPush(RoleAction.RoleInfo, handler(self,self.OnRoleInfo))

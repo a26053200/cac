@@ -73,7 +73,7 @@ end
 ---@param viewInfo Game.Core.ViewInfo
 ---@param callback function
 function ViewManager:LoadViewPrefab(viewInfo,callback)
-    local prefab = self:LoadAsset(viewInfo.prefab)
+    local prefab = Res.LoadPrefab(viewInfo.prefab)
     if prefab then
         local go = GameObject.Instantiate(prefab)
         callback(go)

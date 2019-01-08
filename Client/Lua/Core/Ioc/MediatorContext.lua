@@ -21,16 +21,16 @@ end
 
 function MediatorContext:Launch()
     --TODO
-	self.binder:Bind(require("Modules.Loading.View.LoadingMdr")):To(ViewConfig.Loading.name)
-	self.binder:Bind(require("Modules.Login.View.LoginMdr")):To(ViewConfig.Login.name)
-	self.binder:Bind(require("Modules.Login.View.LoginSceneMdr")):To(ViewConfig.LoginScene.name)
-	self.binder:Bind(require("Modules.Login.View.NoticeMdr")):To(ViewConfig.Notice.name)
-	self.binder:Bind(require("Modules.Login.View.RoleCreateMdr")):To(ViewConfig.RoleCreate.name)
-	self.binder:Bind(require("Modules.Login.View.RoleSelectMdr")):To(ViewConfig.RoleSelect.name)
-	self.binder:Bind(require("Modules.Login.View.ServerListMdr")):To(ViewConfig.ServerList.name)
-	self.binder:Bind(require("Modules.Newbie.View.NewbieWelcomeMdr")):To(ViewConfig.NewbieWelcome.name)
-	self.binder:Bind(require("Modules.Role.View.RoleInfoMdr")):To(ViewConfig.RoleInfo.name)
-	self.binder:Bind(require("Modules.World.View.WorldMdr")):To(ViewConfig.World.name)
+	self.binder:Bind(require("Game.Modules.Loading.View.LoadingMdr")):To(ViewConfig.Loading.name)
+	self.binder:Bind(require("Game.Modules.Login.View.LoginMdr")):To(ViewConfig.Login.name)
+	self.binder:Bind(require("Game.Modules.Login.View.LoginSceneMdr")):To(ViewConfig.LoginScene.name)
+	self.binder:Bind(require("Game.Modules.Login.View.NoticeMdr")):To(ViewConfig.Notice.name)
+	self.binder:Bind(require("Game.Modules.Login.View.RoleCreateMdr")):To(ViewConfig.RoleCreate.name)
+	self.binder:Bind(require("Game.Modules.Login.View.RoleSelectMdr")):To(ViewConfig.RoleSelect.name)
+	self.binder:Bind(require("Game.Modules.Login.View.ServerListMdr")):To(ViewConfig.ServerList.name)
+	self.binder:Bind(require("Game.Modules.Newbie.View.NewbieWelcomeMdr")):To(ViewConfig.NewbieWelcome.name)
+	self.binder:Bind(require("Game.Modules.Role.View.RoleInfoMdr")):To(ViewConfig.RoleInfo.name)
+	self.binder:Bind(require("Game.Modules.World.View.WorldMdr")):To(ViewConfig.World.name)
     --TODO
 end
 

@@ -5,7 +5,7 @@
 ---
 
 ---@class Game.Modules.World.Scenes.LoginScene : Modules.World.Scenes.BaseScene
-local BaseScene = require('Modules.World.Scenes.BaseScene')
+local BaseScene = require('Game.Modules.World.Scenes.BaseScene')
 local LoginScene = class("LoginScene",BaseScene)
 
 function LoginScene:Ctor()

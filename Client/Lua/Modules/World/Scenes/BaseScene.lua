@@ -5,8 +5,8 @@
 --- 场景的基类
 ---
 
----@class Game.Modules.World.Scenes.BaseScene : Core.LuaMonoBehaviour
-local LuaMonoBehaviour = require('Core.LuaMonoBehaviour')
+---@class Game.Modules.World.Scenes.BaseScene : Betel.LuaMonoBehaviour
+local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 local BaseScene = class("BaseScene",LuaMonoBehaviour)
 
 function BaseScene:Ctor()
@@ -15,7 +15,7 @@ function BaseScene:Ctor()
 end
 
 function BaseScene:Init()
-    local prefab = self:LoadAsset("Prefabs/UI/Common/UICanvas.prefab")
+    local prefab = Res.LoadPrefab("Prefabs/UI/Common/UICanvas.prefab")
     self.uiCanvas = GameObject.Instantiate(prefab)
     vmgr:SetScene(self)
 end

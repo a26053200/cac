@@ -62,7 +62,7 @@ end
 
 function WorldMdr:LoadLevel(level,sceneInfo, callback)
     sceneMgr:LoadSceneAsync(level, function ()
-        local sceneType = require(string.format("Modules.World.Scenes.%sScene",sceneInfo.sceneName,sceneInfo.sceneName))
+        local sceneType = require(string.format("Game.Modules.World.Scenes.%sScene",sceneInfo.sceneName,sceneInfo.sceneName))
         if sceneType == nil then
             err("can not find scene "..sceneInfo.sceneName)
             logStack()
