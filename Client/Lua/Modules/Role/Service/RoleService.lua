@@ -4,9 +4,7 @@
 --- DateTime: 2018-08-14-00:07:19
 ---
 
-RoleAction = {}
 
-RoleAction.RoleInfo = "push@role_info"
 ---@class Game.Modules.Role.Service.RoleService : Game.Core.Ioc.BaseService
 local BaseService = require("Game.Core.Ioc.BaseService")
 local RoleService = class("RoleService",BaseService)

@@ -9,6 +9,13 @@ local LuaClient = {}
 
 function LuaClient.Start()
     LuaClient.RequireGlobalDefines()
+
+    setmetatable(_G,{
+        __newindex = function(_, name, value)
+            error("禁止使用全局变量")
+        end
+    })
+
     LuaClient.GameStart()
 end
 
@@ -24,8 +31,6 @@ end
 --开始游戏
 function LuaClient.GameStart()
     print("GameStart...")
-    local IocBootstrap = require("Game.Core.Ioc.IocBootstrap")
-    IocBootstrap.New():Launch()
     vmgr:LoadView(ViewConfig.World)
     --local timer = Timer.New(LuaClient.DoTestCo, 2, 1)
     --timer:Start()

@@ -20,7 +20,6 @@ function LoginMdr:OnInit()
 
     self.username = PlayerPrefs.GetString(self.PlayerPrefs_Username, "")
     self.password = PlayerPrefs.GetString(self.PlayerPrefs_Password, "")
-
     self.gameObject:SetInputField("V/H1/InputField", self.username)
     self.gameObject:SetInputField("V/H2/InputField", self.password)
 end

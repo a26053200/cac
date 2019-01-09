@@ -4,10 +4,13 @@
 --- DateTime: 2018/6/14 0:16
 ---
 
+
 ---@class Game.Core.Ioc.BaseMediator : Betel.LuaMonoBehaviour
+---@field gameObject UnityEngine.GameObject
+
+local NetworkListener = require("Betel.Net.NetworkListener")
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 local BaseMediator = class("BaseMediator",LuaMonoBehaviour)
-local NetworkListener = require("Game.Manager.NetworkListener")
 
 function BaseMediator:Ctor()
     LuaMonoBehaviour.Ctor(self)
@@ -20,7 +23,6 @@ function BaseMediator:Start()
     self:OnInit()
     self:OnAutoRegisterEvent()
     self:RegisterListeners()
-
     nmgr:AddListener(self.listener)
 end
 
@@ -44,7 +46,7 @@ function BaseMediator:OnAutoRegisterEvent()
     for i = 0,buttons.Length - 1 do
         local funName = "On_Click_"..buttons[i].gameObject.name
         if self[funName] then
-            print(funName)
+            log("Auto Register Event:" .. funName)
             LuaHelper.AddButtonClick(buttons[i].gameObject,handler(self,self[funName]))
         end
     end

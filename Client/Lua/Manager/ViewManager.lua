@@ -5,20 +5,19 @@
 --- 视图管理d
 ---
 
-ViewStatus = {}
-ViewStatus.Loading = "Loading"
-ViewStatus.Loaded = "Loaded"
-ViewStatus.Unloading = "Unloading"
-ViewStatus.Unloaded = "Unloaded"
+
 
 ---@class Game.Manager.ViewManager : Betel.LuaMonoBehaviour
 ---@field public scene Game.Modules.World.Scenes.BaseScene
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
+local Ioc = require("Game.Core.Ioc.IocBootstrap")
 local ViewManager = class("ViewManager",LuaMonoBehaviour)
 
+local ioc = nil
 function ViewManager:Ctor()
     self.viewCache = {}
     self.viewList = List.New()
+
 end
 
 ---@param scene Game.Modules.World.Scenes.BaseScene
@@ -28,6 +27,10 @@ end
 
 ---@param viewInfo Game.Core.ViewInfo
 function ViewManager:LoadView(viewInfo)
+    if ioc == nil then
+        ioc = Ioc.New()
+        ioc:Launch()
+    end
     self:DoLoadViewCo(viewInfo)
 end
 
@@ -83,7 +86,7 @@ end
 ---@param viewInfo Core.ViewInfo
 ---@param go UnityEngine.GameObject
 function ViewManager:CreateView(viewInfo,go)
-    local mdrType = Ioc.ins.mediatorContext:GetMediator(viewInfo.name)
+    local mdrType = ioc.mediatorContext:GetMediator(viewInfo.name)
     if mdrType == nil then
         logError("view:'{0}' has not register", viewInfo.name)
         return
@@ -102,7 +105,7 @@ function ViewManager:CreateView(viewInfo,go)
     --go.transform.sizeDelta = Vector2.zero
     go.transform.localScale = Vector3.one
 
-    Ioc.ins.binder:InjectSingle(mdr)
+    ioc.binder:InjectSingle(mdr)
     mdr:AddLuaMonoBehaviour(go,"Mediator")
 
     log("View has loaded {0}", viewInfo.name)

@@ -3,8 +3,7 @@
 --- Created by zheng.
 --- DateTime: 2018/6/29 23:58
 ---
-World = {}
-World.ins = nil
+
 function World.EnterScene(sceneInfo, callback)
     World.ins:EnterScene(sceneInfo, callback)
 end

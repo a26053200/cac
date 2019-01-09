@@ -5,6 +5,6 @@
 ---
 
 vmgr = require("Game.Manager.ViewManager").New()
-nmgr = require("Game.Manager.NetworkManager").New()
+nmgr = require("Betel.Net.NetworkManager").New()
 
 log("All managers has all require")

@@ -4,19 +4,7 @@
 --- DateTime: 2018-06-19-16:04:56
 ---
 
-LoginAction = {}
 
-LoginAction.LoginAccount = { server = "AccountServer", action = "login_account", data = "%s&%s" }
-
-LoginAction.LoginGameServer = { server = "GameServer", action = "Player@login_game_server", data = "%s&%s" }
-
-LoginAction.PlayerInfo = "push@player_info"
-
-LoginAction.FetchRandomName = { server = "GameServer", action = "Role@role_random_name", data = "" }
-
-LoginAction.CreateRole = { server = "GameServer", action = "Role@role_create", data = "%s" }
-
-LoginAction.SelectRoleEnterGame = { server = "GameServer", action = "Role@select_role_enter_game", data = "%d" }
 
 ---@class Game.Modules.Login.Service.LoginService : Game.Core.Ioc.BaseService
 local BaseService = require("Game.Core.Ioc.BaseService")

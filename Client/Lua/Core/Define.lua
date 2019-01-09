@@ -12,3 +12,16 @@ sceneMgr = Framework.GameManager.GetSceneManager()
 netMgr = Framework.GameManager.GetNetworkManager()
 
 LuaHelper = Framework.LuaHelper
+
+---Game
+require("Game.Config.Action")
+
+World = {}
+World.ins = nil
+
+--View 状态
+ViewStatus = {}
+ViewStatus.Loading      = "Loading"
+ViewStatus.Loaded       = "Loaded"
+ViewStatus.Unloading    = "Unloading"
+ViewStatus.Unloaded     = "Unloaded"
