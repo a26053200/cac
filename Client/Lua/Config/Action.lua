@@ -6,7 +6,9 @@
 
 LoginAction = {}
 
-LoginAction.LoginAccount = { server = "AccountServer", action = "login_account", data = "%s&%s" }
+LoginAction.LoginAccount = { server = "AccountServer", action = "account@account_login", fields = "username,password" }
+
+LoginAction.LoginRegister = { server = "AccountServer", action = "account@account_register", fields = "username,password" }
 
 LoginAction.LoginGameServer = { server = "GameServer", action = "Player@login_game_server", data = "%s&%s" }
 
