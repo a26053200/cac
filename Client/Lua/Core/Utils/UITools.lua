@@ -4,7 +4,7 @@
 --- DateTime: 2018/7/17 23:16
 ---
 
-UITools = {}
+local UITools = {}
 
 --纵向滚动单列列表
 function UITools.CreateVScrollList(go,scrollListName,itemRenderHandler,scrollOverHandler)
@@ -22,7 +22,7 @@ function UITools.CreateGridList(go,scrollListName,colNum, itemRenderHandler,scro
 end
 
 function UITools.CreateScrollList(go, scrollListName, itemRenderHandler, scrollOverHandler, colNum, isHorizontal)
-    local srvList = go:FindChild(scrollListName):GetCom("ScrollList")
+    local srvList = go:FindChild(scrollListName):GetCom("ScrollList") ---@type ScrollList
     LuaHelper.AddScrollListOnItemRender(srvList,function(index, item)
         if isNull(go) then  return  end
         if itemRenderHandler ~= nil then
@@ -47,8 +47,12 @@ function UITools.CreateScrollList(go, scrollListName, itemRenderHandler, scrollO
             coroutine.stop(co)
             return
         end
-        coroutine.step(1)
+
         srvList.MaxPerLine = colNum
+        coroutine.step(1)
+        srvList:BackTop()
     end)
     return srvList
 end
+
+return UITools

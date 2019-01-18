@@ -6,8 +6,10 @@
 
 
 
----@class Game.Modules.Login.Service.LoginService : Game.Core.Ioc.BaseService
+
 local BaseService = require("Game.Core.Ioc.BaseService")
+---@class Game.Modules.Login.Service.LoginService : Game.Core.Ioc.BaseService
+---@field loginModel Game.Modules.Login.Model.LoginModel
 local LoginService = class("LoginService", BaseService)
 local Url = "http://127.0.0.1:8081"      --本地测试服
 --local Url = "http://118.31.3.216:8081"    --阿里云服务器
@@ -17,17 +19,17 @@ function LoginService:Ctor()
 end
 
 function LoginService:HttpRegister(username, password, callback)
-    nmgr:HttpRqst(Url, LoginAction.LoginRegister, {username, password},function(data)
-        callback(data)
+    nmgr:HttpRqst(Url, LoginAction.LoginRegister, {username, password},function(response)
+        callback(response.data)
     end)
 end
 
 function LoginService:HttpLogin(username, password, callback)
-    nmgr:HttpRqst(Url, LoginAction.LoginAccount, {username, password},function(data)
-        self.loginModel.serverList = data.srvList.list
-        self.loginModel.aid = data.aid
-        self.loginModel.token = data.token
-        callback(data)
+    nmgr:HttpRqst(Url, LoginAction.LoginAccount, {username, password},function(response)
+        self.loginModel.serverList = response.data.srvList.list
+        self.loginModel.aid = response.data.aid
+        self.loginModel.token = response.data.token
+        callback(response.data)
     end)
 end
 

@@ -5,12 +5,10 @@
 --- 视图管理d
 ---
 
-
-
----@class Game.Manager.ViewManager : Betel.LuaMonoBehaviour
----@field public scene Game.Modules.World.Scenes.BaseScene
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 local Ioc = require("Game.Core.Ioc.IocBootstrap")
+---@class Game.Manager.ViewManager : Betel.LuaMonoBehaviour
+---@field public scene Game.Modules.World.Scenes.BaseScene
 local ViewManager = class("ViewManager",LuaMonoBehaviour)
 
 local ioc = nil
@@ -18,8 +16,16 @@ function ViewManager:Ctor()
     self.viewCache = {}
     self.viewList = List.New()
 
+    local prefab = Res.LoadPrefab("Prefabs/UI/Common/UICanvas.prefab")
+    self.uiCanvas = Instantiate(prefab)
+    self.uiCanvas.name = "[UICanvas]"
+    dontDestroyOnLoad(self.uiCanvas)
 end
 
+---@return UnityEngine.Transform
+function ViewManager:GetUILayer(layer)
+    return self.uiCanvas:FindChild(layer).transform
+end
 ---@param scene Game.Modules.World.Scenes.BaseScene
 function ViewManager:SetScene(scene)
     self.scene = scene
@@ -91,11 +97,15 @@ function ViewManager:CreateView(viewInfo,go)
         logError("view:'{0}' has not register", viewInfo.name)
         return
     end
-    local mdr = mdrType.New()
+    local mdr = mdrType.New() ---@type Game.Core.Ioc.BaseMediator
     if viewInfo ~= ViewConfig.World then
         mdr.scene = self.scene
-        mdr.uiCanvas = self.scene.uiCanvas
-        go.transform:SetParent(self.scene.uiCanvas.transform)
+        mdr.uiCanvas = self.uiCanvas
+        go.transform:SetParent(self:GetUILayer(mdr.layer))
+    else
+        dontDestroyOnLoad(go)
+        go.name = "[World]"
+        go.transform:SetParent(nil)
     end
     mdr.viewInfo = viewInfo
     mdr.gameObject = go

@@ -4,8 +4,10 @@
 --- DateTime: 2018-07-13-00:00:21
 ---
 
----@class Game.Modules.Login.View.ServerListMdr : Game.Core.Ioc.BaseMediator
+local ServerItem = require("Game.Modules.Login.View.ServerItem")
+local UITools = require("Game.Core.Utils.UITools")
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
+---@class Game.Modules.Login.View.ServerListMdr : Game.Core.Ioc.BaseMediator
 local ServerListMdr = class("ServerListMdr",BaseMediator)
 
 function ServerListMdr:OnInit()
@@ -17,20 +19,22 @@ function ServerListMdr:RegisterListeners()
 end
 
 function ServerListMdr:InitSrvList()
-    self.srvList = UITools.CreateVScrollList(self.gameObject,"ScrollList",
-            function(index, item)
-                local server = self.loginModel.serverList[(index + 1) % 2 + 1 ]
-                local itemObj = item.gameObject
-                itemObj:SetText("Text", (index + 1).."服 " .. server.name)
-                itemObj:SetText("Toggle/Label", server.host..":"..server.port)
-                self:RegisterClick(itemObj:FindChild("Button"),function ()
-                    nmgr:Connect(server.host, tonumber(server.port),
-                            handler(self,self.onConnectSuccess),
-                            handler(self,self.onConnectFail))
-                end)
-            end
-    )
-    self.srvList.ChildCount = 10 * #self.loginModel.serverList
+    self.srvList = BaseList.New(self.gameObject:FindChild("ListView"),ServerItem)
+    self.srvList:SetData(List.New(self.loginModel.serverList))
+    --self.srvList = UITools.CreateVScrollList(self.gameObject,"ScrollList",
+    --        function(index, item)
+    --            local server = self.loginModel.serverList[(index + 1) % 2 + 1 ]
+    --            local itemObj = item.gameObject
+    --            itemObj:SetText("Text", (index + 1).."服 " .. server.name)
+    --            itemObj:SetText("Toggle/Label", server.host..":"..server.port)
+    --            self:RegisterClick(itemObj:FindChild("Button"),function ()
+    --                nmgr:Connect(server.host, tonumber(server.port),
+    --                        handler(self,self.onConnectSuccess),
+    --                        handler(self,self.onConnectFail))
+    --            end)
+    --        end
+    --)
+    --self.srvList.ChildCount = #self.loginModel.serverList
 end
 
 function ServerListMdr:onConnectSuccess()

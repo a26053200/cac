@@ -7,8 +7,10 @@
 function World.EnterScene(sceneInfo, callback)
     World.ins:EnterScene(sceneInfo, callback)
 end
----@class Game.Modules.Notice.View.WorldMdr : Game.Core.Ioc.BaseMediator
+
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
+---@class Game.Modules.Notice.View.WorldMdr : Game.Core.Ioc.BaseMediator
+---@field public currScene Game.Modules.World.Scenes.BaseScene
 local WorldMdr = class("WorldMdr",BaseMediator)
 
 function WorldMdr:Ctor()
@@ -22,7 +24,6 @@ function WorldMdr:Ctor()
 end
 
 function WorldMdr:OnInit()
-    dontDestroyOnLoad(self.gameObject)
     World.EnterScene(WorldConfig.Login)
 end
 
@@ -63,7 +64,7 @@ function WorldMdr:LoadLevel(level,sceneInfo, callback)
     sceneMgr:LoadSceneAsync(level, function ()
         local sceneType = require(string.format("Game.Modules.World.Scenes.%sScene",sceneInfo.sceneName,sceneInfo.sceneName))
         if sceneType == nil then
-            err("can not find scene "..sceneInfo.sceneName)
+            logError("can not find scene "..sceneInfo.sceneName)
             logStack()
             return
         end

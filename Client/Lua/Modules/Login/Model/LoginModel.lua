@@ -4,8 +4,10 @@
 --- DateTime: 2018-06-19-16:04:54
 ---
 
----@class Game.Modules.Login.Model.LoginModel : Game.Core.Ioc.BaseModel
+
 local BaseModel = require("Game.Core.Ioc.BaseModel")
+---@class Game.Modules.Login.Model.LoginModel : Game.Core.Ioc.BaseModel
+---@field loginService Game.Modules.Login.Service.LoginService
 local LoginModel = class("LoginModel",BaseModel)
 
 function LoginModel:Ctor()

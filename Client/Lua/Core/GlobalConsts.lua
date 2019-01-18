@@ -5,6 +5,16 @@
 --- 全局常量
 ---
 
+---@class UILayer
+UILayer = {}
+UILayer.scene = "scene"
+UILayer.bg = "bg"
+UILayer.bottom = "bottom"
+UILayer.depth = "depth"
+UILayer.alert = "alert"
+UILayer.guide = "guide"
+UILayer.top = "top"
+
 ServerName = {}
 ServerName.AccountServer = "AccountServer"
 ServerName.GateServer = "GateServer"

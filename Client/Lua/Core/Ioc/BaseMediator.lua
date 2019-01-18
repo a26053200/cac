@@ -4,17 +4,17 @@
 --- DateTime: 2018/6/14 0:16
 ---
 
-
----@class Game.Core.Ioc.BaseMediator : Betel.LuaMonoBehaviour
----@field gameObject UnityEngine.GameObject
-
 local NetworkListener = require("Betel.Net.NetworkListener")
+local Tips = require("Game.Modules.Common.View.Tips")
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
+---@class Game.Core.Ioc.BaseMediator : Betel.LuaMonoBehaviour
+---@field public gameObject UnityEngine.GameObject
+---@field public scene Game.Modules.World.Scenes.BaseScene
 local BaseMediator = class("BaseMediator",LuaMonoBehaviour)
 
 function BaseMediator:Ctor()
-    LuaMonoBehaviour.Ctor(self)
-
+    LuaMonoBehaviour.super.Ctor(self)
+    self.layer = UILayer.depth --默认在深度排序层级
     self.listener = NetworkListener.New()
     self.removeCallback = nil
 end
@@ -56,13 +56,16 @@ function BaseMediator:RegisterClick(go, clickFun)
     LuaHelper.AddButtonClick(go,handler(self,clickFun))
 end
 
+function BaseMediator:ShowTips(msg)
+    Tips.ShowTips(msg)
+end
+
 function BaseMediator:DoRemove(callback)
     self.removeCallback = callback
 end
 
 function BaseMediator:OnDestroy()
     print("OnDestroy view: "..self.viewInfo.name)
-    self:Dispose()
     nmgr:RemoveListener(self.listener)
     self:OnRemove()
     if self.removeCallback ~= nil then
