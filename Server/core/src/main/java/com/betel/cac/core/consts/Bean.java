@@ -8,5 +8,7 @@ package com.betel.cac.core.consts;
  */
 public class Bean
 {
-    public static final String ACCOUNT               = "account";
+    public static final String ACCOUNT                  = "account";
+    public static final String PLAYER                   = "player";
+    public static final String ROLE                     = "role";
 }

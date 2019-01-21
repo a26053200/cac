@@ -29,7 +29,7 @@ public class ServerName
     public static final String BALANCE_SERVER = "BalanceServer";
 
     /**
-     * 核心业务服务器
+     * 大厅服务器
      */
-    public static final String GAME_SERVER = "GameServer";
+    public static final String LOBBY_SERVER = "LobbyServer";
 }

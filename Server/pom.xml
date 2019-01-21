@@ -12,6 +12,7 @@
     <module>balance</module>
     <module>account</module>
     <module>gate-http</module>
+    <module>lobby</module>
   </modules>
 
   <packaging>pom</packaging>

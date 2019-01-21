@@ -49,6 +49,7 @@ public class AccountBusiness extends Business<Account>
                 accountRegister(session);
                 break;
             default:
+                logger.error("Unknown action:"+ method);
                 break;
         }
     }
@@ -64,15 +65,10 @@ public class AccountBusiness extends Business<Account>
         {//已经注册过
             Account account = allAccount.get(0);
             if (account.getPassword().equals(password)) {//密码正确，登陆成功
-                try {
-                    logger.info(String.format("用户:%s 登陆成功", username));
-                    rspdMessage(session,ReturnCode.Login_success);
-                    onLoginSuccess(session, account.getId());
-                    updateAccount(session,account.getId());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    rspdMessage(session,ReturnCode.Error_unknown);
-                }
+                logger.info(String.format("用户:%s 登陆成功", username));
+                //rspdMessage(session,ReturnCode.Login_success);
+                onLoginSuccess(session, account.getId());
+                updateAccount(session,account.getId());
             } else {//密码错误，登陆失败
                 logger.info(String.format("用户:%s 登陆失败", username));
                 rspdMessage(session,ReturnCode.Wrong_password);
@@ -88,7 +84,6 @@ public class AccountBusiness extends Business<Account>
         //游戏服务器的网关地址列表 json
         JSONObject gameServerJson = JSONObject.parseObject(monitor.getDB().get("GameServer"));
         JSONObject rspdJson = new JSONObject();
-        rspdJson.put("action", Action.ACCOUNT_LOGIN);
         rspdJson.put("aid", account_id);
         rspdJson.put("token", JwtHelper.createJWT(account_id));
         rspdJson.put("srvList", gameServerJson);
@@ -118,14 +113,6 @@ public class AccountBusiness extends Business<Account>
             service.addEntry(account);
             rspdMessage(session,ReturnCode.Register_success);
         }
-    }
-
-    private void rspdMessage(Session session, String msg)
-    {
-        JSONObject rspdJson = new JSONObject();
-        rspdJson.put(FieldName.ACTION, Action.RETURN_MESSAGE);
-        rspdJson.put(FieldName.MSG, msg);
-        action.rspdClient(session, rspdJson);
     }
 
     public void updateAccount(Session session, String accountId)

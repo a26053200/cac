@@ -15,4 +15,5 @@ public class ReturnCode
     public static final String Register_success             = "注册成功";
     public static final String Wrong_password               = "密码错误";
     public static final String Login_success                = "登录成功";
+    public static final String RoleName_used                = "角色名已经被使用";
 }
