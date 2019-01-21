@@ -4,8 +4,9 @@
 --- DateTime: 2018/8/14 1:01
 ---
 
----@class Game.Modules.World.Scenes.LobbyScene : Modules.World.Scenes.BaseScene
+
 local BaseScene = require('Game.Modules.World.Scenes.BaseScene')
+---@class Game.Modules.World.Scenes.LobbyScene : Modules.World.Scenes.BaseScene
 local LobbyScene = class("LobbyScene",BaseScene)
 
 function LobbyScene:Ctor()

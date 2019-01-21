@@ -4,8 +4,10 @@
 --- DateTime: 2018-07-22-22:17:24
 ---
 
----@class Game.Modules.Login.View.RoleCreateMdr : Game.Core.Ioc.BaseMediator
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
+---@class Game.Modules.Login.View.RoleCreateMdr : Game.Core.Ioc.BaseMediator
+---@field loginService Game.Modules.Login.Service.LoginService
+---@field loginModel Game.Modules.Login.Model.LoginModel
 local RoleCreateMdr = class("RoleCreateMdr",BaseMediator)
 
 function RoleCreateMdr:OnInit()
@@ -13,7 +15,7 @@ function RoleCreateMdr:OnInit()
 end
 
 function RoleCreateMdr:RegisterListeners()
-    self:AddPush(LoginAction.PlayerInfo, handler(self,self.onPlayerInfo));
+    --self:AddPush(Action.PlayerInfo, handler(self,self.onPlayerInfo));
 end
 
 function RoleCreateMdr:On_Click_BtnRandom()
@@ -40,7 +42,8 @@ function RoleCreateMdr:onFetchRandomName(data)
 end
 
 function RoleCreateMdr:onCreateRole(data)
-    log("角色创建成功:"..data.roleSimpleInfo.roleName)
+    log("角色创建成功:"..data.roleInfo.roleName)
+    World.EnterScene(WorldConfig.GuideScene)
 end
 
 function RoleCreateMdr:onPlayerInfo(data)

@@ -4,10 +4,18 @@
 --- DateTime: 2018-08-14-22:15:40
 ---
 
----@class Game.Modules.Loading.View.LoadingMdr : Game.Core.Ioc.BaseMediator
+
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
+---@class Game.Modules.Loading.View.LoadingMdr : Game.Core.Ioc.BaseMediator
 local LoadingMdr = class("LoadingMdr",BaseMediator)
-local WaitTime = 2
+
+--测试用加载时间
+local WaitTime = 1
+
+function LoadingMdr:Ctor()
+    LoadingMdr.super.Ctor(self)
+    self.layer = UILayer.top
+end
 
 function LoadingMdr:OnInit()
     self:StartCoroutine(function ()
@@ -17,6 +25,7 @@ function LoadingMdr:OnInit()
             self.gameObject:SetSlider("LoadingBar", (Time.time - startTime) / WaitTime)
         end
         World.ins:EnterNextScene()
+        vmgr:UnloadView(ViewConfig.Loading)
     end)
 end
 

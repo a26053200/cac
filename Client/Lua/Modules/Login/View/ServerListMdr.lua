@@ -8,6 +8,8 @@ local ServerItem = require("Game.Modules.Login.View.ServerItem")
 local UITools = require("Game.Core.Utils.UITools")
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.Login.View.ServerListMdr : Game.Core.Ioc.BaseMediator
+---@field loginService Game.Modules.Login.Service.LoginService
+---@field loginModel Game.Modules.Login.Model.LoginModel
 local ServerListMdr = class("ServerListMdr",BaseMediator)
 
 function ServerListMdr:OnInit()
@@ -15,48 +17,47 @@ function ServerListMdr:OnInit()
 end
 
 function ServerListMdr:RegisterListeners()
-    self:AddPush(LoginAction.PlayerInfo, handler(self,self.onPlayerInfo));
+    --self:AddPush(Action.PlayerInfo, handler(self,self.onPlayerInfo));
 end
 
 function ServerListMdr:InitSrvList()
     self.srvList = BaseList.New(self.gameObject:FindChild("ListView"),ServerItem)
     self.srvList:SetData(List.New(self.loginModel.serverList))
-    --self.srvList = UITools.CreateVScrollList(self.gameObject,"ScrollList",
-    --        function(index, item)
-    --            local server = self.loginModel.serverList[(index + 1) % 2 + 1 ]
-    --            local itemObj = item.gameObject
-    --            itemObj:SetText("Text", (index + 1).."服 " .. server.name)
-    --            itemObj:SetText("Toggle/Label", server.host..":"..server.port)
-    --            self:RegisterClick(itemObj:FindChild("Button"),function ()
-    --                nmgr:Connect(server.host, tonumber(server.port),
-    --                        handler(self,self.onConnectSuccess),
-    --                        handler(self,self.onConnectFail))
-    --            end)
-    --        end
-    --)
-    --self.srvList.ChildCount = #self.loginModel.serverList
+    self.srvList.eventDispatcher:AddEventListener(ListViewEvent.ItemClick,handler(self,self.onSrvItemClick))
+end
+
+function ServerListMdr:onSrvItemClick(data)
+    log(string.format("nmgr:Connect %s:%s",data.host,data.port))
+    nmgr:Connect(data.host, tonumber(data.port),
+            handler(self,self.onConnectSuccess),
+            handler(self,self.onConnectFail))
 end
 
 function ServerListMdr:onConnectSuccess()
     print("onConnectSuccess")
-    self.loginService:LoginGameServer(self.loginModel.aid, self.loginModel.token, handler(self,self.onLoginGameSuccess))
+    self.loginService:LoginLobbyServer(
+            self.loginModel.aid,
+            self.loginModel.token,
+            handler(self,self.onLoginLobbyServerSuccess),
+            handler(self,self.onLoginLobbyServerFail))
 end
 
 function ServerListMdr:onConnectFail()
     print("onConnectFail")
 end
 
-function ServerListMdr:onLoginGameSuccess(data)
-    print("onLoginGameSuccess")
-end
-
-function ServerListMdr:onPlayerInfo(data)
+function ServerListMdr:onLoginLobbyServerSuccess(data)
     vmgr:UnloadView(ViewConfig.ServerList)
-    if #data.roleList == 0 then
+    if data.roleInfo == nil then
         vmgr:LoadView(ViewConfig.RoleCreate)--创建角色
     else
-        vmgr:LoadView(ViewConfig.RoleSelect)--选择角色进入游戏
+        World.EnterScene(WorldConfig.GuideScene)
+        --vmgr:LoadView(ViewConfig.RoleSelect)--选择角色进入游戏
     end
+end
+
+function ServerListMdr:onLoginLobbyServerFail(data)
+    print("onLoginLobbyServerFail")
 end
 
 return ServerListMdr

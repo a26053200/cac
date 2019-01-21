@@ -4,8 +4,9 @@
 --- DateTime: 2018-08-14-00:07:17
 ---
 
----@class Game.Modules.Role.Model.RoleModel : Game.Core.Ioc.BaseModel
 local BaseModel = require("Game.Core.Ioc.BaseModel")
+---@class Game.Modules.Role.Model.RoleModel : Game.Core.Ioc.BaseModel
+---@field mainRoleInfo Game.Modules.Role.Vo.RoleVo
 local RoleModel = class("RoleModel",BaseModel)
 
 function RoleModel:Ctor()

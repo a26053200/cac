@@ -4,8 +4,10 @@
 --- DateTime: 2018-08-13-23:21:04
 ---
 
----@class Game.Modules.Newbie.View.NewbieWelcomeMdr : Game.Core.Ioc.BaseMediator
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
+---@class Game.Modules.Newbie.View.NewbieWelcomeMdr : Game.Core.Ioc.BaseMediator
+---@field roleModel Game.Modules.Role.Model.RoleModel
+---@field mainRoleInfo Game.Modules.Role.Vo.RoleVo
 local NewbieWelcomeMdr = class("NewbieWelcomeMdr",BaseMediator)
 
 function NewbieWelcomeMdr:OnInit()

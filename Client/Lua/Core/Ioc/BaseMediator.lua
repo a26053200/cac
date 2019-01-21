@@ -9,6 +9,7 @@ local Tips = require("Game.Modules.Common.View.Tips")
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 ---@class Game.Core.Ioc.BaseMediator : Betel.LuaMonoBehaviour
 ---@field public gameObject UnityEngine.GameObject
+---@field public layer string 该模块所在UI层级
 ---@field public scene Game.Modules.World.Scenes.BaseScene
 local BaseMediator = class("BaseMediator",LuaMonoBehaviour)
 
@@ -46,7 +47,7 @@ function BaseMediator:OnAutoRegisterEvent()
     for i = 0,buttons.Length - 1 do
         local funName = "On_Click_"..buttons[i].gameObject.name
         if self[funName] then
-            log("Auto Register Event:" .. funName)
+            log("Auto Register Events:" .. funName)
             LuaHelper.AddButtonClick(buttons[i].gameObject,handler(self,self[funName]))
         end
     end

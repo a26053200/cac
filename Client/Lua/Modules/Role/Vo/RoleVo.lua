@@ -4,8 +4,8 @@
 --- DateTime: 2018-08-14-00:07:11
 ---
 
----@class Game.Modules.Role.Vo.RoleVo : Game.Core.BaseVo
 local BaseVo = require("Game.Core.BaseVo")
+---@class Game.Modules.Role.Vo.RoleVo : Game.Core.BaseVo
 local RoleVo = class("RoleVo",BaseVo)
 
 function RoleVo:Ctor(roleInfo)

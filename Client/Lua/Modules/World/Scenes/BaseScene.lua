@@ -8,6 +8,7 @@
 
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 ---@class Game.Modules.World.Scenes.BaseScene : Betel.LuaMonoBehaviour
+---@field unityScene UnityEngine.SceneManagement.Scene
 ---@field uiCanvas UnityEngine.GameObject
 local BaseScene = class("BaseScene",LuaMonoBehaviour)
 
@@ -17,7 +18,6 @@ function BaseScene:Ctor()
 end
 
 function BaseScene:Init()
-
     vmgr:SetScene(self)
 end
 
@@ -25,4 +25,7 @@ function BaseScene:OnEnterScene()
 
 end
 
+function BaseScene:OnExitScene()
+
+end
 return BaseScene

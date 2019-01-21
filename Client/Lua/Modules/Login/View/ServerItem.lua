@@ -17,12 +17,6 @@ function ServerItem:Update(data,index)
     local itemObj = self.gameObject
     self.gameObject:SetText("Text", (index + 1).."服 " .. data.name)
     self.gameObject:SetText("Toggle/Label", data.host..":"..data.port)
-    LuaHelper.AddButtonClick(itemObj,handler(self,function ()
-        log(string.format("nmgr:Connect(%s, tonumber(%s)",data.host,data.port))
-        --nmgr:Connect(data.host, tonumber(data.port),
-        --        handler(self,self.onConnectSuccess),
-        --        handler(self,self.onConnectFail))
-    end))
 end
 
 function ServerItem:OnDestroy()

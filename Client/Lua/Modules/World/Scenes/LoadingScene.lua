@@ -4,8 +4,8 @@
 --- DateTime: 2018/8/14 22:07
 ---
 
----@class Game.Modules.World.Scenes.LoadingScene : Modules.World.Scenes.BaseScene
 local BaseScene = require('Game.Modules.World.Scenes.BaseScene')
+---@class Game.Modules.World.Scenes.LoadingScene : Modules.World.Scenes.BaseScene
 local LoadingScene = class("LoadingScene",BaseScene)
 
 function LoadingScene:Ctor()
@@ -17,4 +17,7 @@ function LoadingScene:OnEnterScene()
     --vmgr:LoadView(ViewConfig.NewbieWelcome)
 end
 
+function LoadingScene:OnExitScene()
+    vmgr:UnloadView(ViewConfig.Loading)
+end
 return LoadingScene

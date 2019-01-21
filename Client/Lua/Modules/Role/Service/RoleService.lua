@@ -5,13 +5,13 @@
 ---
 
 
----@class Game.Modules.Role.Service.RoleService : Game.Core.Ioc.BaseService
 local BaseService = require("Game.Core.Ioc.BaseService")
+---@class Game.Modules.Role.Service.RoleService : Game.Core.Ioc.BaseService
 local RoleService = class("RoleService",BaseService)
 local RoleVo = require("Game.Modules.Role.Vo.RoleVo")
 
 function RoleService:Ctor()
-    nmgr:AddPush(RoleAction.RoleInfo, handler(self,self.OnRoleInfo))
+    nmgr:AddPush(Action.RoleInfo, handler(self,self.OnRoleInfo))
 end
 
 ---push

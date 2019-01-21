@@ -4,28 +4,27 @@
 --- DateTime: 2018-06-19-16:04:56
 ---
 
-
-
-
+local RoleVo = require("Game.Modules.Role.Vo.RoleVo")
 local BaseService = require("Game.Core.Ioc.BaseService")
 ---@class Game.Modules.Login.Service.LoginService : Game.Core.Ioc.BaseService
 ---@field loginModel Game.Modules.Login.Model.LoginModel
+---@field roleModel Game.Modules.Role.Model.RoleModel
 local LoginService = class("LoginService", BaseService)
 local Url = "http://127.0.0.1:8081"      --本地测试服
 --local Url = "http://118.31.3.216:8081"    --阿里云服务器
 
 function LoginService:Ctor()
-    nmgr:AddPush(LoginAction.PlayerInfo, handler(self,self.OnPlayerInfo))
+    --nmgr:AddPush(Action.PlayerInfo, handler(self,self.OnPlayerInfo))
 end
 
 function LoginService:HttpRegister(username, password, callback)
-    nmgr:HttpRqst(Url, LoginAction.LoginRegister, {username, password},function(response)
+    nmgr:HttpRqst(Url, Action.LoginRegister, { username, password }, function(response)
         callback(response.data)
     end)
 end
 
 function LoginService:HttpLogin(username, password, callback)
-    nmgr:HttpRqst(Url, LoginAction.LoginAccount, {username, password},function(response)
+    nmgr:HttpRqst(Url, Action.LoginAccount, { username, password }, function(response)
         self.loginModel.serverList = response.data.srvList.list
         self.loginModel.aid = response.data.aid
         self.loginModel.token = response.data.token
@@ -33,34 +32,40 @@ function LoginService:HttpLogin(username, password, callback)
     end)
 end
 
-function LoginService:LoginGameServer(aid, token, callback)
-    nmgr:Request(LoginAction.LoginGameServer, function(data)
-        --self.loginModel.serverList = data.srvList.list
+function LoginService:LoginLobbyServer(aid, token, callback, failCallback)
+    self:JsonRequest(Action.LoginLobbyServer, { aid, token }, function(data)
+        self.loginModel.playerId = data.playerId
+        if data.roleInfo ~= nil then
+            self.roleModel.mainRoleInfo = RoleVo.New(data.roleInfo)
+        end
         callback(data)
-    end, aid, token)
+    end, failCallback)
 end
 
 function LoginService:FetchRandomName(callback)
-    nmgr:Request(LoginAction.FetchRandomName, function(data)
+    self:JsonRequest(Action.FetchRandomName, { self.loginModel.playerId }, function(data)
         callback(data)
     end)
 end
 
 function LoginService:CreateRole(roleName, callback)
-    nmgr:Request(LoginAction.CreateRole, function(data)
+    self:JsonRequest(Action.CreateRole, { self.loginModel.playerId, roleName }, function(data)
+        if data.roleInfo ~= nil then
+            self.roleModel.mainRoleInfo = RoleVo.New(data.roleInfo)
+        end
         callback(data)
-    end,roleName)
+    end, roleName)
 end
 
-function LoginService:SelectRoleEnterGame(roleIndex, callback)
-    nmgr:Request(LoginAction.SelectRoleEnterGame, function(data)
+function LoginService:EnterGame(callback)
+    self:JsonRequest(Action.EnterGame, { self.loginModel.playerId }, function(data)
         callback(data)
-    end,roleIndex)
+    end)
 end
 
 ---push
-function LoginService:OnPlayerInfo(response)
-    self.loginModel.roleList = response.roleList
-end
+--function LoginService:OnPlayerInfo(response)
+--    self.loginModel.roleList = response.roleList
+--end
 
 return LoginService

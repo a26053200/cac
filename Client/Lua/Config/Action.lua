@@ -4,22 +4,18 @@
 --- DateTime: 2019/1/10 0:17
 ---
 
-LoginAction = {}
+Action = {}
 
-LoginAction.LoginAccount = { server = "AccountServer", action = "account@account_login", fields = "username,password" }
+Action.LoginAccount = { server = "AccountServer", action = "account@account_login", fields = "username,password" }
 
-LoginAction.LoginRegister = { server = "AccountServer", action = "account@account_register", fields = "username,password" }
+Action.LoginRegister = { server = "AccountServer", action = "account@account_register", fields = "username,password" }
 
-LoginAction.LoginGameServer = { server = "GameServer", action = "Player@login_game_server", data = "%s&%s" }
+Action.LoginLobbyServer = { server = "LobbyServer", action = "player@player_login", fields = "aid,token"}
 
-LoginAction.PlayerInfo = "push@player_info"
+Action.FetchRandomName = { server = "LobbyServer", action = "role@role_random_name", fields = "playerId"}
 
-LoginAction.FetchRandomName = { server = "GameServer", action = "Role@role_random_name", data = "" }
+Action.CreateRole = { server = "LobbyServer", action = "role@role_create", fields = "playerId,roleName"}
 
-LoginAction.CreateRole = { server = "GameServer", action = "Role@role_create", data = "%s" }
+Action.EnterGame = { server = "LobbyServer", action = "role@role_enter_game", data = "playerId" }
 
-LoginAction.SelectRoleEnterGame = { server = "GameServer", action = "Role@select_role_enter_game", data = "%d" }
-
-RoleAction = {}
-
-RoleAction.RoleInfo = "push@role_info"
+Action.RoleInfo = "push@role_info"

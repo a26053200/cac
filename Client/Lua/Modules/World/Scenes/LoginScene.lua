@@ -4,8 +4,8 @@
 --- DateTime: 2018/6/30 0:02
 ---
 
----@class Game.Modules.World.Scenes.LoginScene : Modules.World.Scenes.BaseScene
 local BaseScene = require('Game.Modules.World.Scenes.BaseScene')
+---@class Game.Modules.World.Scenes.LoginScene : Modules.World.Scenes.BaseScene
 local LoginScene = class("LoginScene",BaseScene)
 
 function LoginScene:Ctor()
@@ -16,4 +16,7 @@ function LoginScene:OnEnterScene()
     vmgr:LoadView(ViewConfig.LoginScene)
 end
 
+function LoginScene:OnExitScene()
+    vmgr:UnloadView(ViewConfig.LoginScene)
+end
 return LoginScene

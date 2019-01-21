@@ -37,6 +37,9 @@ end
 
 function WorldMdr:EnterScene(sceneInfo, callback)
     if string.isValid(sceneInfo.level) then
+        if self.currScene then
+            self.currScene:OnExitScene()
+        end
         log("Will enter "..sceneInfo.level)
         if self.currLevel == sceneInfo.level then
             logError("you can not load then same scene - " .. sceneInfo.level)
@@ -61,7 +64,7 @@ function WorldMdr:EnterNextScene()
 end
 
 function WorldMdr:LoadLevel(level,sceneInfo, callback)
-    sceneMgr:LoadSceneAsync(level, function ()
+    sceneMgr:LoadSceneAsync(level, function (unityScene)
         local sceneType = require(string.format("Game.Modules.World.Scenes.%sScene",sceneInfo.sceneName,sceneInfo.sceneName))
         if sceneType == nil then
             logError("can not find scene "..sceneInfo.sceneName)
@@ -69,6 +72,7 @@ function WorldMdr:LoadLevel(level,sceneInfo, callback)
             return
         end
         local scene = sceneType.New()
+        scene.unityScene = unityScene
         log("进入场景:"..sceneInfo.debugName)
         self.currScene = scene
         self.currLevel = level
