@@ -5,7 +5,6 @@
 ---
 
 local NetworkListener = require("Betel.Net.NetworkListener")
-local Tips = require("Game.Modules.Common.View.Tips")
 local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 ---@class Game.Core.Ioc.BaseMediator : Betel.LuaMonoBehaviour
 ---@field public gameObject UnityEngine.GameObject
@@ -55,10 +54,6 @@ end
 
 function BaseMediator:RegisterClick(go, clickFun)
     LuaHelper.AddButtonClick(go,handler(self,clickFun))
-end
-
-function BaseMediator:ShowTips(msg)
-    Tips.ShowTips(msg)
 end
 
 function BaseMediator:DoRemove(callback)

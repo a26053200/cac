@@ -14,9 +14,7 @@ function ServerItem:Ctor(gameObject)
 end
 
 function ServerItem:Update(data,index)
-    local itemObj = self.gameObject
-    self.gameObject:SetText("Text", (index + 1).."服 " .. data.name)
-    self.gameObject:SetText("Toggle/Label", data.host..":"..data.port)
+    self.gameObject:SetText("Text", data.name.." " .. data.host..":" .. data.port)
 end
 
 function ServerItem:OnDestroy()

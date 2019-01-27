@@ -6,12 +6,12 @@
 
 local UIView = require('Game.Modules.Common.View.UIView')
 ---@class Game.Modules.Common.View.Tips : Game.Modules.Common.View.UIView
----@field ShowTips function<msg:string , delay:number>
+---@field Show function<msg:string , delay:number>
 ---@field gameObject UnityEngine.GameObject
 local Tips = class("Tips",UIView)
 
 local DURATION = 0.3
-function Tips.ShowTips(msg)
+function Tips.Show(msg)
     if Tips.pool == nil then
         local pool = List.New()
         for i = 1, 10 do
@@ -23,7 +23,7 @@ function Tips.ShowTips(msg)
         Tips.pool:Push(Tips.New())
     end
     local tip = Tips.pool:Shift()
-    tip:Show(msg, function ()
+    tip:DisplayShow(msg, function ()
         Tips.pool:UnShift(tip)
     end)
 end
@@ -38,7 +38,7 @@ function Tips:Ctor()
     self.gameObject:SetActive(false)
 end
 
-function Tips:Show(msg,callback)
+function Tips:DisplayShow(msg,callback)
     self.gameObject:SetActive(true)
     self.gameObject:SetText("Text",msg)
     local startPos = Vector3.New(self.orgPos.x, self.orgPos.y + 100, self.orgPos.z)

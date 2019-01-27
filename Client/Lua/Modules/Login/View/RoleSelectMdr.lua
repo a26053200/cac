@@ -38,7 +38,8 @@ end
 
 function RoleSelectMdr:OnEnterGame(data)
     --log("角色进入游戏:"..data.roleInfo.roleName)
-    World.EnterScene(WorldConfig.GuideScene)
+    World.EnterScene(WorldConfig.Lobby)
+    --World.EnterScene(WorldConfig.GuideScene)
 end
 
 return RoleSelectMdr

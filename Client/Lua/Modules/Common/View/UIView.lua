@@ -28,6 +28,19 @@ function UIView:Ctor(prefab,parent)
     self.gameObject.transform.localPosition = Vector3.zero
     self.gameObject.transform.localEulerAngles = Vector3.zero
     self.gameObject.transform.localScale = Vector3.one
+    self:OnAutoRegisterEvent()
+end
+
+--自动注册事件
+function UIView:OnAutoRegisterEvent()
+    local buttons = LuaHelper.GetChildrenButtons(self.gameObject)
+    for i = 0,buttons.Length - 1 do
+        local funName = "On_Click_"..buttons[i].gameObject.name
+        if self[funName] then
+            log("Auto Register Events:" .. funName)
+            LuaHelper.AddButtonClick(buttons[i].gameObject,handler(self,self[funName]))
+        end
+    end
 end
 
 return UIView

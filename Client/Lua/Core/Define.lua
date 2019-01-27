@@ -16,6 +16,9 @@ LuaHelper = Framework.LuaHelper
 ---Game
 require("Game.Config.Action")
 
+Alert = require("Game.Modules.Common.View.Alert")
+Tips = require("Game.Modules.Common.View.Tips")
+
 World = {}
 World.ins = nil
 

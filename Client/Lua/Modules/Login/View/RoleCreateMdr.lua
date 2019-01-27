@@ -43,7 +43,8 @@ end
 
 function RoleCreateMdr:onCreateRole(data)
     log("角色创建成功:"..data.roleInfo.roleName)
-    World.EnterScene(WorldConfig.GuideScene)
+    World.EnterScene(WorldConfig.Lobby)
+    --World.EnterScene(WorldConfig.GuideScene)
 end
 
 function RoleCreateMdr:onPlayerInfo(data)
