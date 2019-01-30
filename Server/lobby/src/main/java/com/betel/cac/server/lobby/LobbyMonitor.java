@@ -3,6 +3,8 @@ package com.betel.cac.server.lobby;
 import com.betel.cac.core.consts.Bean;
 import com.betel.cac.server.lobby.beans.Player;
 import com.betel.cac.server.lobby.beans.Role;
+import com.betel.cac.server.lobby.beans.Match;
+import com.betel.cac.server.lobby.business.MatchBusiness;
 import com.betel.cac.server.lobby.business.PlayerBusiness;
 import com.betel.cac.server.lobby.business.RoleBusiness;
 import com.betel.config.ServerConfigVo;
@@ -30,6 +32,7 @@ public class LobbyMonitor extends NodeServerMonitor
 
         actionMap.put(Bean.PLAYER,    new ImplAction<>(this, Bean.PLAYER,       Player.class,       new PlayerBusiness()));
         actionMap.put(Bean.ROLE,      new ImplAction<>(this, Bean.ROLE,         Role.class,         new RoleBusiness()));
+        actionMap.put(Bean.MATCH,      new ImplAction<>(this, Bean.MATCH,         Match.class,        new MatchBusiness()));
     }
 
     @Override

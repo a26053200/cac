@@ -49,4 +49,25 @@ public class Action
      */
     public final static String ROLE_ENTER_GAME = "role_enter_game";
 
+    //==================
+    // Match
+    //==================
+    /**
+     * 加入匹配 (真实玩家)
+     */
+    public final static String JOIN_MATCH = "join_match";
+    /**
+     * 机器人加入匹配
+     */
+    public final static String ROBOT_JOIN_MATCH = "robot_join_match";
+
+
+    //==================
+    // Room
+    //==================
+    /**
+     * 创建房间
+     */
+    public final static String ROOM_CREATE = "create_room";
+
 }

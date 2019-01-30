@@ -1,5 +1,7 @@
 package com.betel.cac.server.lobby.beans;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @ClassName: Role
  * @Description: TODO
@@ -95,5 +97,15 @@ public class Role
     public void setHeadIcon(int headIcon)
     {
         this.headIcon = headIcon;
+    }
+
+    public JSONObject toJson()
+    {
+        JSONObject json = new JSONObject();
+        json.put("id", id);
+        json.put("roleName", roleName);
+        json.put("sex", sex);
+        json.put("headIcon", headIcon);
+        return json;
     }
 }

@@ -11,4 +11,6 @@ public class Bean
     public static final String ACCOUNT                  = "account";
     public static final String PLAYER                   = "player";
     public static final String ROLE                     = "role";
+    public static final String MATCH                    = "match";
+    public static final String ROOM                     = "room";
 }

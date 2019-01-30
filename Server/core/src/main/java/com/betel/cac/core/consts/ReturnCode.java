@@ -16,4 +16,9 @@ public class ReturnCode
     public static final String Wrong_password               = "密码错误";
     public static final String Login_success                = "登录成功";
     public static final String RoleName_used                = "角色名已经被使用";
+
+    //匹配
+    public static final String Match_success      = "匹配成功";
+    public static final String Error_already_matching       = "你已经在匹配队列中了";
+    public static final String Error_match_timeout       = "匹配超时";
 }
