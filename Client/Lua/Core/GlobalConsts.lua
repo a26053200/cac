@@ -19,3 +19,8 @@ ServerName = {}
 ServerName.AccountServer = "AccountServer"
 ServerName.GateServer = "GateServer"
 ServerName.GameServer = "GameServer"
+
+GameName =
+{
+    Hong_Jian = "Hong_Jian"
+}

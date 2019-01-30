@@ -28,6 +28,9 @@ end
 
 function ServerListMdr:onSrvItemClick(data)
     log(string.format("nmgr:Connect %s:%s",data.host,data.port))
+    --nmgr:Connect("127.0.0.1", 8082,
+    --        handler(self,self.onConnectSuccess),
+    --        handler(self,self.onConnectFail))
     nmgr:Connect(data.host, tonumber(data.port),
             handler(self,self.onConnectSuccess),
             handler(self,self.onConnectFail))

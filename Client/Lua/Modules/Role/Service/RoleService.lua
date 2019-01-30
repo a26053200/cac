@@ -11,13 +11,13 @@ local RoleService = class("RoleService",BaseService)
 local RoleVo = require("Game.Modules.Role.Vo.RoleVo")
 
 function RoleService:Ctor()
-    nmgr:AddPush(Action.RoleInfo, handler(self,self.OnRoleInfo))
+    --nmgr:AddPush(Action.RoleInfo, handler(self,self.OnRoleInfo))
 end
 
 ---push
 function RoleService:OnRoleInfo(response)
     log("角色进入游戏:"..response.roleInfo.roleName)
-    self.roleModel.mainRoleInfo = RoleVo.New(response.roleInfo)
+    --self.roleModel.mainRoleInfo = RoleVo.New(response.roleInfo)
 end
 
 return RoleService

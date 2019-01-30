@@ -40,7 +40,7 @@ function BaseMediator:AddPush(action, callback)
     end
 end
 
---自动注册事件
+--自动注册按钮点击事件
 function BaseMediator:OnAutoRegisterEvent()
     local buttons = LuaHelper.GetChildrenButtons(self.gameObject)
     for i = 0,buttons.Length - 1 do
@@ -52,11 +52,19 @@ function BaseMediator:OnAutoRegisterEvent()
     end
 end
 
+--自动移除按钮点击事件
+function BaseMediator:OnAutoRemoveEvent()
+    local buttons = LuaHelper.GetChildrenButtons(self.gameObject)
+    for i = 0,buttons.Length - 1 do
+        LuaHelper.RemoveButtonClick(buttons[i].gameObject)
+    end
+end
 function BaseMediator:RegisterClick(go, clickFun)
     LuaHelper.AddButtonClick(go,handler(self,clickFun))
 end
 
 function BaseMediator:DoRemove(callback)
+    self:OnAutoRemoveEvent()
     self.removeCallback = callback
 end
 

@@ -29,6 +29,9 @@ function UIView:Ctor(prefab,parent)
     self.gameObject.transform.localEulerAngles = Vector3.zero
     self.gameObject.transform.localScale = Vector3.one
     self:OnAutoRegisterEvent()
+
+    self.sequenceList = List.New()
+    self:AddLuaMonoBehaviour(self.gameObject,"UIView")
 end
 
 --自动注册事件
@@ -41,6 +44,27 @@ function UIView:OnAutoRegisterEvent()
             LuaHelper.AddButtonClick(buttons[i].gameObject,handler(self,self[funName]))
         end
     end
+end
+
+--创建
+function UIView:CreateSequence()
+    local sequence = DOTween.Sequence()
+    self.sequenceList:Push(sequence)
+    return sequence
+end
+
+
+function UIView:Dispose()
+    if self.sequenceList then
+        for i = 1, self.sequenceList:Size() do
+            self.sequenceList[i]:Kill()
+        end
+    end
+    self.sequenceList = nil
+end
+
+function UIView:OnDestroy()
+
 end
 
 return UIView

@@ -6,7 +6,7 @@
 
 local LuaObject = require('Betel.LuaObject')
 ---@class Game.Core.Ioc.BaseService : Betel.LuaObject
-local BaseService = class("BaseService",LuaObject)
+local BaseService = class("BaseService", LuaObject)
 
 function BaseService:Ctor()
 
@@ -14,15 +14,23 @@ end
 
 --Json请求
 ---@param action table
----@param action table
----@param action table
----@param action table
-function BaseService:JsonRequest(action,param, callback, failCallback)
-    nmgr:Request(action, param,function(response)
+---@param param table
+---@param callback func
+---@param failCallback func
+function BaseService:JsonRequest(action, param, callback, failCallback)
+    nmgr:Request(action, param, function(response)
         if response.state == 0 then
-            if callback then callback(response.data) end
+            if callback then
+                callback(response.data)
+            end
         else
-            if failCallback then failCallback(response) end
+            if response.data.msg then
+                logError(response.data.msg)
+                Tips.Show(response.data.msg)
+            end
+            if failCallback then
+                failCallback(response)
+            end
         end
     end)
 end

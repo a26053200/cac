@@ -5,6 +5,7 @@
 ---
 
 require "Game.Core.Define"
+require "Game.Core.Components"
 require "Game.Core.GlobalConsts"
 
 log("Game.Core define has all require")

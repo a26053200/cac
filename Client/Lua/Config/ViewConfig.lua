@@ -11,3 +11,4 @@ ViewConfig.RoleInfo={name="RoleInfo",prefab="Prefabs/UI/Role/RoleInfo.prefab",}
 ViewConfig.Loading={name="Loading",prefab="Prefabs/UI/Common/LoadingWnd.prefab",}
 ViewConfig.Lobby={name="Lobby",}
 ViewConfig.LobbyScene={name="LobbyScene",prefab="Prefabs/UI/Lobby/LobbyScene.prefab",}
+ViewConfig.LobbyMainMenu={name="LobbyMainMenu",prefab="Prefabs/UI/Lobby/LobbyMainMenu.prefab",}

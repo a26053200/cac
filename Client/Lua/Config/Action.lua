@@ -16,6 +16,8 @@ Action.FetchRandomName = { server = "LobbyServer", action = "role@role_random_na
 
 Action.CreateRole = { server = "LobbyServer", action = "role@role_create", fields = "playerId,roleName"}
 
-Action.EnterGame = { server = "LobbyServer", action = "role@role_enter_game", data = "playerId" }
+Action.EnterGame = { server = "LobbyServer", action = "role@role_enter_game", fields = "playerId" }
 
-Action.RoleInfo = "push@role_info"
+Action.JoinMatch = { server = "LobbyServer", action = "match@join_match", fields = "roleId,game,gameMode" }
+
+Action.RoomCreate = "push@create_room"

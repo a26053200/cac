@@ -11,7 +11,8 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 local LobbySceneMdr = class("LobbySceneMdr",BaseMediator)
 
 function LobbySceneMdr:OnInit()
-    
+    --游戏主菜单
+    vmgr:LoadView(ViewConfig.LobbyMainMenu)
 end
 
 return LobbySceneMdr
