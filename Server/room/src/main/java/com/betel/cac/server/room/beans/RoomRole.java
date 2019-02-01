@@ -17,6 +17,7 @@ public class RoomRole
     private int sex;                        //性别 0男 1女 其他未知
     private int headIcon;                   //头像 0使用微信头像 其他 自定义
     private RoomRoleState roomRoleState;    //角色当前状态
+    private boolean isRobot;                //角色是否是机器人
 
     public String getRoleId()
     {
@@ -78,6 +79,16 @@ public class RoomRole
         this.roomRoleState = roomRoleState;
     }
 
+    public boolean isRobot()
+    {
+        return isRobot;
+    }
+
+    public void setRobot(boolean robot)
+    {
+        isRobot = robot;
+    }
+
     public void fromJson(JSONObject json)
     {
         roleId      = json.getString("roleId");
@@ -86,6 +97,9 @@ public class RoomRole
         sex         = json.getInteger("sex");
         headIcon    = json.getInteger("headIcon");
         roleId      = json.getString("roleId");
+        isRobot     = json.getBoolean("isRobot");
+        if (isRobot)
+            roomRoleState = RoomRoleState.Reaady;//机器人默认就是准备的
     }
     public JSONObject toJson()
     {

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.betel.asd.Business;
 import com.betel.cac.core.consts.*;
 import com.betel.cac.core.utils.Handler;
+import com.betel.cac.core.utils.MathUtils;
 import com.betel.cac.server.lobby.beans.Match;
 import com.betel.cac.server.lobby.beans.Role;
 import com.betel.consts.FieldName;
@@ -107,6 +108,7 @@ public class MatchBusiness extends Business<Match>
     {
         Match match = new Match();
         match.setId(matchCounter++);
+        match.setRoleId(robotId);
         match.setRobot(true);
         match.setGame(game);
         match.setGameMode(gameMode);
@@ -141,11 +143,13 @@ public class MatchBusiness extends Business<Match>
                     roleJson.put("id", match.getRoleId());
                     roleJson.put("roleName", match.getRoleId());
                     roleJson.put("sex", 0);
-                    roleJson.put("headIcon", 0);
+                    roleJson.put("headIcon", MathUtils.getRandom(6));
+                    roleJson.put("isRobot",true);
                     array.add(i,roleJson);
                 }else{
-                    Role role = (Role) monitor.getAction(Bean.ROLE).getService().getEntryById(matchQueue.get(i).getRoleId());
+                    Role role = (Role) monitor.getAction(Bean.ROLE).getService().getEntryById(match.getRoleId());
                     roleJson = role.toJson();
+                    roleJson.put("isRobot",false);
                     roleJson.put(FieldName.CHANNEL_ID,match.getSession().getChannelId());
                     array.add(i,roleJson);
                 }

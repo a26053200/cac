@@ -62,14 +62,15 @@ public class RoomBusiness extends Business<Room>
         room.setId(roomCounter++);
         room.fromJson(session.getRecvJson());
 
-        JSONObject sendJson = new JSONObject();
-        sendJson.put(Field.RoomInfo, room.toJson());
+        JSONObject sendJson = room.toJson();
 
         for (int i = 0; i < room.getRoleList().size(); i++)
         {
             RoomRole role = room.getRoleList().get(i);
             if (role.getChannelId() != null)
+            {
                 monitor.pushToClient(role.getChannelId(), ServerName.JSON_GATE_SERVER, "push@" + Action.ROOM_CREATE, sendJson);
+            }
         }
     }
 }
