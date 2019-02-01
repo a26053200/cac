@@ -12,3 +12,5 @@ ViewConfig.Loading={name="Loading",prefab="Prefabs/UI/Common/LoadingWnd.prefab",
 ViewConfig.Lobby={name="Lobby",}
 ViewConfig.LobbyScene={name="LobbyScene",prefab="Prefabs/UI/Lobby/LobbyScene.prefab",}
 ViewConfig.LobbyMainMenu={name="LobbyMainMenu",prefab="Prefabs/UI/Lobby/LobbyMainMenu.prefab",}
+ViewConfig.Room={name="Room",}
+ViewConfig.SampleRoom={name="SampleRoom",prefab="Prefabs/UI/Room/SampleRoom.prefab",}

@@ -7,6 +7,7 @@
 local BaseService = require("Game.Core.Ioc.BaseService")
 ---@class Game.Modules.Lobby.Service.LobbyService : Game.Core.Ioc.BaseService
 ---@field lobbyModel Game.Modules.Lobby.Model.LobbyModel
+---@field roomModel Game.Modules.Room.Model.RoomModel
 local LobbyService = class("LobbyService",BaseService)
 
 function LobbyService:Ctor()
@@ -25,7 +26,8 @@ function LobbyService:JoinMatch(game, gameMode, callback, failCallback)
 end
 
 function LobbyService:OnRoomCreate(response)
-
+    Tips.Show("Match Successful!")
+    self.roomModel.roomRoleList = response.data.roleList
 end
 
 return LobbyService

@@ -17,9 +17,9 @@ end
 
 function LobbyMainMenuMdr:On_Click_BtnMatch()
     self.lobbyService:JoinMatch(GameName.Hong_Jian,"1vs1",function ()
-        log("正在匹配")
+        --log("正在匹配")
     end,function ()
-        log("匹配失败")
+        --log("匹配失败")
     end)
 end
 

@@ -11,6 +11,7 @@ local Toggle            = "Toggle"
 local CanvasGroup       = "CanvasGroup"
 local Slider            = "Slider"
 local Text              = "Text"
+local ListView          = "ListView"
 
 ---@param go UnityEngine.GameObject
 ---@return UnityEngine.RectTransform
@@ -55,4 +56,10 @@ end
 ---@return UnityEngine.UI.Slider
 function GetSlider(go)
     return go:GetCom(Slider)
+end
+
+---@param go UnityEngine.GameObject
+---@return ListView
+function GetListView(go)
+    return go:GetCom(ListView)
 end

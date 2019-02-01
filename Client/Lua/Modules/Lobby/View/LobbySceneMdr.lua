@@ -15,4 +15,12 @@ function LobbySceneMdr:OnInit()
     vmgr:LoadView(ViewConfig.LobbyMainMenu)
 end
 
+function LobbySceneMdr:RegisterListeners()
+    nmgr:AddPush(Action.RoomCreate, handler(self,self.OnRoomCreate))
+end
+
+function LobbySceneMdr:OnRoomCreate(data)
+    vmgr:LoadView(ViewConfig.SampleRoom)
+end
+
 return LobbySceneMdr
