@@ -21,4 +21,8 @@ public class ReturnCode
     public static final String Match_success      = "匹配成功";
     public static final String Error_already_matching       = "你已经在匹配队列中了";
     public static final String Error_match_timeout       = "匹配超时";
+
+    //房间
+    public static final String Error_room_not_found       = "找不到改房间";
+
 }

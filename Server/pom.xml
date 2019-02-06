@@ -15,6 +15,7 @@
     <module>lobby</module>
       <module>room</module>
       <module>gate-json</module>
+      <module>robot</module>
   </modules>
 
   <packaging>pom</packaging>

@@ -155,6 +155,10 @@ public class MatchBusiness extends Business<Match>
                 }
             }
             sendJson.put(Field.RoleList,array);
+
+            //通知机器人服务器创建其他机器人玩家
+            monitor.sendToServer(ServerName.ROBOT_SERVER,"robot@" + Action.ROBOT_CREATE_ROLE,sendJson);
+            //通知房间服务器创建房间
             monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ROOM_CREATE,sendJson);
             matchQueue.clear();//清除队列
         }else{

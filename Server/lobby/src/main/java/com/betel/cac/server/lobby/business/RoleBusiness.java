@@ -6,23 +6,18 @@ import com.betel.asd.Business;
 import com.betel.cac.core.consts.Action;
 import com.betel.cac.core.consts.Bean;
 import com.betel.cac.core.consts.ReturnCode;
+import com.betel.cac.core.utils.MathUtils;
 import com.betel.cac.server.lobby.beans.Player;
 import com.betel.cac.server.lobby.beans.Role;
-import com.betel.consts.FieldName;
 import com.betel.database.RedisKeys;
 import com.betel.session.Session;
 import com.betel.session.SessionState;
 import com.betel.utils.IdGenerator;
-import com.betel.utils.MathUtils;
-import com.betel.utils.StringUtils;
 import com.betel.utils.TimeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @ClassName: PlayerBusiness
@@ -114,6 +109,7 @@ public class RoleBusiness extends Business<Role>
         role.setId(Long.toString(roleId));
         role.setPlayerId(player.getId());
         role.setRoleName(roleName);
+        role.setHeadIcon(MathUtils.randomInt(1,6));
         role.setRegisterTime(TimeUtils.now2String());
         role.setLastLoginTime(TimeUtils.now2String());
         role.setLastLogoutTime(TimeUtils.now2String());

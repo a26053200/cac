@@ -69,5 +69,17 @@ public class Action
      * 创建房间
      */
     public final static String ROOM_CREATE = "create_room";
+    /**
+     * 更新房间内玩家状态
+     */
+    public final static String ROOM_ROLE_STATE = "role_state";
+
+    //==================
+    // Robot
+    //==================
+    /**
+     * 创建机器人角色
+     */
+    public final static String ROBOT_CREATE_ROLE = "create_role";
 
 }

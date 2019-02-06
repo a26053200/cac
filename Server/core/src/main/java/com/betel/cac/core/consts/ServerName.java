@@ -37,4 +37,9 @@ public class ServerName
      * 房间服务器
      */
     public static final String ROOM_SERVER = "RoomServer";
+
+    /**
+     * 机器人服务器
+     */
+    public static final String ROBOT_SERVER = "RobotServer";
 }
