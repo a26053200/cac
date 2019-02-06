@@ -16,7 +16,7 @@ public enum  RoomRoleState
     /**
      * 准备
      */
-    Reaady,
+    Ready,
 
     /**
      * 加载中

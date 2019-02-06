@@ -99,7 +99,7 @@ public class RoomRole
         roleId      = json.getString("roleId");
         isRobot     = json.getBoolean("isRobot");
         if (isRobot)
-            roomRoleState = RoomRoleState.Reaady;//机器人默认就是准备的
+            roomRoleState = RoomRoleState.Ready;//机器人默认就是准备的
     }
     public JSONObject toJson()
     {

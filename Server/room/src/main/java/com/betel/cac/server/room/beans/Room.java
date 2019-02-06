@@ -6,6 +6,7 @@ import com.betel.cac.core.consts.Game;
 import com.betel.cac.server.room.business.RoomBusiness;
 import com.betel.cac.server.room.constants.RoomRoleState;
 import com.betel.cac.server.room.constants.RoomState;
+import com.betel.common.Monitor;
 import com.betel.session.Session;
 import com.betel.utils.JsonUtils;
 
@@ -87,6 +88,30 @@ public class Room
         this.roleList = roleList;
     }
 
+    public boolean isAllState(RoomRoleState state)
+    {
+        for (int i = 0; i < roleList.size(); i++)
+        {
+            RoomRole role = roleList.get(i);
+            if (role.getRoomRoleState() != state)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean allPush(Monitor monitor, String serverName, String action, JSONObject json)
+    {
+        for (int i = 0; i < roleList.size(); i++)
+        {
+            RoomRole role = roleList.get(i);
+            if (role.getChannelId() != null)
+            {
+                monitor.pushToClient(role.getChannelId(), serverName, action, json);
+            }
+        }
+        return true;
+    }
+
     public void fromJson(JSONObject json)
     {
         this.setGame(Game.valueOf(json.getString("game")));
@@ -104,6 +129,7 @@ public class Room
             roleList.add(roomRole);
         }
     }
+
     public JSONObject toJson()
     {
         JSONObject json = new JSONObject();
@@ -117,4 +143,6 @@ public class Room
         json.put("roleList", jsonArray);
         return json;
     }
+
+
 }
