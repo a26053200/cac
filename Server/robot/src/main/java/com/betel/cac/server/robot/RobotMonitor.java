@@ -1,6 +1,10 @@
 package com.betel.cac.server.robot;
 
+import com.betel.cac.core.consts.Bean;
+import com.betel.cac.server.robot.beans.Robot;
+import com.betel.cac.server.robot.business.RobotBusiness;
 import com.betel.config.ServerConfigVo;
+import com.betel.servers.action.ImplAction;
 import com.betel.servers.node.NodeServerMonitor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,5 +16,7 @@ public class RobotMonitor extends NodeServerMonitor
     public RobotMonitor(ServerConfigVo serverCfgInfo)
     {
         super(serverCfgInfo);
+
+        actionMap.put(Bean.ROBOT,    new ImplAction<>(this, Bean.ROBOT,       Robot.class,       new RobotBusiness()));
     }
 }
