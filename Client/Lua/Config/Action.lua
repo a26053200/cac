@@ -20,4 +20,17 @@ Action.EnterGame = { server = "LobbyServer", action = "role@role_enter_game", fi
 
 Action.JoinMatch = { server = "LobbyServer", action = "match@join_match", fields = "roleId,game,gameMode" }
 
-Action.RoomCreate = "push@create_room"
+--推送房间信息
+Action.PushRoomInfo = "push@room_info"
+
+--推送其他玩家进入房间
+Action.PushEnterRoom = "push@enter_room"
+
+--手动创建房间
+Action.CreateRoom = { server = "RoomServer", action = "room@create_room", fields = "roleId,game,gameMode,robotNum" }
+
+--手动进入房间
+Action.EnterRoom = { server = "LobbyServer", action = "match@enter_room", fields = "roleId,roomId,pos" }
+
+--手动退出房间
+Action.ExitRoom = { server = "RoomServer", action = "room@exit_room", fields = "roleId,roomId,pos" }

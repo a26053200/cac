@@ -16,10 +16,10 @@ function LobbySceneMdr:OnInit()
 end
 
 function LobbySceneMdr:RegisterListeners()
-    nmgr:AddPush(Action.RoomCreate, handler(self,self.OnRoomCreate))
+    nmgr:AddPush(Action.PushRoomInfo, handler(self,self.OnPushRoomInfo))
 end
 
-function LobbySceneMdr:OnRoomCreate(data)
+function LobbySceneMdr:OnPushRoomInfo(data)
     vmgr:LoadView(ViewConfig.SampleRoom)
 end
 

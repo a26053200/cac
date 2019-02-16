@@ -10,7 +10,11 @@ local BaseService = require("Game.Core.Ioc.BaseService")
 local RoomService = class("RoomService",BaseService)
 
 function RoomService:Ctor()
-    
+    nmgr:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
+end
+
+function RoomService:OnPushEnterRoom(data)
+    self.roomModel.roomRoleList:Add(data)
 end
 
 return RoomService

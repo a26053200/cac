@@ -15,10 +15,22 @@ local BaseModel = require("Game.Core.Ioc.BaseModel")
 ---@class Game.Modules.Room.Model.RoomModel : Game.Core.Ioc.BaseModel
 ---@field roomService Game.Modules.Room.Service.RoomService
 ---@field roomRoleList table<number,RoomRole>
+---@field roomId number @房间id
 local RoomModel = class("RoomModel",BaseModel)
 
+RoomModel.RoomRoleState =
+{
+    UnReady = "UnReady",
+    Ready = "UnReady",
+    Loading = "UnReady",
+    LoadComplete = "UnReady",
+    Offline = "Offline",
+    Reconnect = "Reconnect",
+    Ingame = "Ingame",
+    Automatic = "Automatic"
+}
 function RoomModel:Ctor()
-    
+
 end
 
 return RoomModel

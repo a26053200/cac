@@ -12,7 +12,7 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 local LobbyMainMenuMdr = class("LobbyMainMenuMdr",BaseMediator)
 
 function LobbyMainMenuMdr:OnInit()
-    
+
 end
 
 function LobbyMainMenuMdr:On_Click_BtnMatch()
@@ -23,4 +23,11 @@ function LobbyMainMenuMdr:On_Click_BtnMatch()
     end)
 end
 
+function LobbyMainMenuMdr:On_Click_BtnCreate()
+    self.lobbyService:CreateRoom(GameName.Hong_Jian,"1vs1",function ()
+        --房间创建成功，自己首先进入房间
+    end,function ()
+        --log("匹配失败")
+    end)
+end
 return LobbyMainMenuMdr

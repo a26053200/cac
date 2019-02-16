@@ -35,5 +35,12 @@ WorldConfig.Lobby = {
     level = "Lobby",
     sceneName = "Lobby",
     levelUrl = "BundleScenes/Lobby.unity",
+    needLoading = false
+}
+WorldConfig.Room_HJ = {
+    debugName = "红尖",
+    level = "Room_HJ",
+    sceneName = "Room_HJ",
+    levelUrl = "BundleScenes/Room_HJ.unity",
     needLoading = true
 }

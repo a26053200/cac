@@ -14,3 +14,4 @@ ViewConfig.LobbyScene={name="LobbyScene",prefab="Prefabs/UI/Lobby/LobbyScene.pre
 ViewConfig.LobbyMainMenu={name="LobbyMainMenu",prefab="Prefabs/UI/Lobby/LobbyMainMenu.prefab",}
 ViewConfig.Room={name="Room",}
 ViewConfig.SampleRoom={name="SampleRoom",prefab="Prefabs/UI/Room/SampleRoom.prefab",}
+ViewConfig.Room_HJScene={name="Room_HJScene",prefab="Prefabs/UI/Room/RoomHJScene.prefab",}

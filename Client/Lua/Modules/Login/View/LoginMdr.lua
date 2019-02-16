@@ -49,17 +49,17 @@ function LoginMdr:validityInput(callback)
 end
 
 function LoginMdr:On_Click_BtnRegister()
-    --self:validityInput(function()
-    --    self.loginService:HttpRegister(self.username, self.password, handler(self,self.OnHttpRegister))
-    --end)
+    self:validityInput(function()
+        self.loginService:HttpRegister(self.username, self.password, handler(self,self.OnHttpRegister))
+    end)
     --Alert.Show("AlertAlertAlert",function ()
     --    Tips.Show("TipsTipsTips")
     --end)
-    NetModal.Show()
-    coroutine.start(function ()
-        coroutine.wait(1)
-        NetModal.Hide()
-    end)
+    --NetModal.Show()
+    --coroutine.start(function ()
+    --    coroutine.wait(1)
+    --    NetModal.Hide()
+    --end)
 end
 
 function LoginMdr:On_Click_BtnLogin()
@@ -70,7 +70,7 @@ function LoginMdr:On_Click_BtnLogin()
 end
 
 function LoginMdr:OnHttpRegister(data)
-    Tips:Show(data.msg)
+    Tips.Show(data.msg)
     self:saveInput()
 end
 
@@ -78,7 +78,8 @@ function LoginMdr:OnHttpLogin(data)
     self:saveInput()
     log("aid:{0} token:{1}", data.aid, data.token)
     vmgr:UnloadView(ViewConfig.Login)
-    vmgr:LoadView(ViewConfig.Notice)
+    vmgr:LoadView(ViewConfig.ServerList)
+    --vmgr:LoadView(ViewConfig.Notice)
 end
 
 return LoginMdr
