@@ -15,9 +15,17 @@ function SampleRoomMdr:OnInit()
     self:InitRoleList()
 end
 
+function SampleRoomMdr:RegisterListeners()
+    nmgr:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
+end
+
+function SampleRoomMdr:OnPushEnterRoom(data)
+    self:InitRoleList()
+end
+
 function SampleRoomMdr:InitRoleList()
     self.roleList = BaseList.New(self.gameObject:FindChild("ListView"),SimpleRoleItem)
-    self.roleList:SetData(List.New(self.roomModel.roomRoleList))
+    self.roleList:SetData(self.roomModel.roomRoleList)
 end
 
 function SampleRoomMdr:On_Click_BtnStart()
