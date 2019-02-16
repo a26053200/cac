@@ -1,7 +1,7 @@
 package com.betel.cac.server.room.beans;
 
 import com.alibaba.fastjson.JSONObject;
-import com.betel.cac.server.room.constants.RoomRoleState;
+import com.betel.cac.core.consts.RoomRoleState;
 
 /**
  * @ClassName: 房间中的角色
@@ -16,7 +16,7 @@ public class RoomRole
     private String roleName;                //角色名
     private int sex;                        //性别 0男 1女 其他未知
     private int headIcon;                   //头像 0使用微信头像 其他 自定义
-    private RoomRoleState roomRoleState;    //角色当前状态
+    private RoomRoleState roleState;    //角色当前状态
     private boolean isRobot;                //角色是否是机器人
 
     public String getRoleId()
@@ -69,14 +69,14 @@ public class RoomRole
         this.headIcon = headIcon;
     }
 
-    public RoomRoleState getRoomRoleState()
+    public RoomRoleState getRoleState()
     {
-        return roomRoleState;
+        return roleState;
     }
 
-    public void setRoomRoleState(RoomRoleState roomRoleState)
+    public void setRoleState(RoomRoleState roleState)
     {
-        this.roomRoleState = roomRoleState;
+        this.roleState = roleState;
     }
 
     public boolean isRobot()
@@ -98,8 +98,7 @@ public class RoomRole
         headIcon    = json.getInteger("headIcon");
         roleId      = json.getString("roleId");
         isRobot     = json.getBoolean("isRobot");
-        if (isRobot)
-            roomRoleState = RoomRoleState.Ready;//机器人默认就是准备的
+        //roleState = RoomRoleState.valueOf(json.getString("roleState"));
     }
     public JSONObject toJson()
     {
@@ -107,8 +106,8 @@ public class RoomRole
         json.put("roleId", roleId);
         json.put("roleName", roleName);
         json.put("sex", sex);
-        json.put("headIcon", headIcon);
-        json.put("roomRoleState", roomRoleState.toString());
+        //json.put("isRobot", isRobot);
+        json.put("roleState", roleState.toString());
         return json;
     }
 }

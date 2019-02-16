@@ -56,10 +56,7 @@ public class Action
      * 加入匹配 (真实玩家)
      */
     public final static String JOIN_MATCH = "join_match";
-    /**
-     * 机器人加入匹配
-     */
-    public final static String ROBOT_JOIN_MATCH = "robot_join_match";
+
 
 
     //==================
@@ -68,7 +65,15 @@ public class Action
     /**
      * 创建房间
      */
-    public final static String ROOM_CREATE = "create_room";
+    public final static String CREATE_ROOM = "create_room";
+    /**
+     * 进入房间
+     */
+    public final static String ENTER_ROOM = "enter_room";
+    /**
+     * 退出房间
+     */
+    public final static String EXIT_ROOM = "exit_room";
     /**
      * 更新房间内玩家状态
      */
@@ -78,8 +83,9 @@ public class Action
     // Robot
     //==================
     /**
-     * 创建机器人角色
+     * 通知机器人进入房间
      */
-    public final static String ROBOT_CREATE_ROLE = "create_role";
+    public final static String ROBOT_ENTER_ROOM = "robot_enter_room";
+
 
 }

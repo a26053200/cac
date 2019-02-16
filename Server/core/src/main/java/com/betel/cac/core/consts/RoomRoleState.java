@@ -1,4 +1,4 @@
-package com.betel.cac.server.room.constants;
+package com.betel.cac.core.consts;
 
 /**
  * @ClassName: 房间中玩家状态

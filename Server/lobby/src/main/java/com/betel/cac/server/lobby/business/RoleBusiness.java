@@ -5,10 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.betel.asd.Business;
 import com.betel.cac.core.consts.Action;
 import com.betel.cac.core.consts.Bean;
+import com.betel.cac.core.consts.Field;
 import com.betel.cac.core.consts.ReturnCode;
 import com.betel.cac.core.utils.MathUtils;
-import com.betel.cac.server.lobby.beans.Player;
-import com.betel.cac.server.lobby.beans.Role;
+import com.betel.cac.beans.Player;
+import com.betel.cac.beans.Role;
 import com.betel.database.RedisKeys;
 import com.betel.session.Session;
 import com.betel.session.SessionState;
@@ -34,12 +35,6 @@ public class RoleBusiness extends Business<Role>
         static final String role_random_name3 = "role_random_name3";
     }
 
-    private class Field
-    {
-        static final String ROLE_NAME = "roleName";
-        static final String ROLE_INFO = "roleInfo";
-        static final String PlayerID = "playerId";
-    }
 
     final static Logger logger = LogManager.getLogger(RoleBusiness.class);
 
@@ -91,7 +86,7 @@ public class RoleBusiness extends Business<Role>
 
     private void roleCreate(Session session)
     {
-        String playerId = session.getRecvJson().getString(Field.PlayerID);
+        String playerId = session.getRecvJson().getString(Field.PLAYER_ID);
         //先检测是否有重名的
         String roleName = session.getRecvJson().getString(Field.ROLE_NAME);
         if (!roleNameValid(session, roleName))
@@ -137,7 +132,7 @@ public class RoleBusiness extends Business<Role>
 
     private void enterGame(Session session)
     {
-        String playerId = session.getRecvJson().getString(Field.PlayerID);
+        String playerId = session.getRecvJson().getString(Field.PLAYER_ID);
         List<Role> roleList = service.getViceEntrys(playerId);
         if (roleList.size() > 0)
         {

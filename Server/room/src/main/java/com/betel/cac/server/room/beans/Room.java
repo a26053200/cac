@@ -3,12 +3,9 @@ package com.betel.cac.server.room.beans;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.betel.cac.core.consts.Game;
-import com.betel.cac.server.room.business.RoomBusiness;
-import com.betel.cac.server.room.constants.RoomRoleState;
-import com.betel.cac.server.room.constants.RoomState;
+import com.betel.cac.core.consts.RoomRoleState;
+import com.betel.cac.core.consts.RoomState;
 import com.betel.common.Monitor;
-import com.betel.session.Session;
-import com.betel.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public class Room
     private String gameMode;
     private int maxRoleNum;
     private RoomState roomState;
-    private List<RoomRole> roleList;
+    private RoomRole[] roleList;
 
     public int getId()
     {
@@ -78,33 +75,43 @@ public class Room
         this.roomState = roomState;
     }
 
-    public List<RoomRole> getRoleList()
+    public RoomRole[] getRoleList()
     {
         return roleList;
     }
 
-    public void setRoleList(List<RoomRole> roleList)
-    {
-        this.roleList = roleList;
-    }
 
     public boolean isAllState(RoomRoleState state)
     {
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            RoomRole role = roleList.get(i);
-            if (role.getRoomRoleState() != state)
+            RoomRole role = roleList[i];
+            if (role != null && role.getRoleState() != state)
                 return false;
         }
         return true;
     }
 
-    public boolean allPush(Monitor monitor, String serverName, String action, JSONObject json)
+    public boolean pushAll(Monitor monitor, String serverName, String action, JSONObject json)
     {
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            RoomRole role = roleList.get(i);
-            if (role.getChannelId() != null)
+            RoomRole role = roleList[i];
+            if (role != null && role.getChannelId() != null)
+            {
+                monitor.pushToClient(role.getChannelId(), serverName, action, json);
+            }
+        }
+        return true;
+    }
+
+    //只推送真实玩家
+    public boolean pushRole(Monitor monitor, String serverName, String action, JSONObject json)
+    {
+        for (int i = 0; i < roleList.length; i++)
+        {
+            RoomRole role = roleList[i];
+            if (role != null && !role.isRobot())
             {
                 monitor.pushToClient(role.getChannelId(), serverName, action, json);
             }
@@ -118,16 +125,16 @@ public class Room
         this.setGameMode(json.getString("gameMode"));
         this.setMaxRoleNum(4);
         this.setRoomState(RoomState.Preparing);
+        roleList = new RoomRole[4];
 
-        JSONArray roleJsonArray = json.getJSONArray("roleList");
-        roleList = new ArrayList<>();
-        for (int i = 0; i < roleJsonArray.size(); i++)
-        {
-            RoomRole roomRole = new RoomRole();
-            roomRole.fromJson(roleJsonArray.getJSONObject(i));
-            roomRole.setRoomRoleState(RoomRoleState.UnReady);
-            roleList.add(roomRole);
-        }
+//        JSONArray roleJsonArray = json.getJSONArray("roleList");
+//        for (int i = 0; i < roleJsonArray.size(); i++)
+//        {
+//            RoomRole roomRole = new RoomRole();
+//            roomRole.fromJson(roleJsonArray.getJSONObject(i));
+//            roomRole.setRoleState(RoomRoleState.UnReady);
+//            roleList.add(roomRole);
+//        }
     }
 
     public JSONObject toJson()
@@ -138,8 +145,13 @@ public class Room
         json.put("gameMode", gameMode);
 
         JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < roleList.size(); i++)
-            jsonArray.add(roleList.get(i).toJson());
+        for (int i = 0; i < roleList.length; i++)
+        {
+            if (roleList[i] != null)
+            {
+                jsonArray.add(roleList[i].toJson());
+            }
+        }
         json.put("roleList", jsonArray);
         return json;
     }

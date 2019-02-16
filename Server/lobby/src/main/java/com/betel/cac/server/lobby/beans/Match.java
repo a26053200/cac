@@ -23,6 +23,7 @@ public class Match
     private boolean isRobot;
     private Game game;        //游戏
     private String gameMode;    //游戏模式
+    private int maxRoleNum;     //匹配最大玩家数量
     private long timeoutTime;   //超时时间 ms
     private long startTime;   //匹配开始时间 ms
 
@@ -86,6 +87,16 @@ public class Match
     public void setGameMode(String gameMode)
     {
         this.gameMode = gameMode;
+    }
+
+    public int getMaxRoleNum()
+    {
+        return maxRoleNum;
+    }
+
+    public void setMaxRoleNum(int maxRoleNum)
+    {
+        this.maxRoleNum = maxRoleNum;
     }
 
     public long getTimeoutTime()

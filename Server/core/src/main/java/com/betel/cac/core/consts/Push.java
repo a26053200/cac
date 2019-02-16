@@ -7,9 +7,13 @@ public class Push
     // Room
     //==================
     /**
-     * 创建房间
+     * 房间信息
      */
-    public final static String ROOM_CREATE = "push@create_room";
+    public final static String ROOM_INFO = "push@room_info";
+    /**
+     * 玩家进入房间
+     */
+    public final static String ENTER_ROOM = "push@enter_room";
     /**
      * 房间玩家状态
      */

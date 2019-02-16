@@ -7,16 +7,14 @@ import com.betel.cac.core.consts.*;
 import com.betel.cac.core.utils.Handler;
 import com.betel.cac.core.utils.MathUtils;
 import com.betel.cac.server.lobby.beans.Match;
-import com.betel.cac.server.lobby.beans.Role;
+import com.betel.cac.beans.Role;
 import com.betel.consts.FieldName;
-import com.betel.servers.forward.ForwardMonitor;
 import com.betel.session.Session;
 import com.betel.session.SessionState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
-import java.util.List;
 
 
 /**
@@ -27,17 +25,10 @@ import java.util.List;
  */
 public class MatchBusiness extends Business<Match>
 {
-    private class Field
-    {
-        static final String RoleId = "roleId";
-        static final String Game = "game";
-        static final String GameMode = "gameMode";
-        static final String RoleList = "roleList";
-    }
     final static Logger logger = LogManager.getLogger(MatchBusiness.class);
 
     private int matchCounter = 1;
-    private int robotCounter = 1;
+    //private int robotCounter = 1;
 
     private LinkedList<Match> matchQueue;
 
@@ -54,8 +45,8 @@ public class MatchBusiness extends Business<Match>
             case Action.JOIN_MATCH:
                 joinMatch(session);
                 break;
-            case Action.ROBOT_JOIN_MATCH:
-                joinMatch(session);
+            case Action.ENTER_ROOM:
+                enterRoom(session);
                 break;
             default:
                 logger.error("Unknown action:" + method);
@@ -63,12 +54,28 @@ public class MatchBusiness extends Business<Match>
         }
     }
 
+    private void enterRoom(Session session)
+    {
+        int roomId = session.getRecvJson().getIntValue(Field.ROOM_ID);
+        int index = session.getRecvJson().getIntValue(Field.POS);
+        String roleId = session.getRecvJson().getString(Field.ROLE_ID);
+        Role role = (Role) monitor.getAction(Bean.ROLE).getService().getEntryById(roleId);
+        JSONObject roleJson = role.toJson();
+        roleJson.put(Field.ROOM_ID,roomId);
+        roleJson.put(FieldName.CHANNEL_ID,session.getChannelId());
+        roleJson.put(Field.IS_ROBOT,false);
+        roleJson.put(Field.ROLE_STATE,RoomRoleState.UnReady.toString());
+        roleJson.put(Field.POS,index);
+        //该玩家进入房间
+        monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ENTER_ROOM,roleJson);
+    }
+
     private void joinMatch(Session session)
     {
         String channelId = session.getChannelId();
-        String roleId = session.getRecvJson().getString(Field.RoleId);
-        Game game = Game.valueOf(session.getRecvJson().getString(Field.Game));
-        String gameMode = session.getRecvJson().getString(Field.GameMode);
+        String roleId = session.getRecvJson().getString(Field.ROLE_ID);
+        Game game = Game.valueOf(session.getRecvJson().getString(Field.GAME));
+        String gameMode = session.getRecvJson().getString(Field.GAME_MODE);
         Match match = getBeanByChannelId(channelId);
         if(match == null)
         {
@@ -94,9 +101,9 @@ public class MatchBusiness extends Business<Match>
             this.putBean(session.getChannelId(),match);
             addMatch(match);
             //加3个机器人
-            robotJoinMatch("robot_" + robotCounter++ ,game,gameMode);
-            robotJoinMatch("robot_" + robotCounter++ ,game,gameMode);
-            robotJoinMatch("robot_" + robotCounter++ ,game,gameMode);
+            //robotJoinMatch("robot_" + robotCounter++ ,game,gameMode);
+            //robotJoinMatch("robot_" + robotCounter++ ,game,gameMode);
+            //robotJoinMatch("robot_" + robotCounter++ ,game,gameMode);
         }else{
             session.setState(SessionState.Fail);//匹配失败
             rspdMessage(session,ReturnCode.Error_already_matching);
@@ -118,14 +125,14 @@ public class MatchBusiness extends Business<Match>
     private void addMatch(Match newMatch)
     {
         matchQueue.add(newMatch);
-        if(matchQueue.size() == 4)
+        if(matchQueue.size() == 1)
         {//已经凑足一个牌桌了,转发给RoomServer创建房间,并返回给客户端,准备开始游戏
 
             //创建房间,第一个为房主
             JSONObject sendJson = new JSONObject();
             sendJson.put(FieldName.ACTION,"room@create_room");
-            sendJson.put(Field.Game,matchQueue.get(0).getGame().toString());
-            sendJson.put(Field.GameMode,matchQueue.get(0).getGameMode());
+            sendJson.put(Field.GAME,matchQueue.get(0).getGame().toString());
+            sendJson.put(Field.GAME_MODE,matchQueue.get(0).getGameMode());
             JSONArray array = new JSONArray();
             for (int i = 0; i < matchQueue.size(); i++)
             {
@@ -154,12 +161,16 @@ public class MatchBusiness extends Business<Match>
                     array.add(i,roleJson);
                 }
             }
-            sendJson.put(Field.RoleList,array);
+            sendJson.put(Field.ROLE_LIST,array);
 
-            //通知机器人服务器创建其他机器人玩家
-            monitor.sendToServer(ServerName.ROBOT_SERVER,"robot@" + Action.ROBOT_CREATE_ROLE,sendJson);
             //通知房间服务器创建房间
-            monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ROOM_CREATE,sendJson);
+            monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.CREATE_ROOM,sendJson);
+
+            //玩家第一个进入房间
+            JSONObject enterRoomJson = new JSONObject();
+            enterRoomJson.put(Field.ROLE_ID,newMatch.getRoleId());
+            enterRoomJson.put(Field.POS,0);
+            monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ENTER_ROOM,enterRoomJson);
             matchQueue.clear();//清除队列
         }else{
 

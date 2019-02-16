@@ -1,8 +1,8 @@
 package com.betel.cac.server.lobby;
 
 import com.betel.cac.core.consts.Bean;
-import com.betel.cac.server.lobby.beans.Player;
-import com.betel.cac.server.lobby.beans.Role;
+import com.betel.cac.beans.Player;
+import com.betel.cac.beans.Role;
 import com.betel.cac.server.lobby.beans.Match;
 import com.betel.cac.server.lobby.business.MatchBusiness;
 import com.betel.cac.server.lobby.business.PlayerBusiness;

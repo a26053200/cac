@@ -1,4 +1,4 @@
-package com.betel.cac.server.lobby.beans;
+package com.betel.cac.beans;
 
 import java.util.List;
 

@@ -5,8 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.betel.asd.Business;
 import com.betel.cac.core.consts.Action;
 import com.betel.cac.core.consts.Bean;
-import com.betel.cac.server.lobby.beans.Player;
-import com.betel.cac.server.lobby.beans.Role;
+import com.betel.cac.beans.Player;
+import com.betel.cac.beans.Role;
+import com.betel.cac.core.consts.Field;
 import com.betel.session.Session;
 import com.betel.utils.IdGenerator;
 import com.betel.utils.TimeUtils;
@@ -23,13 +24,6 @@ import java.util.List;
  */
 public class PlayerBusiness extends Business<Player>
 {
-    private class Field
-    {
-        static final String AccountId = "aid";
-        static final String Token = "token";
-        static final String PlayerId = "playerId";
-        static final String ROLE_INFO = "roleInfo";
-    }
 
     final static Logger logger = LogManager.getLogger(PlayerBusiness.class);
 
@@ -61,10 +55,10 @@ public class PlayerBusiness extends Business<Player>
     //处理登录游戏服务器
     private void login(Session session)
     {
-        String aid = session.getRecvJson().getString(Field.AccountId);
+        String aid = session.getRecvJson().getString(Field.ACCOUNT_ID);
         /*
         //验证登陆有效性
-        String token = session.getRecvJson().getString(Field.Token);
+        String token = session.getRecvJson().getString(Field.TOKEN);
         if (JwtHelper.parseJWT(token))
             logger.info(String.format("User login game server success aid:%s token:%s", aid, token));
         else
@@ -92,7 +86,7 @@ public class PlayerBusiness extends Business<Player>
         List<Role> roleList = monitor.getAction(Bean.ROLE).getService().getViceEntrys(player.getId());
         if(roleList.size() > 0)
             sendJson.put(Field.ROLE_INFO, JSON.toJSON(roleList.get(0)));//默认选择第一个角色
-        sendJson.put(Field.PlayerId, player.getId());
+        sendJson.put(Field.PLAYER_ID, player.getId());
         action.rspdClient(session, sendJson);
     }
 
