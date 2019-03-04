@@ -24,3 +24,20 @@ GameName =
 {
     Hong_Jian = "Hong_Jian"
 }
+
+GameMode =
+{
+    Hong_Jian = "1vs1"
+}
+---@class RoomRoleState 玩家在房间中的状态
+RoomRoleState =
+{
+    UnReady         = "UnReady",
+    Ready           = "Ready",
+    Loading         = "Loading",
+    LoadComplete    = "LoadComplete",
+    Offline         = "Offline",
+    Reconnect       = "Reconnect",
+    PlayingGame     = "PlayingGame",
+    Automatic       = "Automatic"
+}

@@ -8,6 +8,7 @@ local BaseService = require("Game.Core.Ioc.BaseService")
 ---@class Game.Modules.Lobby.Service.LobbyService : Game.Core.Ioc.BaseService
 ---@field lobbyModel Game.Modules.Lobby.Model.LobbyModel
 ---@field roomModel Game.Modules.Room.Model.RoomModel
+---@field roleModel Game.Modules.Role.Model.RoleModel
 local LobbyService = class("LobbyService",BaseService)
 
 function LobbyService:Ctor()
@@ -30,9 +31,12 @@ function LobbyService:CreateRoom(game, gameMode, callback, failCallback)
     NetModal.Show()
     self:JsonRequest(Action.CreateRoom, {self.roleModel.roleId, game, gameMode,3}, function(data)
         NetModal.Hide()
-        self.roomModel.roomId = data.id; -- 创建好的房间id
+        self.roomModel.room = {}
+        self.roomModel.room.id = data.id; -- 创建好的房间id
+        self.roomModel.room.game = data.game; -- 创建好的房间id
+        self.roomModel.room.gameMode = data.gameMode; -- 创建好的房间id
         self.roomModel.roomRoleList = List.New()
-        self:EnterRoom(self.roomModel.roomId,function (data)
+        self:EnterRoom(self.roomModel.room.id,function (data)
 
         end)
         callback(data)
@@ -44,7 +48,7 @@ end
 
 function LobbyService:EnterRoom(roomId, callback)
     NetModal.Show()
-    self:JsonRequest(Action.EnterRoom, {self.roleModel.roleId,roomId,0}, function(data)
+    self:JsonRequest(Action.EnterRoom, {self.roleModel.roleId,roomId}, function(data)
         NetModal.Hide()
         callback(data)
     end, function (data)
@@ -55,6 +59,11 @@ end
 function LobbyService:OnPushRoomInfo(response)
     Tips.Show("Match Successful!")
     self.roomModel.roomRoleList = List.New(response.data.roleList)
+    for i = 1, self.roomModel.roomRoleList:Size() do
+        if self.roomModel.roomRoleList[i].id == self.roleModel.roleId then
+            self.roomModel.myRoleInfo = self.roomModel.roomRoleList[i]
+        end
+    end
 end
 
 return LobbyService

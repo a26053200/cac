@@ -5,6 +5,8 @@
 ---
 
 local SimpleRoleItem = require("Game.Modules.Room.View.SimpleRoleItem")
+local RoomModel = require("Game.Modules.Room.Model.RoomModel")
+
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.Room.View.SampleRoomMdr : Game.Core.Ioc.BaseMediator
 ---@field roomModel Game.Modules.Room.Model.RoomModel
@@ -17,10 +19,34 @@ end
 
 function SampleRoomMdr:RegisterListeners()
     nmgr:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
+    nmgr:AddPush(Action.PushRoomRoleState, handler(self,self.OnPushRoomRoleState))
+    nmgr:AddPush(Action.PushRoomLoadStart, handler(self,self.OnPushRoomLoadStart))
+    nmgr:AddPush(Action.PushRoomGameStart, handler(self,self.OnPushRoomGameStart))
 end
 
 function SampleRoomMdr:OnPushEnterRoom(data)
     self:InitRoleList()
+end
+
+function SampleRoomMdr:OnPushRoomRoleState(response)
+    self.roleList:UpdateItem(response.data.pos + 1)
+    if self.roomModel:isAllState(RoomRoleState.Ready) then
+        self.gameObject:SetButtonText("BtnOption", "Start")
+    elseif self.roomModel:isAllState(RoomRoleState.LoadComplete) then
+        --开始游戏
+    end
+end
+
+function SampleRoomMdr:OnPushRoomLoadStart(response)
+    --self.roomModel:UpdateState(response.data.pos + 1,response.data.roleState)
+end
+
+function SampleRoomMdr:OnPushRoomGameStart(response)
+    --self.roomModel:UpdateState(response.data.pos + 1,response.data.roleState)
+    if self.roomModel.room.game == GameName.Hong_Jian then
+        vmgr:UnloadView(ViewConfig.SampleRoom)
+        World.EnterScene(WorldConfig.Room_HJ)
+    end
 end
 
 function SampleRoomMdr:InitRoleList()
@@ -28,8 +54,18 @@ function SampleRoomMdr:InitRoleList()
     self.roleList:SetData(self.roomModel.roomRoleList)
 end
 
-function SampleRoomMdr:On_Click_BtnStart()
-    vmgr:UnloadView(ViewConfig.SampleRoom)
+function SampleRoomMdr:On_Click_BtnClose()
+    self.roomService:ExitRoom(function ()
+        vmgr:UnloadView(ViewConfig.SampleRoom)
+    end)
+end
+
+function SampleRoomMdr:On_Click_BtnOption()
+    if self.roomModel:isAllState(RoomRoleState.UnReady) then
+        self.roomService:ChangeState(RoomRoleState.Ready)
+    elseif self.roomModel:isAllState(RoomRoleState.Ready) then
+        self.roomService:ChangeState(RoomRoleState.LoadComplete)
+    end
 end
 
 return SampleRoomMdr

@@ -19,4 +19,9 @@ function LobbyScene:OnEnterScene()
     --vmgr:LoadView(ViewConfig.NewbieWelcome)
 end
 
+function LobbyScene:OnExitScene()
+    vmgr:UnloadView(ViewConfig.LobbyScene)
+    vmgr:UnloadView(ViewConfig.RoleInfo)
+    vmgr:UnloadView(ViewConfig.LobbyMainMenu)
+end
 return LobbyScene

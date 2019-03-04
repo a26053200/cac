@@ -17,6 +17,7 @@ end
 ---@param data RoomRole
 function SimpleRoleItem:Update(data, index)
     self.gameObject:SetText("Text", data.roleName)
+    self.gameObject:SetText("State", data.roleState)
     self.gameObject:SetSprite("Icon",Res.LoadSprite(string.format(headIconUrl,tostring(data.headIcon))))
 end
 

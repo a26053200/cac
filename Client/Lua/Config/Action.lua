@@ -30,7 +30,19 @@ Action.PushEnterRoom = "push@enter_room"
 Action.CreateRoom = { server = "RoomServer", action = "room@create_room", fields = "roleId,game,gameMode,robotNum" }
 
 --手动进入房间
-Action.EnterRoom = { server = "LobbyServer", action = "match@enter_room", fields = "roleId,roomId,pos" }
+Action.EnterRoom = { server = "LobbyServer", action = "match@enter_room", fields = "roleId,roomId" }
 
 --手动退出房间
-Action.ExitRoom = { server = "RoomServer", action = "room@exit_room", fields = "roleId,roomId,pos" }
+Action.ExitRoom = { server = "RoomServer", action = "room@exit_room", fields = "roleId,roomId" }
+
+--玩家状态改变
+Action.ChangeState = { server = "RoomServer", action = "room@role_state", fields = "roomId,roleId,roleState" }
+
+--推送玩家状态
+Action.PushRoomRoleState = "push@room_role_state"
+
+--推送开始加载
+Action.PushRoomLoadStart = "push@load_start"
+
+--推送开始加载
+Action.PushRoomGameStart = "push@game_start"
