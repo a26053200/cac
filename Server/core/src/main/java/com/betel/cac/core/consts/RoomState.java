@@ -26,7 +26,7 @@ public enum RoomState
     /**
      * 游戏中
      */
-    Ingame,
+    PlayingGame,
 
     /**
      * 结束

@@ -1,7 +1,7 @@
 package com.betel.cac.server.room;
 
 import com.betel.cac.core.consts.Bean;
-import com.betel.cac.server.room.beans.Room;
+import com.betel.cac.beans.Room;
 import com.betel.cac.server.room.business.RoomBusiness;
 import com.betel.config.ServerConfigVo;
 import com.betel.servers.action.ImplAction;

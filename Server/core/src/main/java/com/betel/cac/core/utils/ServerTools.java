@@ -84,6 +84,7 @@ public class ServerTools
         String dbHost = ServerTools.getArguments(args,"-dh");//数据库地址
         int dbPort = ServerTools.getArgumentsInt(args,"-dp");//数据库端口
         int dbIndex = ServerTools.getArgumentsInt(args,"-di");//数据库索引
+        String dbPw = ServerTools.getArguments(args,"-dpw");//数据库密码
         int decoderOffset = ServerTools.getArgumentsInt(args,"-do");//包头长度偏移量
         int decoderLen = ServerTools.getArgumentsInt(args,"-dl");   //包头长度
         ServerConfigVo cfg = new ServerConfigVo(
@@ -95,6 +96,7 @@ public class ServerTools
                 dbHost != null              ? dbHost            : "",
                 dbPort != 0                 ? dbPort            : 6379,
                 dbIndex,
+                dbPw != null                ? dbPw              : "",
                 decoderOffset,
                 decoderLen != 0             ? decoderLen        : 4
         );

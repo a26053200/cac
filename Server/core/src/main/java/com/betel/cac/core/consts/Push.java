@@ -17,7 +17,7 @@ public class Push
     /**
      * 房间玩家状态
      */
-    public final static String ROOM_ROLE_STATE = "push@role_state";
+    public final static String ROOM_ROLE_STATE = "push@room_role_state";
     /**
      * 加载开始
      */

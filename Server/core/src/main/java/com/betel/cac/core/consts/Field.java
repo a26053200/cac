@@ -2,6 +2,8 @@ package com.betel.cac.core.consts;
 
 public class Field
 {
+    public static final String DATA         = "data";
+
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
 
@@ -26,8 +28,9 @@ public class Field
     public static final String ROLE_STATE        = "roleState";
     public static final String PROGRESS         = "progress";
 
+    public static final String ROBOT_CLIENT_ID  = "robotClientId";
     public static final String ROBOT_INFO        = "robotInfo";
     public static final String ROBOT_NUM         = "robotNum";
-    public static final String IS_ROBOT             = "isRobot";
+    public static final String IS_ROBOT          = "isRobot";
 
 }

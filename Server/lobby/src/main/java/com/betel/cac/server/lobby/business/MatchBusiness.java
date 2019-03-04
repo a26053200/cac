@@ -57,7 +57,6 @@ public class MatchBusiness extends Business<Match>
     private void enterRoom(Session session)
     {
         int roomId = session.getRecvJson().getIntValue(Field.ROOM_ID);
-        int index = session.getRecvJson().getIntValue(Field.POS);
         String roleId = session.getRecvJson().getString(Field.ROLE_ID);
         Role role = (Role) monitor.getAction(Bean.ROLE).getService().getEntryById(roleId);
         JSONObject roleJson = role.toJson();
@@ -65,7 +64,6 @@ public class MatchBusiness extends Business<Match>
         roleJson.put(FieldName.CHANNEL_ID,session.getChannelId());
         roleJson.put(Field.IS_ROBOT,false);
         roleJson.put(Field.ROLE_STATE,RoomRoleState.UnReady.toString());
-        roleJson.put(Field.POS,index);
         //该玩家进入房间
         monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ENTER_ROOM,roleJson);
     }

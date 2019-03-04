@@ -24,5 +24,6 @@ public class ReturnCode
 
     //房间
     public static final String Error_room_not_found       = "找不到改房间";
+    public static final String Room_disband                 = "房间解散";
 
 }

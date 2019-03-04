@@ -13,5 +13,5 @@ public class Bean
     public static final String ROLE                     = "role";
     public static final String MATCH                    = "match";
     public static final String ROOM                     = "room";
-    public static final String ROBOT                    = "robot";
+    public static final String ROBOT_CLIENT             = "robotClient";
 }

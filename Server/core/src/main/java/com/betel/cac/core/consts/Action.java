@@ -78,7 +78,10 @@ public class Action
      * 更新房间内玩家状态
      */
     public final static String ROOM_ROLE_STATE = "role_state";
-
+    /**
+     * 解散房间
+     */
+    public final static String DISBAND_ROOM = "disband_room";
     //==================
     // Robot
     //==================
@@ -86,6 +89,10 @@ public class Action
      * 通知机器人进入房间
      */
     public final static String ROBOT_ENTER_ROOM = "robot_enter_room";
+    /**
+     * 通知机器人状态改变
+     */
+    public final static String ROBOT_ROLE_STATE = "robot_role_state";
 
 
 }
