@@ -15,25 +15,28 @@ local SampleRoomMdr = class("SampleRoomMdr",BaseMediator)
 
 function SampleRoomMdr:OnInit()
     self:InitRoleList()
+    vmgr:LoadView(ViewConfig.RobotCard)
 end
 
 function SampleRoomMdr:RegisterListeners()
-    nmgr:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
-    nmgr:AddPush(Action.PushRoomRoleState, handler(self,self.OnPushRoomRoleState))
-    nmgr:AddPush(Action.PushRoomLoadStart, handler(self,self.OnPushRoomLoadStart))
-    nmgr:AddPush(Action.PushRoomGameStart, handler(self,self.OnPushRoomGameStart))
+    self:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
+    self:AddPush(Action.PushRoomRoleState, handler(self,self.OnPushRoomRoleState))
+    self:AddPush(Action.PushRoomLoadStart, handler(self,self.OnPushRoomLoadStart))
+    self:AddPush(Action.PushRoomGameStart, handler(self,self.OnPushRoomGameStart))
 end
 
-function SampleRoomMdr:OnPushEnterRoom(data)
+function SampleRoomMdr:OnPushEnterRoom(response)
     self:InitRoleList()
 end
 
 function SampleRoomMdr:OnPushRoomRoleState(response)
-    self.roleList:UpdateItem(response.data.pos + 1)
-    if self.roomModel:isAllState(RoomRoleState.Ready) then
-        self.gameObject:SetButtonText("BtnOption", "Start")
-    elseif self.roomModel:isAllState(RoomRoleState.LoadComplete) then
-        --开始游戏
+    if response.data.clientRoleId == self.roleModel.roleId then
+        self.roleList:UpdateItem(response.data.roomPos + 1)
+        if self.roomModel.room:isAllState(RoomRoleState.Ready) then
+            self.gameObject:SetButtonText("BtnOption", "Start")
+        elseif self.roomModel.room:isAllState(RoomRoleState.LoadComplete) then
+            --开始游戏
+        end
     end
 end
 
@@ -43,27 +46,30 @@ end
 
 function SampleRoomMdr:OnPushRoomGameStart(response)
     --self.roomModel:UpdateState(response.data.pos + 1,response.data.roleState)
-    if self.roomModel.room.game == GameName.Hong_Jian then
-        vmgr:UnloadView(ViewConfig.SampleRoom)
-        World.EnterScene(WorldConfig.Room_HJ)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        if self.roomModel.room.game == GameName.Hong_Jian then
+            vmgr:UnloadView(ViewConfig.SampleRoom)
+            World.EnterScene(WorldConfig.Room_HJ)
+        end
     end
 end
 
 function SampleRoomMdr:InitRoleList()
     self.roleList = BaseList.New(self.gameObject:FindChild("ListView"),SimpleRoleItem)
-    self.roleList:SetData(self.roomModel.roomRoleList)
+    self.roleList:SetData(List.New(self.roomModel.room.roleList))
 end
 
 function SampleRoomMdr:On_Click_BtnClose()
     self.roomService:ExitRoom(function ()
         vmgr:UnloadView(ViewConfig.SampleRoom)
+        vmgr:UnloadView(ViewConfig.RobotCard)
     end)
 end
 
 function SampleRoomMdr:On_Click_BtnOption()
-    if self.roomModel:isAllState(RoomRoleState.UnReady) then
+    if self.roomModel.room:isAllState(RoomRoleState.UnReady) then
         self.roomService:ChangeState(RoomRoleState.Ready)
-    elseif self.roomModel:isAllState(RoomRoleState.Ready) then
+    elseif self.roomModel.room:isAllState(RoomRoleState.Ready) then
         self.roomService:ChangeState(RoomRoleState.LoadComplete)
     end
 end

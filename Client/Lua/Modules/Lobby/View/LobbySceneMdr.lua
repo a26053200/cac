@@ -6,8 +6,9 @@
 
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.Lobby.View.LobbySceneMdr : Game.Core.Ioc.BaseMediator
----@class lobbySceneModel
----@class lobbySceneService
+---@field lobbyModel Game.Modules.Lobby.Model.LobbyModel
+---@field lobbyService Game.Modules.Lobby.Service.LobbyService
+---@field roomModel Game.Modules.Room.Model.RoomModel
 local LobbySceneMdr = class("LobbySceneMdr",BaseMediator)
 
 function LobbySceneMdr:OnInit()
@@ -16,11 +17,13 @@ function LobbySceneMdr:OnInit()
 end
 
 function LobbySceneMdr:RegisterListeners()
-    nmgr:AddPush(Action.PushRoomInfo, handler(self,self.OnPushRoomInfo))
+    self:AddPush(Action.PushRoomInfo, handler(self,self.OnPushRoomInfo))
 end
 
-function LobbySceneMdr:OnPushRoomInfo(data)
-    vmgr:LoadView(ViewConfig.SampleRoom)
+function LobbySceneMdr:OnPushRoomInfo(response)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        vmgr:LoadView(ViewConfig.SampleRoom)
+    end
 end
 
 return LobbySceneMdr

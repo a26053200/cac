@@ -12,4 +12,9 @@ function BaseVo:Ctor()
 
 end
 
+function BaseVo:FromJson(json)
+    for k,v in pairs(json) do
+        self[k] = v
+    end
+end
 return BaseVo

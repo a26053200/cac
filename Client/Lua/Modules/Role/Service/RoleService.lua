@@ -7,17 +7,13 @@
 
 local BaseService = require("Game.Core.Ioc.BaseService")
 ---@class Game.Modules.Role.Service.RoleService : Game.Core.Ioc.BaseService
+---@field roomModel Game.Modules.Room.Model.RoomModel
 local RoleService = class("RoleService",BaseService)
 local RoleVo = require("Game.Modules.Role.Vo.RoleVo")
 
 function RoleService:Ctor()
-    --nmgr:AddPush(Action.RoleInfo, handler(self,self.OnRoleInfo))
+
 end
 
----push
-function RoleService:OnRoleInfo(response)
-    log("角色进入游戏:"..response.roleInfo.roleName)
-    --self.roleModel.mainRoleInfo = RoleVo.New(response.roleInfo)
-end
 
 return RoleService

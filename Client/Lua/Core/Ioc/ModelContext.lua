@@ -16,6 +16,7 @@ function ModelContext:Launch()
 	self.binder:Bind(require("Game.Modules.Lobby.Model.LobbyModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Login.Model.LoginModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Newbie.Model.NewbieModel")):ToSingleton()
+	self.binder:Bind(require("Game.Modules.Robot.Model.RobotModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Role.Model.RoleModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Room.Model.RoomModel")):ToSingleton()
     --TODO

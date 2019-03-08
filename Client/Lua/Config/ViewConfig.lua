@@ -15,3 +15,5 @@ ViewConfig.LobbyMainMenu={name="LobbyMainMenu",prefab="Prefabs/UI/Lobby/LobbyMai
 ViewConfig.Room={name="Room",}
 ViewConfig.SampleRoom={name="SampleRoom",prefab="Prefabs/UI/Room/SampleRoom.prefab",}
 ViewConfig.Room_HJScene={name="Room_HJScene",prefab="Prefabs/UI/Room/RoomHJScene.prefab",}
+ViewConfig.Robot={name="Robot",}
+ViewConfig.RobotCard={name="RobotCard",prefab="Prefabs/UI/Robot/RobotCard.prefab",}

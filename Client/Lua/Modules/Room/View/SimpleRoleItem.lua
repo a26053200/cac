@@ -14,11 +14,17 @@ function SimpleRoleItem:Ctor(gameObject)
     SimpleRoleItem.super.Ctor(self,gameObject)
 end
 
----@param data RoomRole
+---@param data RoomRoleVo
 function SimpleRoleItem:Update(data, index)
-    self.gameObject:SetText("Text", data.roleName)
-    self.gameObject:SetText("State", data.roleState)
-    self.gameObject:SetSprite("Icon",Res.LoadSprite(string.format(headIconUrl,tostring(data.headIcon))))
+    if data then
+        self.gameObject:SetText("Text", data.roleName)
+        self.gameObject:SetText("State", data.roleState)
+        self.gameObject:SetSprite("Icon",Res.LoadSprite(string.format(headIconUrl,tostring(data.headIcon))))
+    else
+        self.gameObject:SetText("Text", "<N/A>")
+        self.gameObject:SetText("State", "<N/A>")
+        self.gameObject:SetSpriteAlpha("Icon", 0)
+    end
 end
 
 function SimpleRoleItem:OnDestroy()

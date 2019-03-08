@@ -5,44 +5,60 @@
 ---
 
 local BaseService = require("Game.Core.Ioc.BaseService")
+local RoomVo = require("Game.Modules.Room.Vo.RoomVo")
 ---@class Game.Modules.Room.Service.RoomService : Game.Core.Ioc.BaseService
 ---@field roomModel Game.Modules.Room.Model.RoomModel
 ---@field roleModel Game.Modules.Role.Model.RoleModel
 local RoomService = class("RoomService",BaseService)
 
 function RoomService:Ctor()
+    nmgr:AddPush(Action.PushRoomInfo, handler(self,self.OnPushRoomInfo))
     nmgr:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
     nmgr:AddPush(Action.PushRoomRoleState, handler(self,self.OnPushRoomRoleState))
     nmgr:AddPush(Action.PushRoomLoadStart, handler(self,self.OnPushRoomLoadStart))
     nmgr:AddPush(Action.PushRoomGameStart, handler(self,self.OnPushRoomGameStart))
 end
 
+function RoomService:OnPushRoomInfo(response)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        self.roomModel.room = RoomVo.New()
+        self.roomModel.room:FromJson(response.data)
+    end
+end
+
 function RoomService:OnPushEnterRoom(response)
-    self.roomModel.roomRoleList:Add(response.data)
+    if response.data.clientRoleId == self.roleModel.roleId then
+        if true then
+            local robotOtherClient = self.robotModel.robotClientMap[response.data.id]
+            self.roomModel.room.roleList[response.data.roomPos + 1] = robotOtherClient.roomRole
+        else
+            self.roomModel.room.roleList[response.data.roomPos + 1] = response.data
+        end
+    end
 end
 
 function RoomService:OnPushRoomRoleState(response)
-    self.roomModel:UpdateState(response.data.pos + 1,response.data.roleState)
+    if response.data.clientRoleId == self.roleModel.roleId then
+        self.roomModel.room:UpdateState(response.data.roomPos + 1,response.data.roleState)
+    end
 end
 
 function RoomService:OnPushRoomLoadStart(response)
-    --self.roomModel:UpdateState(response.data.pos + 1,response.data.roleState)
+
 end
 
 function RoomService:OnPushRoomGameStart(response)
-    --self.roomModel:UpdateState(response.data.pos + 1,response.data.roleState)
+
 end
 
 function RoomService:ExitRoom(callback)
-    self:JsonRequest(Action.ExitRoom, {self.roleModel.roleId,self.roomModel.room.id}, function(data)
+    self:JsonRequest(Action.ExitRoom, {self.roleModel.roleId,self.roomModel.room.id, false}, function(data)
         callback(data)
     end)
 end
 
 function RoomService:ChangeState(state, callback)
-    local role = self.roomModel.myRoleInfo;
-    role.state = state
-    self:JsonRequest(Action.ChangeState, {self.roomModel.room.id,role.id,state}, function(data)
+    self:JsonRequest(Action.ChangeState, {self.roomModel.room.id,self.roleModel.roleId,state, false}, function(data)
         callback(data)
     end, function (data)
 

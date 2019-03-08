@@ -12,7 +12,7 @@ local BaseService = require("Game.Core.Ioc.BaseService")
 local LobbyService = class("LobbyService",BaseService)
 
 function LobbyService:Ctor()
-    nmgr:AddPush(Action.PushRoomInfo, handler(self,self.OnPushRoomInfo))
+
 end
 
 function LobbyService:JoinMatch(game, gameMode, callback, failCallback)
@@ -31,39 +31,25 @@ function LobbyService:CreateRoom(game, gameMode, callback, failCallback)
     NetModal.Show()
     self:JsonRequest(Action.CreateRoom, {self.roleModel.roleId, game, gameMode,3}, function(data)
         NetModal.Hide()
-        self.roomModel.room = {}
-        self.roomModel.room.id = data.id; -- 创建好的房间id
-        self.roomModel.room.game = data.game; -- 创建好的房间id
-        self.roomModel.room.gameMode = data.gameMode; -- 创建好的房间id
-        self.roomModel.roomRoleList = List.New()
-        self:EnterRoom(self.roomModel.room.id,function (data)
-
-        end)
+        self.roomModel.room = data
+        self:EnterRoom(self.roomModel.room.id)
         callback(data)
+        Tips.Show("Match Successful!")
     end, function (data)
         NetModal.Hide()
         failCallback(data)
     end)
 end
 
-function LobbyService:EnterRoom(roomId, callback)
+function LobbyService:EnterRoom(roomId)
     NetModal.Show()
-    self:JsonRequest(Action.EnterRoom, {self.roleModel.roleId,roomId}, function(data)
+    self:JsonRequest(Action.EnterRoom, {self.roleModel.roleId, roomId, 0, false}, function(data)
         NetModal.Hide()
-        callback(data)
     end, function (data)
         NetModal.Hide()
     end)
 end
 
-function LobbyService:OnPushRoomInfo(response)
-    Tips.Show("Match Successful!")
-    self.roomModel.roomRoleList = List.New(response.data.roleList)
-    for i = 1, self.roomModel.roomRoleList:Size() do
-        if self.roomModel.roomRoleList[i].id == self.roleModel.roleId then
-            self.roomModel.myRoleInfo = self.roomModel.roomRoleList[i]
-        end
-    end
-end
+
 
 return LobbyService

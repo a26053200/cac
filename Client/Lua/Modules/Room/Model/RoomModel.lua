@@ -4,46 +4,16 @@
 --- DateTime: 2019-01-31-22:08:51
 ---
 
---{"data":{"game":"Hong_Jian","id":5,"gameMode":"1vs1","roleList":[]}
----@class Room
----@field id number
----@field game string
----@field gameMode string
-
-
----@class RoomRole
----@field id string
----@field roleName string
----@field sex number
----@field headIcon number
----@field roomPos number
----@field roomState string
-
 local BaseModel = require("Game.Core.Ioc.BaseModel")
 ---@class Game.Modules.Room.Model.RoomModel : Game.Core.Ioc.BaseModel
 ---@field roomService Game.Modules.Room.Service.RoomService
----@field room Room
----@field roomRoleList Betel.List
+---@field room Game.Modules.Room.Vo.RoomVo
 ---@field roomId number @房间id
----@field myRoleInfo RoomRole 房间角色
+---@field myRoomRoleInfo Game.Modules.Room.Vo.RoomRoleVo 房间角色
 local RoomModel = class("RoomModel",BaseModel)
 
 function RoomModel:Ctor()
 
 end
 
-function RoomModel:UpdateState(pos,roleState)
-    local role = self.roomRoleList[pos]
-    role.roleState = roleState
-end
-
-function RoomModel:isAllState(roleState)
-    for i = 1, self.roomRoleList:Size() do
-        local role = self.roomRoleList[i]
-        if role.roleState ~= roleState then
-            return false
-        end
-    end
-    return true
-end
 return RoomModel
