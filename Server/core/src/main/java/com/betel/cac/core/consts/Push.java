@@ -15,6 +15,10 @@ public class Push
      */
     public final static String ENTER_ROOM = "push@enter_room";
     /**
+     * 玩家退出房间
+     */
+    public final static String EXIT_ROOM = "push@exit_room";
+    /**
      * 房间玩家状态
      */
     public final static String ROOM_ROLE_STATE = "push@room_role_state";

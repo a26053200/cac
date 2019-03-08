@@ -29,9 +29,9 @@ public enum  RoomRoleState
     LoadComplete,
 
     /**
-     * 开始游戏
+     * 正常游戏中
      */
-    GameStart,
+    PlayingGame,
 
     /**
      * 游戏过程中掉线
@@ -43,10 +43,6 @@ public enum  RoomRoleState
      */
     Reconnect,
 
-    /**
-     * 正常游戏中
-     */
-    PlayingGame,
 
     /**
      * 玩家托管,自动代打

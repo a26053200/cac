@@ -1,5 +1,6 @@
 package com.betel.cac.server.lobby.business;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.betel.asd.Business;
@@ -58,14 +59,25 @@ public class MatchBusiness extends Business<Match>
     {
         int roomId = session.getRecvJson().getIntValue(Field.ROOM_ID);
         String roleId = session.getRecvJson().getString(Field.ROLE_ID);
-        Role role = (Role) monitor.getAction(Bean.ROLE).getService().getEntryById(roleId);
+        boolean isRobot = session.getRecvJson().getBoolean(Field.IS_ROBOT);
+        int index = session.getRecvJson().getIntValue(Field.ROOM_POS);
+        Role role;
+        if (isRobot)
+        {
+            role = new Role();
+            role.setId(roleId);
+        }else{
+            role = (Role) monitor.getAction(Bean.ROLE).getService().getEntryById(roleId);
+        }
         JSONObject roleJson = role.toJson();
+        roleJson.put(Field.IS_ROBOT, isRobot);
         roleJson.put(Field.ROOM_ID,roomId);
+        roleJson.put(Field.ROOM_POS,index);
         roleJson.put(FieldName.CHANNEL_ID,session.getChannelId());
-        roleJson.put(Field.IS_ROBOT,false);
+
         roleJson.put(Field.ROLE_STATE,RoomRoleState.UnReady.toString());
         //该玩家进入房间
-        monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ENTER_ROOM,roleJson);
+        monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ENTER_ROOM, roleJson);
     }
 
     private void joinMatch(Session session)
@@ -167,7 +179,7 @@ public class MatchBusiness extends Business<Match>
             //玩家第一个进入房间
             JSONObject enterRoomJson = new JSONObject();
             enterRoomJson.put(Field.ROLE_ID,newMatch.getRoleId());
-            enterRoomJson.put(Field.POS,0);
+            enterRoomJson.put(Field.ROOM_POS,0);
             monitor.sendToServer(ServerName.ROOM_SERVER,"room@" + Action.ENTER_ROOM,enterRoomJson);
             matchQueue.clear();//清除队列
         }else{

@@ -2,6 +2,7 @@ package com.betel.cac.core.consts;
 
 public class Field
 {
+    public static final String CLIENT_ROLE_ID    = "clientRoleId";
     public static final String DATA         = "data";
 
     public static final String USERNAME = "username";
@@ -20,7 +21,7 @@ public class Field
     public static final String ROOM_INFO         = "roomInfo";
 
 
-    public static final String POS              = "pos";
+    public static final String ROOM_POS         = "roomPos";
 
     public static final String GAME_MODE         = "gameMode";
     public static final String GAME             = "game";

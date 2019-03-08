@@ -101,7 +101,7 @@ public class RobotBusiness extends Business<RobotClient>
             JSONObject sendJson = robotClient.getRole().toRoomRoleJson();
             sendJson.put(Field.ROOM_ID,roomId);
             sendJson.put(FieldName.CHANNEL_ID, session.getChannelId());
-            sendJson.put(Field.POS,array.getJSONObject(i).getInteger(Field.POS));
+            sendJson.put(Field.ROOM_POS,array.getJSONObject(i).getInteger(Field.ROOM_POS));
             sendJson.put(Field.ROLE_ID,robotClient.getRole().getId());
             //机器人进入房间
             monitor.sendToServer(ServerName.ROOM_SERVER,ROOM_ACTION + Action.ENTER_ROOM,sendJson);
@@ -126,7 +126,7 @@ public class RobotBusiness extends Business<RobotClient>
         RobotClient robotClient = robotClientMap.get(robotClientId);
         if(robotClient != null)
         {
-            Room room = new Room(monitor,ServerName.ROOM_SERVER);
+            Room room = new Room(monitor,ServerName.ROOM_SERVER, 4);
             room.fromJson(session.getRecvJson());
             robotClient.setRoom(room);
             robotClient.setRole(room.getRole(robotClientId));
@@ -143,7 +143,7 @@ public class RobotBusiness extends Business<RobotClient>
         {
             Role role = new Role();
             role.fromJson(session.getRecvJson());
-            robotClient.getRoom().getRoleList().add(role);
+            //robotClient.getRoom().getRoleList().add(role);
             logger.info("玩家进入房间:" + role.getRoleName());
         }
     }

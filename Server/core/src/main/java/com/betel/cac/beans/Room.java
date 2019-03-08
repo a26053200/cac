@@ -24,17 +24,18 @@ public class Room extends BaseCommunication<Role>
     private int id;
     private Game game;
     private String gameMode;
-    private int maxRoleNum;
     private RoomState roomState;
-    private ArrayList<Role> roleList;
+    private Role[] roleList;
 
-    public Room(Monitor monitor, String gatewayName)
+    public Room(Monitor monitor, String gatewayName, int maxRoleNum)
     {
         super(monitor, gatewayName);
+        roleList = new Role[maxRoleNum];
     }
-    public Room(Monitor monitor, String gatewayName, String serverName)
+    public Room(Monitor monitor, String gatewayName, String serverName, int maxRoleNum)
     {
         super(monitor, gatewayName, serverName);
+        roleList = new Role[maxRoleNum];
     }
     public int getId()
     {
@@ -66,16 +67,6 @@ public class Room extends BaseCommunication<Role>
         this.gameMode = gameMode;
     }
 
-    public int getMaxRoleNum()
-    {
-        return maxRoleNum;
-    }
-
-    public void setMaxRoleNum(int maxRoleNum)
-    {
-        this.maxRoleNum = maxRoleNum;
-    }
-
     public RoomState getRoomState()
     {
         return roomState;
@@ -86,16 +77,16 @@ public class Room extends BaseCommunication<Role>
         this.roomState = roomState;
     }
 
-    public ArrayList<Role> getRoleList()
+    public Role[] getRoleList()
     {
         return roleList;
     }
 
     public boolean isAllState(RoomRoleState state)
     {
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            Role role = roleList.get(i);
+            Role role = roleList[i];
             if (role != null && role.getRoleState() != state)
                 return false;
         }
@@ -103,9 +94,9 @@ public class Room extends BaseCommunication<Role>
     }
     public Role getRole(String id)
     {
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            Role role = roleList.get(i);
+            Role role = roleList[i];
             if (role != null && id.equals(role.getId()))
                 return role;
         }
@@ -117,9 +108,8 @@ public class Room extends BaseCommunication<Role>
         this.setId(json.getIntValue("id"));
         this.setGame(Game.valueOf(json.getString("game")));
         this.setGameMode(json.getString("gameMode"));
-        this.setMaxRoleNum(4);
         this.setRoomState(RoomState.Preparing);
-        roleList = new ArrayList();
+
         if (json.containsKey("roleList"))
         {
             JSONArray jsonArray = json.getJSONArray("roleList");
@@ -127,7 +117,7 @@ public class Room extends BaseCommunication<Role>
             {
                 Role role = new Role();
                 role.fromJson(jsonArray.getJSONObject(i));
-                roleList.add(role);
+                roleList[role.getRoomPos()] = role;
             }
         }
     }
@@ -140,9 +130,13 @@ public class Room extends BaseCommunication<Role>
         json.put("gameMode", gameMode);
 
         JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            jsonArray.add(roleList.get(i).toRoomRoleJson());
+            Role role = roleList[i];
+            if (role != null)
+            {
+                jsonArray.add(role.toRoomRoleJson());
+            }
         }
         json.put("roleList", jsonArray);
         return json;
@@ -151,18 +145,13 @@ public class Room extends BaseCommunication<Role>
     @Override
     public void pushAll(String action, JSONObject json, ICommunicationFilter<Role> iCommunicationFilter)
     {
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            Role role = roleList.get(i);
+            Role role = roleList[i];
             if (role != null && iCommunicationFilter.filter(role))
             {
-                if(role.isRobot())
-                {
-                    json.put(Field.ROBOT_CLIENT_ID, role.getId());
-                    monitor.sendToServer(serverName, action, json);
-                }
-                else
-                    monitor.pushToClient(role.getChannelId(), gatewayName, action, json);
+                json.put(Field.CLIENT_ROLE_ID, role.getId());
+                monitor.pushToClient(role.getChannelId(), gatewayName, action, json);
             }
         }
     }
@@ -170,18 +159,13 @@ public class Room extends BaseCommunication<Role>
     @Override
     public void pushAll(String action, JSONObject json)
     {
-        for (int i = 0; i < roleList.size(); i++)
+        for (int i = 0; i < roleList.length; i++)
         {
-            Role role = roleList.get(i);
+            Role role = roleList[i];
             if (role != null)
             {
-                if(role.isRobot())
-                {
-                    json.put(Field.ROBOT_CLIENT_ID, role.getId());
-                    monitor.sendToServer(serverName, action, json);
-                }
-                else
-                    monitor.pushToClient(role.getChannelId(), gatewayName, action, json);
+                json.put(Field.CLIENT_ROLE_ID, role.getId());
+                monitor.pushToClient(role.getChannelId(), gatewayName, action, json);
             }
         }
     }
