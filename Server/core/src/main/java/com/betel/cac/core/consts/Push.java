@@ -30,4 +30,9 @@ public class Push
      * 游戏正式开始
      */
     public final static String ROOM_GAME_START = "push@game_start";
+
+    /**
+     * (红尖游戏)发牌给单个角色
+     */
+    public final static String HJ_CARD_SLOT = "push@hj_card_slot";
 }

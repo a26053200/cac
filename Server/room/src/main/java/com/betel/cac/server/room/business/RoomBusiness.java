@@ -183,9 +183,10 @@ public class RoomBusiness extends Business<Room>
                 room.pushAll( Push.ROOM_LOAD_START, new JSONObject());
             }else if (room.isAllState(RoomRoleState.LoadComplete))//所有玩家都已经加载完成，开始推送游戏开始
             {
-                room.setRoomState(RoomState.PlayingGame);
-                room.pushAll( Push.ROOM_ROLE_STATE, stateJson);
-                room.pushAll( Push.ROOM_GAME_START, new JSONObject());
+                if(room.getGame() == Game.Hong_Jian)
+                {
+                    ((HongJianBusiness)monitor.getAction(Bean.HongJian).getBusiness()).startRound(room);
+                }
                 stateJson.put(Field.ROLE_STATE, RoomRoleState.PlayingGame);
                 room.pushAll( Push.ROOM_ROLE_STATE, stateJson);
             }else{

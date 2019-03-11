@@ -34,4 +34,6 @@ public class Field
     public static final String ROBOT_NUM         = "robotNum";
     public static final String IS_ROBOT          = "isRobot";
 
+    public static final String CARD_SLOT        = "cardSlot";
+
 }
