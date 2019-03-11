@@ -13,6 +13,7 @@ end
 
 function ModelContext:Launch()
     --TODO
+	self.binder:Bind(require("Game.Modules.HongJian.Model.HongJianModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Lobby.Model.LobbyModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Login.Model.LoginModel")):ToSingleton()
 	self.binder:Bind(require("Game.Modules.Newbie.Model.NewbieModel")):ToSingleton()

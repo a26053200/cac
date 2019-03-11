@@ -28,7 +28,7 @@ end
 
 function RoomService:OnPushEnterRoom(response)
     if response.data.clientRoleId == self.roleModel.roleId then
-        if true then
+        if response.data.isRobot then
             local robotOtherClient = self.robotModel.robotClientMap[response.data.id]
             self.roomModel.room.roleList[response.data.roomPos + 1] = robotOtherClient.roomRole
         else

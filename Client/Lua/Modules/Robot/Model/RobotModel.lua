@@ -8,7 +8,7 @@
 ---@field id string
 ---@field roomRole Game.Modules.Room.Vo.RoomRoleVo
 ---@field room Game.Modules.Room.Vo.RoomVo
-
+---@field cards table<number, Game.Modules.Room.Vo.CardVo>
 
 local BaseModel = require("Game.Core.Ioc.BaseModel")
 ---@class Game.Modules.Robot.Model.RobotModel : Game.Core.Ioc.BaseModel

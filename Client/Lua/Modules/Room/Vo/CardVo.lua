@@ -6,6 +6,8 @@
 
 local BaseVo = require("Game.Core.BaseVo")
 ---@class Game.Modules.Room.Vo.CardVo : Game.Core.BaseVo
+---@field faceValue number
+---@field suit string
 local CardVo = class("Game.Modules.Room.Vo.CardVo",BaseVo)
 
 function CardVo:Ctor()

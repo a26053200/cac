@@ -14,7 +14,7 @@ function Room_HJScene:Ctor()
 end
 
 function Room_HJScene:OnEnterScene()
-    vmgr:LoadView(ViewConfig.Room_HJScene)
+    vmgr:LoadView(ViewConfig.HongJianScene)
 end
 
 return Room_HJScene

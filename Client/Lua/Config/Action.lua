@@ -49,3 +49,6 @@ Action.PushRoomLoadStart = "push@load_start"
 
 --推送开始加载
 Action.PushRoomGameStart = "push@game_start"
+
+--推送发牌
+Action.PushHJCardSlot = "push@hj_card_slot"

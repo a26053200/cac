@@ -21,6 +21,7 @@ end
 
 function MediatorContext:Launch()
     --TODO
+	self.binder:Bind(require("Game.Modules.HongJian.View.HongJianSceneMdr")):To(ViewConfig.HongJianScene.name)
 	self.binder:Bind(require("Game.Modules.Loading.View.LoadingMdr")):To(ViewConfig.Loading.name)
 	self.binder:Bind(require("Game.Modules.Lobby.View.LobbyMainMenuMdr")):To(ViewConfig.LobbyMainMenu.name)
 	self.binder:Bind(require("Game.Modules.Lobby.View.LobbySceneMdr")):To(ViewConfig.LobbyScene.name)

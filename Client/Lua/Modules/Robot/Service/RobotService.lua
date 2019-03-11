@@ -4,6 +4,8 @@
 --- DateTime: 2019-03-05-22:38:39
 ---
 
+
+local CardVo = require("Game.Modules.Room.Vo.CardVo")
 local BaseService = require("Game.Core.Ioc.BaseService")
 ---@class Game.Modules.Robot.Service.RobotService : Game.Core.Ioc.BaseService
 ---@field robotModel Game.Modules.Robot.Model.RobotModel
@@ -13,8 +15,28 @@ local RobotService = class("RobotService",BaseService)
 function RobotService:Ctor()
     nmgr:AddPush(Action.PushEnterRoom, handler(self,self.OnPushEnterRoom))
     nmgr:AddPush(Action.PushRoomRoleState, handler(self,self.OnPushRoomRoleState))
+
+    nmgr:AddPush(Action.PushHJCardSlot, handler(self,self.OnPushHJCardSlot))
 end
 
+-------------------
+--Request Action
+-------------------
+function RobotService:EnterRoom(roleId, pos)
+    self:JsonRequest(Action.EnterRoom, {roleId, self.roomModel.room.id, pos, true})
+end
+
+function RobotService:ExitRoom(roleId, pos)
+    self:JsonRequest(Action.ExitRoom, {roleId,self.roomModel.room.id, pos, true})
+end
+
+function RobotService:ChangeState(roleId, state)
+    self:JsonRequest(Action.ChangeState, {self.roomModel.room.id,roleId,state})
+end
+
+-------------------
+--Push Handler
+-------------------
 function RobotService:OnPushEnterRoom(response)
     local robotClient = self.robotModel.robotClientMap[response.data.clientRoleId]
     if robotClient then
@@ -30,16 +52,17 @@ function RobotService:OnPushRoomRoleState(response)
     end
 end
 
-function RobotService:EnterRoom(roleId, pos)
-    self:JsonRequest(Action.EnterRoom, {roleId, self.roomModel.room.id, pos, true})
+function RobotService:OnPushHJCardSlot(response)
+    local robotClient = self.robotModel.robotClientMap[response.data.clientRoleId]
+    if robotClient then
+        robotClient.cards = {}
+        for i = 1, #response.data.cardSlot do
+            local card = CardVo.New()
+            card:FromJson(response.data.cardSlot[i])
+            robotClient.cards[i] = card
+        end
+    end
 end
 
-function RobotService:ExitRoom(roleId, pos)
-    self:JsonRequest(Action.ExitRoom, {roleId,self.roomModel.room.id, pos, true})
-end
-
-function RobotService:ChangeState(roleId, state)
-    self:JsonRequest(Action.ChangeState, {self.roomModel.room.id,roleId,state})
-end
 
 return RobotService
