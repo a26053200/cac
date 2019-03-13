@@ -17,7 +17,7 @@ function RobotCardMdr:OnInit()
         self:StartCoroutine(function ()
             for i = 1, 3 do
                 local robotClient = self.robotModel:CreateRobotClient()
-                robotClient.roomRole.roomPos = i
+                robotClient.roomRole.roomPos = i + 1
                 self.robotService:EnterRoom(robotClient.roomRole.id, i)--服务器下标从0开始
                 coroutine.step(1)
             end

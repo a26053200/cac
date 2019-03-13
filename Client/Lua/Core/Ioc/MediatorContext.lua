@@ -21,6 +21,7 @@ end
 
 function MediatorContext:Launch()
     --TODO
+	self.binder:Bind(require("Game.Modules.HongJian.View.HongJianConsoleMdr")):To(ViewConfig.HongJianConsole.name)
 	self.binder:Bind(require("Game.Modules.HongJian.View.HongJianSceneMdr")):To(ViewConfig.HongJianScene.name)
 	self.binder:Bind(require("Game.Modules.Loading.View.LoadingMdr")):To(ViewConfig.Loading.name)
 	self.binder:Bind(require("Game.Modules.Lobby.View.LobbyMainMenuMdr")):To(ViewConfig.LobbyMainMenu.name)
@@ -34,7 +35,6 @@ function MediatorContext:Launch()
 	self.binder:Bind(require("Game.Modules.Newbie.View.NewbieWelcomeMdr")):To(ViewConfig.NewbieWelcome.name)
 	self.binder:Bind(require("Game.Modules.Robot.View.RobotCardMdr")):To(ViewConfig.RobotCard.name)
 	self.binder:Bind(require("Game.Modules.Role.View.RoleInfoMdr")):To(ViewConfig.RoleInfo.name)
-	self.binder:Bind(require("Game.Modules.Room.View.Room_HJSceneMdr")):To(ViewConfig.Room_HJScene.name)
 	self.binder:Bind(require("Game.Modules.Room.View.SampleRoomMdr")):To(ViewConfig.SampleRoom.name)
 	self.binder:Bind(require("Game.Modules.World.View.WorldMdr")):To(ViewConfig.World.name)
     --TODO

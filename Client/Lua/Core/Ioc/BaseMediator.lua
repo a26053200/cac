@@ -13,7 +13,7 @@ local LuaMonoBehaviour = require('Betel.LuaMonoBehaviour')
 local BaseMediator = class("BaseMediator",LuaMonoBehaviour)
 
 function BaseMediator:Ctor()
-    LuaMonoBehaviour.super.Ctor(self)
+    BaseMediator.super.Ctor(self)
     self.layer = UILayer.depth --默认在深度排序层级
     self.listener = NetworkListener.New()
     self.removeCallback = nil

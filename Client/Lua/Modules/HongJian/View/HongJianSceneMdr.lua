@@ -9,6 +9,8 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.HongJian.View.HongJianSceneMdr : Game.Core.Ioc.BaseMediator
 ---@field hongJianModel Game.Modules.HongJian.Model.HongJianModel
 ---@field hongJianService Game.Modules.HongJian.Service.HongJianService
+---@field robotModel Game.Modules.Robot.Model.RobotModel
+---@field roomModel Game.Modules.Room.Model.RoomModel
 local HongJianSceneMdr = class("HongJianSceneMdr",BaseMediator)
 
 --桌子的位置(相对玩家,上北下南,左西右东)
@@ -16,17 +18,48 @@ local DeskPos = {}
 DeskPos.South = "South"
 DeskPos.North = "North"
 DeskPos.West = "West"
-DeskPos.Ease = "Ease"
+DeskPos.East = "East"
 
 function HongJianSceneMdr:OnInit()
     self.posSlot = {}
 
-    self.posSlot[DeskPos.South] = self:CreateCardSlot(DeskPos.South,self.hongJianModel.cards,true)
+    self.posSlot[DeskPos.South] = self:CreateCardSlot(DeskPos.South,self.hongJianModel.cards,true,true)
+    --其他玩家
+    local otherPos = self:CalculatePosition(self.roomModel.myRoomRoleInfo.roomPos)
+    for i, robotClient in pairs(self.robotModel.robotClientMap) do
+        local deskPos = otherPos[robotClient.roomRole.roomPos]
+        self.posSlot[deskPos] = self:CreateCardSlot(deskPos,robotClient.cards,true, false)
+    end
+
+    vmgr:LoadView(ViewConfig.HongJianConsole)
 end
 
-function HongJianSceneMdr:CreateCardSlot(pos, cards, showFront)
-    local deskPos = GameObject.Find(pos)
-    local slot = CardSlot.New(deskPos, cards, showFront)
+--根据自己的作为计算其他人的方位
+function HongJianSceneMdr:CalculatePosition(pos)
+    local otherPos = {}
+    if pos == 1 then
+        otherPos[2] = DeskPos.East
+        otherPos[3] = DeskPos.North
+        otherPos[4] = DeskPos.West
+    elseif pos == 2 then
+        otherPos[3] = DeskPos.East
+        otherPos[4] = DeskPos.North
+        otherPos[1] = DeskPos.West
+    elseif pos == 3 then
+        otherPos[4] = DeskPos.East
+        otherPos[1] = DeskPos.North
+        otherPos[2] = DeskPos.West
+    elseif pos == 4 then
+        otherPos[1] = DeskPos.East
+        otherPos[2] = DeskPos.North
+        otherPos[3] = DeskPos.West
+    end
+    return otherPos
+end
+
+function HongJianSceneMdr:CreateCardSlot(deskPos, cards, showFront, selectable)
+    local deskPosObj = GameObject.Find(deskPos)
+    local slot = CardSlot.New(deskPosObj, cards, showFront, selectable)
     return slot
 end
 

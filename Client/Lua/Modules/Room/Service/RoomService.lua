@@ -23,6 +23,8 @@ function RoomService:OnPushRoomInfo(response)
     if self.roleModel.roleId == response.data.clientRoleId then
         self.roomModel.room = RoomVo.New()
         self.roomModel.room:FromJson(response.data)
+        self.roomModel.myRoomRoleInfo = self.roomModel.room.roleList[1]
+        self.roomModel.myRoomRoleInfo.roomPos = self.roomModel.myRoomRoleInfo.roomPos + 1
     end
 end
 

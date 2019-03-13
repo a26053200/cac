@@ -20,6 +20,11 @@ ServerName.AccountServer = "AccountServer"
 ServerName.GateServer = "GateServer"
 ServerName.GameServer = "GameServer"
 
+--目标帧率
+FrameRate = Application.targetFrameRate
+--目标帧间隔时间
+FrameTime = 1 / FrameRate
+
 GameName =
 {
     Hong_Jian = "Hong_Jian"
@@ -40,4 +45,20 @@ RoomRoleState =
     Reconnect       = "Reconnect",
     PlayingGame     = "PlayingGame",
     Automatic       = "Automatic"
+}
+CardSuit =
+{
+    None        = "None",       --大王小王没有花色
+    Diamond     = "Diamond",    -- ♦
+    Club        = "Club",       -- ♣
+    Heart       = "Heart",      -- ♥
+    Spade       = "Spade"       -- ♠
+}
+CardSuitValue =
+{
+    None        = 0,       --大王小王没有花色
+    Diamond     = 1,    -- ♦
+    Club        = 2,       -- ♣
+    Heart       = 3,      -- ♥
+    Spade       = 4       -- ♠
 }

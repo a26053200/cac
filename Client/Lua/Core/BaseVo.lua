@@ -18,4 +18,23 @@ function BaseVo:FromJson(json)
         self[k] = v
     end
 end
+
+function BaseVo:ToString()
+    local str = "{"
+    for k,v in pairs(self) do
+        if v ~= nil then
+            if type(v) ~= "function" and
+                    k ~= "__cname" and
+                    k ~= "__class" and
+                    k ~= "__index" and
+                    k ~= "super" then
+                str = str .. k .. " = " .. tostring(v).. ", "
+            end
+        else
+            str = str .. k .. " = nil" .. ", "
+        end
+    end
+    return str .. "}"
+end
+
 return BaseVo
