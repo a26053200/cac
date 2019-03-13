@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5324306320032636793}
   - component: {fileID: 4482618941974505192}
+  - component: {fileID: 707584549349522012}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -206,3 +207,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &707584549349522012
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8842971056688440415}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.18, y: 0.001, z: 0.26}
+  m_Center: {x: 0, y: 0, z: 0}
