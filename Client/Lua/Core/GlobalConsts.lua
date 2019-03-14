@@ -46,19 +46,3 @@ RoomRoleState =
     PlayingGame     = "PlayingGame",
     Automatic       = "Automatic"
 }
-CardSuit =
-{
-    None        = "None",       --大王小王没有花色
-    Diamond     = "Diamond",    -- ♦
-    Club        = "Club",       -- ♣
-    Heart       = "Heart",      -- ♥
-    Spade       = "Spade"       -- ♠
-}
-CardSuitValue =
-{
-    None        = 0,       --大王小王没有花色
-    Diamond     = 1,    -- ♦
-    Club        = 2,       -- ♣
-    Heart       = 3,      -- ♥
-    Spade       = 4       -- ♠
-}

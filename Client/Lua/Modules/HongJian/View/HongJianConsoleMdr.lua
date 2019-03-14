@@ -13,7 +13,13 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 local HongJianConsoleMdr = class("HongJianConsoleMdr",BaseMediator)
 
 function HongJianConsoleMdr:OnInit()
+    self.selectCardItemList = List.New()
     self.selectCardList = List.New()
+
+    self.btnOperate = self.gameObject:FindChild("BtnOperate")
+    self.btnSmart = self.gameObject:FindChild("BtnSmart")
+    self.btnRule = self.gameObject:FindChild("BtnRule")
+    self.btnOperate:SetActive(false)
 end
 
 function HongJianConsoleMdr:RegisterListeners()
@@ -23,10 +29,27 @@ end
 ---@param card Game.Modules.Common.View.Card
 function HongJianConsoleMdr:OnCardClick(card)
     if card.isSelected then
-        self.selectCardList:Add(card)
+        self.selectCardItemList:Add(card)
+        self.selectCardList:Add(card.data)
     else
-        self.selectCardList:Remove(card)
+        self.selectCardItemList:Remove(card)
+        self.selectCardList:Add(card.data)
     end
+
+    self.btnOperate:SetActive(self.selectCardList:Size() > 0)
+    if self.selectCardList:Size() > 0 then
+
+    end
+end
+
+--计算牌型
+function HongJianConsoleMdr:On_Click_BtnRule()
+
+end
+
+--智能排序
+function HongJianConsoleMdr:On_Click_BtnSmart()
+
 end
 
 function HongJianConsoleMdr:On_Click_BtnOperate()

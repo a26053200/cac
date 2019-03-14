@@ -4,11 +4,10 @@
 --- DateTime: 2019-03-05-23:59:17
 ---
 
-local BaseVo = require("Game.Core.BaseVo")
----@class Game.Modules.Room.Vo.CardVo : Game.Core.BaseVo
----@field faceValue number
----@field suit string
-local CardVo = class("Game.Modules.Room.Vo.CardVo",BaseVo)
+local CardBaseVo = require("Game.Config.Card.CardBaseVo")
+---@class Game.Modules.Room.Vo.CardVo : Game.Config.Card.CardBaseVo
+
+local CardVo = class("Game.Modules.Room.Vo.CardVo",CardBaseVo)
 
 function CardVo:Ctor()
     
