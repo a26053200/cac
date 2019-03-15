@@ -4,12 +4,14 @@
 --- DateTime: 2019-03-14-01:10:21
 ---
 
-
+local HongJianCardExtract = require("Game.Config.Card.Extracts.HongJianCardExtract")
+local CardExtract = require("Game.Config.Card.Extracts.CardExtract")
 local CardEvent = require("Game.Modules.Common.Events.CardEvent")
 local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.HongJian.View.HongJianConsoleMdr : Game.Core.Ioc.BaseMediator
 ---@field hongJianModel Game.Modules.HongJian.Model.HongJianModel
 ---@field hongJianService Game.Modules.HongJian.Service.HongJianService
+---@field selectCardList table<number, Game.Config.Card.CardBaseVo>
 local HongJianConsoleMdr = class("HongJianConsoleMdr",BaseMediator)
 
 function HongJianConsoleMdr:OnInit()
@@ -33,7 +35,7 @@ function HongJianConsoleMdr:OnCardClick(card)
         self.selectCardList:Add(card.data)
     else
         self.selectCardItemList:Remove(card)
-        self.selectCardList:Add(card.data)
+        self.selectCardList:Remove(card.data)
     end
 
     self.btnOperate:SetActive(self.selectCardList:Size() > 0)
@@ -44,7 +46,9 @@ end
 
 --计算牌型
 function HongJianConsoleMdr:On_Click_BtnRule()
-
+    local ce = HongJianCardExtract.New(self.selectCardList._array)
+    local group = ce:GetCardGroup()
+    print("GetCardGroup : " .. group:ToString())
 end
 
 --智能排序

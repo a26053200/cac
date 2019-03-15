@@ -9,16 +9,41 @@ local LuaObject = require('Betel.LuaObject')
 ---@class Game.Config.Card.CardGroup : Betel.LuaObject
 ---@field New function<cards : table<number, Game.Config.Card.CardBaseVo>>
 ---@field cards table<number, Game.Config.Card.CardBaseVo>
----@field groupType CardGroupType
+---@field groupType HongJianCardGroupType
+---@field repeatSize number 重复数量
+---@field continuousNum number 连续数量
+---@field groupSuit number CardSuit
+---@field weight number 权值
 local CardGroup = class("Game.Config.Card.CardGroup",LuaObject)
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
 function CardGroup:Ctor(cards)
     self.cards = cards
+    self.cardNum = #self.cards
+    self.groupType = HongJianCardGroupType.Unknown
+    self.groupSuit = CardSuit.None
+    self.continuousNum = 0
+    self.repeatSize = 0
+    self.weight = -1
+end
+
+function CardGroup:SetGroupType(groupType,repeatSize)
+    self.groupType = groupType
+    self.repeatSize = repeatSize == nil and 0 or repeatSize
+    if groupType == HongJianCardGroupType.ShunZi then
+        self.continuousNum = self.cardNum / repeatSize
+    elseif groupType == HongJianCardGroupType.TongHuaShun then
+        self.continuousNum = self.cardNum
+        self.groupSuit = self.cards[1].suit
+    elseif groupType == HongJianCardGroupType.PaiZha then
+        self.continuousNum = self.cardNum / 2
+    elseif groupType == HongJianCardGroupType.WuShiK_Zheng then
+        self.groupSuit = self.cards[1].suit
+    end
 end
 
 function CardGroup:ToString()
-    return self.__cname
+    return string.format("[%s:%s:%s:%s]",self.groupType,self.groupSuit,self.repeatSize,self.continuousNum)
 end
 
 return CardGroup

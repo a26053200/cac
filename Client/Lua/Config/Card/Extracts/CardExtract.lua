@@ -13,52 +13,116 @@ local LuaObject = require('Betel.LuaObject')
 local CardExtract = class("Game.Config.Card.Extracts.CardExtract",LuaObject)
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
-function CardExtract:Ctor()
+function CardExtract:Ctor(cards)
+    self.cards = cards
+    self.cardNum = #cards
+    self._hashSet = nil
+    self._array = nil
+    self._sortKeys = nil
+end
+
+function CardExtract:getHashSet()
+    if  self._hashSet == nil then
+        self._hashSet = {}
+        for i = 1, self.cardNum do
+            local fv = self.cards[i].faceValue
+            local num = self._hashSet[fv]
+            self._hashSet[fv] = (num == nil) and 1 or num + 1
+        end
+    end
+    return self._hashSet
+end
+
+function CardExtract:geyArray()
+    if  self._array == nil then
+        self._array = {}
+        for i = 1, self.cardNum do
+            table.insert(self._array,self.cards[i].faceValue)
+        end
+    end
+    return self._array
+end
+
+--根据键值 升序
+function CardExtract:getHashSetSortByKey()
+    if self._sortKeys == nil then
+        self._sortKeys = {}
+        local hashSet = self:getHashSet()
+        for fv,num in pairs(hashSet) do
+            table.insert(self._sortKeys,{fv = fv,num = num})
+        end
+        table.sort(self._sortKeys, function(v1, v2)
+            return v1.fv < v2.fv
+        end)
+    end
+    return self._sortKeys
+end
+
+--根据数量 降序
+function CardExtract:getHashSetSortByNum()
+    if self._sortNums == nil then
+        self._sortNums = {}
+        local hashSet = self:getHashSet()
+        for fv,num in pairs(hashSet) do
+            table.insert(self._sortNums,{fv = fv,num = num})
+        end
+        table.sort(self._sortNums, function(v1, v2)
+            return v1.num > v2.num
+        end)
+    end
+    return self._sortNums
 end
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
-function CardExtract:isSingle(cards)
-    if #cards == 1 then
+function CardExtract:isSingle()
+    if self.cardNum == 1 then
         return true
     else
-        return CardGroupType.NONE
+        return false
     end
 end
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
-function CardExtract:isDouble(cards)
-    if #cards == 2 and cards[1].faceValue == cards[2].faceValue then
+function CardExtract:isDouble()
+    if self.cardNum == 2 and self.cards[1].faceValue == self.cards[2].faceValue then
         return true
+    else
+        return false
+    end
+end
+
+--是否多带多
+---@param size number
+---@param maxTakeNum number 带的最大数量
+function CardExtract:isTakeN(size, maxTakeNum)
+    if self.cardNum <= size + maxTakeNum then
+        local sortNums = self:getHashSetSortByNum()
+        if sortNums[1].num == size then
+            return true
+        else
+            return false
+        end
     else
         return false
     end
 end
 
 --是否是顺子
----@param cards table<number, Game.Config.Card.CardBaseVo>
 ---@param size number 顺子数量
----@param min number 最小连续数量
+---@param minContinuousNum number 最小连续数量
 ---@return boolean
-function CardExtract:isStraight(cards, size, min)
-    local cardNum = #cards
-    --数量是否符合
-    if cardNum < size * min or cardNum % size ~= 0 then
-        return false
-    else
-        local num = cardNum / size
-        for i = 1, num do
-            --验证点数是否一样
-            for j = 1, size - 1 do
-                if cards[j].faceValue ~= cards[j + 1].faceValue then
-                    return false
-                end
-            end
-            --验证是否连续
-            if Mathf.Abs(cards[(i - 1) * size + 1].faceValue - cards[i * size + 1].faceValue) ~= 1 then
-                return false
-            end
+function CardExtract:isStraight(size, minContinuousNum)
+    local num = self.cardNum / size
+    if num >= minContinuousNum then--数量是否符合
+        local sortKeys = self:getHashSetSortByKey()
+        local diff = Mathf.Abs(sortKeys[1].fv - sortKeys[#sortKeys].fv)
+        if #sortKeys == num and diff == num - 1 then
+            return true
+        else
+            return false
         end
-        return true
+    else
+        return false
     end
 end
 
