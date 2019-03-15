@@ -27,5 +27,5 @@ public interface IDeck
     /**
      * 发牌
      */
-    CardSlot Deal(int slotIndex);
+    CardSlot Deal(int slotIndex, int num);
 }

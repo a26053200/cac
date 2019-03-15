@@ -45,7 +45,7 @@ public class HongJianBusiness extends Business<HongJianDeck>
             Role role = room.getRoleList()[i];
             if (role != null)
             {
-                CardSlot slot = deck.Deal(i);
+                CardSlot slot = deck.Deal(i, i == 0 ? 52 : 0);
                 JSONObject cardJson = new JSONObject();
                 cardJson.put(Field.CLIENT_ROLE_ID, role.getId());
                 cardJson.put(Field.CARD_SLOT, slot.toJsonArray());

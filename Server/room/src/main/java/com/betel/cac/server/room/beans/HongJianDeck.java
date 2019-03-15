@@ -91,10 +91,12 @@ public class HongJianDeck implements IDeck
 
     //发牌
     @Override
-    public CardSlot Deal(int slotIndex)
+    public CardSlot Deal(int slotIndex, int num)
     {
-        Card[] slotCards = new Card[13];
-        System.arraycopy(cards,slotIndex * 13,slotCards,0,13);
+        Card[] slotCards = new Card[num];
+        if (position < deckNum)
+            System.arraycopy(cards,position,slotCards,0,num);
+        position += num;
         return new CardSlot(slotCards);
     }
 }
