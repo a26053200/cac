@@ -4,7 +4,7 @@
 --- DateTime: 2019/3/14 23:05
 --- 牌型提取器
 ---
-
+---@class
 local CardGroup = require("Game.Config.Card.CardGroup")
 local LuaObject = require('Betel.LuaObject')
 ---@class Game.Config.Card.Extracts.CardExtract : Betel.LuaObject
@@ -17,6 +17,7 @@ function CardExtract:Ctor(cards)
     self.cards = cards
     self.cardNum = #cards
     self._hashSet = nil
+    self._suitHashSet = nil
     self._array = nil
     self._sortKeys = nil
 end
@@ -33,6 +34,19 @@ function CardExtract:getHashSet()
     return self._hashSet
 end
 
+function CardExtract:getSuitHashSet()
+    if  self._suitHashSet == nil then
+        self._suitHashSet = {}
+        for i = 1, self.cardNum do
+            local s = self.cards[i].suit
+            local num = self._suitHashSet[s]
+            self._suitHashSet[s] = (num == nil) and 1 or num + 1
+        end
+    end
+    return self._suitHashSet
+end
+
+--获取牌的点数数组
 function CardExtract:geyArray()
     if  self._array == nil then
         self._array = {}
@@ -74,6 +88,7 @@ function CardExtract:getHashSetSortByNum()
 end
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
+---@return boolean
 function CardExtract:isSingle()
     if self.cardNum == 1 then
         return true
@@ -83,8 +98,21 @@ function CardExtract:isSingle()
 end
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
+---@return boolean
 function CardExtract:isDouble()
     if self.cardNum == 2 and self.cards[1].faceValue == self.cards[2].faceValue then
+        return true
+    else
+        return false
+    end
+end
+
+--是否同花
+---@param cards table<number, Game.Config.Card.CardBaseVo>
+---@return boolean
+function CardExtract:isSameSuit()
+    local suitHashSet = self:getSuitHashSet()
+    if #suitHashSet == 1 then
         return true
     else
         return false
@@ -94,6 +122,7 @@ end
 --是否多带多
 ---@param size number
 ---@param maxTakeNum number 带的最大数量
+---@return boolean
 function CardExtract:isTakeN(size, maxTakeNum)
     if self.cardNum <= size + maxTakeNum then
         local sortNums = self:getHashSetSortByNum()
@@ -123,6 +152,36 @@ function CardExtract:isStraight(size, minContinuousNum)
         end
     else
         return false
+    end
+end
+
+--多级顺子，且可以带若干数量的杂牌
+---@param size number 顺子数量
+---@param minContinuousNum number 最小连续数量
+---@param maxTakeNum number 最大可带数量
+---@return boolean, number
+function CardExtract:getMultiStraightInfo(size, minContinuousNum, maxTakeNum)
+    local sortNums = self:getHashSetSortByNum()
+    local continuousNum = 0;
+    for i = 1, #sortNums do
+        if sortNums[i].num == size then
+            continuousNum = continuousNum + 1
+        end
+    end
+    if continuousNum >= minContinuousNum then
+        local sortKeys = self:getHashSetSortByKey()
+        local diff = Mathf.Abs(sortKeys[1].fv - sortKeys[continuousNum].fv)
+        if diff == continuousNum - 1 then
+            --带的数量异常
+            if self.cardNum > continuousNum * size + maxTakeNum then
+                return false
+            end
+            return true,continuousNum
+        else
+            return false,0
+        end
+    else
+        return false,0
     end
 end
 

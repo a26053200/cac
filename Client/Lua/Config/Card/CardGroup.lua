@@ -27,11 +27,15 @@ function CardGroup:Ctor(cards)
     self.weight = -1
 end
 
-function CardGroup:SetGroupType(groupType,repeatSize)
+function CardGroup:SetGroupType(groupType,repeatSize, continuousNum)
     self.groupType = groupType
     self.repeatSize = repeatSize == nil and 0 or repeatSize
     if groupType == HongJianCardGroupType.ShunZi then
-        self.continuousNum = self.cardNum / repeatSize
+        if repeatSize == 2 then
+            self.continuousNum = continuousNum
+        else
+            self.continuousNum = continuousNum
+        end
     elseif groupType == HongJianCardGroupType.TongHuaShun then
         self.continuousNum = self.cardNum
         self.groupSuit = self.cards[1].suit

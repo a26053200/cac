@@ -20,20 +20,46 @@ function HongJianCardExtract:GetCardGroup()
     if self.group == nil then
         self.group = CardGroup.New(self.cards)
         local group = self.group
-        if self:isStraight(1,5) then        --单顺
-            group:SetGroupType(HongJianCardGroupType.ShunZi, 1)
-        elseif self:isStraight(2, 2) then   --双顺(连对)
+
+        if self:isStraight(1,5) then
+            if self:isSameSuit() then
+                --同花顺
+                group:SetGroupType(HongJianCardGroupType.TongHuaShun, 1)
+            else
+                --单顺
+                group:SetGroupType(HongJianCardGroupType.ShunZi, 1)
+            end
+            group.continuousNum = self.cardNum
+        elseif self:isStraight(2, 2) then
+            --双顺(连对)
             group:SetGroupType(HongJianCardGroupType.ShunZi, 2)
-        elseif self:isTakeN(4,0) then             --四炸(四带N,N=0)
+        elseif self:isTakeN(4,0) then
+            --四炸(四带N,N=0)
             group.groupType = HongJianCardGroupType.SiZha
-        elseif self:isTakeN(3,2) then             --三带N
+        elseif self:isTakeN(3,2) then
+            --三带N
             group.groupType = HongJianCardGroupType.SanDaiN
-        elseif self:isTakeN(4,3) then             --四带N
+        elseif self:isTakeN(4,3) then
+            --四带N
             group.groupType = HongJianCardGroupType.SiDaiN
-        elseif self:isDouble() then                                --对子
+        elseif self:isDouble() then
+            --对子
             group.groupType = HongJianCardGroupType.DuiZi
         elseif self:isSingle() then
+            --单张
             group.groupType = HongJianCardGroupType.Single
+        else
+            local isShunZi3, continuousNum = self:getMultiStraightInfo(3,2,4)
+            if isShunZi3 then --三顺(飞机)
+                group:SetGroupType(HongJianCardGroupType.ShunZi, 3)
+                group.continuousNum = continuousNum
+            else
+                local isShunZi4, continuousNum = self:getMultiStraightInfo(4,2,6)
+                if isShunZi4 then --四顺(大飞机)
+                    group:SetGroupType(HongJianCardGroupType.ShunZi, 4)
+                    group.continuousNum = continuousNum
+                end
+            end
         end
         group.weight = HongJianCardGroupWeight[group.groupType]
     end
