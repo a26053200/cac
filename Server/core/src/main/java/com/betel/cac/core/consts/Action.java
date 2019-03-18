@@ -93,6 +93,13 @@ public class Action
      * 通知机器人状态改变
      */
     public final static String ROBOT_ROLE_STATE = "robot_role_state";
+    //==================
+    // HongJian
+    //==================
+    /**
+     * 当前轮的操作
+     */
+    public final static String TURN_OPERATE = "robot_role_state";
 
 
 }

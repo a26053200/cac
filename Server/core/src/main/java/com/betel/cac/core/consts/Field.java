@@ -36,4 +36,7 @@ public class Field
 
     public static final String CARD_SLOT        = "cardSlot";
 
+    //Hong Jian
+    public static final String TURN_DURATION        = "turnDuration"; //该轮持续时间
+
 }

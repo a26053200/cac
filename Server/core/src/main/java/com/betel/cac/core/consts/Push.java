@@ -35,4 +35,9 @@ public class Push
      * (红尖游戏)发牌给单个角色
      */
     public final static String HJ_CARD_SLOT = "push@hj_card_slot";
+
+    /**
+     * (红尖游戏)推送当前轮到谁了
+     */
+    public final static String HJ_WHOSE_TURN = "push@hj_whose_turn";
 }
