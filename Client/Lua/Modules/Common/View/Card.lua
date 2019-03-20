@@ -17,7 +17,7 @@ function Card:Ctor(gameObject, data, selectable)
     Card.super.Ctor(self, gameObject)
     self.data = data
     self.selectable = selectable
-
+    self.gameObject.name = "Card" .. self.data:ToString()
     self.gameObject:SetActive(true)
     self.transform.localPosition = Vector3.zero
     self.transform.localEulerAngles = Vector3.zero
@@ -32,7 +32,12 @@ function Card:Ctor(gameObject, data, selectable)
     self.material:SetTexture("_MainTex", Res.LoadTexture(self.faceUrl))
 
     if self.selectable then
-        LuaHelper.AddObjectClickEvent(self.gameObject, handler(self,self.OnClick))
+        --LuaHelper.AddObjectClickEvent(self.gameObject, handler(self,self.OnClick))
+        LuaHelper.AddObjectPointerDown(self.gameObject, handler(self,self.OnPointerDown))
+        LuaHelper.AddObjectPointerEnter(self.gameObject, handler(self,self.OnPointerEnter))
+        LuaHelper.AddObjectPointerExit(self.gameObject, handler(self,self.OnPointerExit))
+        LuaHelper.AddObjectBeginDrag(self.gameObject, handler(self,self.OnBeginDrag))
+        LuaHelper.AddObjectDrag(self.gameObject, handler(self,self.OnDrag))
     else
         local boxCollider = self.gameObject:GetComponent(typeof(UnityEngine.BoxCollider))
         destroy(boxCollider)
@@ -44,14 +49,50 @@ function Card:UpdateOrg()
     self.orgPos = self.transform.localPosition
 end
 
-function Card:OnClick(event)
-    print(self.faceUrl)
-    self.isSelected = not self.isSelected
-    self:UpdateSelected(event)
-    edp:Dispatcher(CardEvent.Click, self)
+function Card:OnClick(go, event)
+    print("OnClick: " .. self.faceUrl)
+    self:UpdateSelected()
 end
 
-function Card:UpdateSelected(event)
+function Card:OnPointerDown(go, event)
+    print("OnPointerDown: " .. self.faceUrl)
+    self:UpdateSelected()
+end
+
+function Card:OnPointerEnter(go, event)
+    if LuaHelper.IsPointerDown() then
+        --if not self.isPointerIn then
+            --self.isPointerIn = true
+            self:UpdateSelected()
+        --end
+    end
+end
+
+function Card:OnPointerExit(go, event)
+    if LuaHelper.IsPointerDown() then
+        if self.isPointerIn then
+            self.isPointerIn = false
+            --self:UpdateSelected()
+        end
+    end
+end
+
+function Card:OnDrag(go, event)
+    print("OnDrag: " .. self.faceUrl)
+    if LuaHelper.IsPointerDown() then
+        self:UpdateSelected()
+    end
+end
+
+function Card:OnBeginDrag(go, event)
+    print("OnBeginDrag: " .. self.faceUrl)
+    if LuaHelper.IsPointerDown() then
+        self:UpdateSelected()
+    end
+end
+
+function Card:UpdateSelected()
+    self.isSelected = not self.isSelected
     if self.isSelected then
         self.transform:DOLocalMoveZ(self.orgPos.z + 0.035, FrameTime * 4)
         self.material:SetColor("_Color", Color.green)
@@ -59,7 +100,7 @@ function Card:UpdateSelected(event)
         self.transform:DOLocalMoveZ(self.orgPos.z, FrameTime * 4)
         self.material:SetColor("_Color", Color.white)
     end
-
+    edp:Dispatcher(CardEvent.Click, self)
 end
 
 return Card

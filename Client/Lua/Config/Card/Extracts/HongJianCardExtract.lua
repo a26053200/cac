@@ -31,8 +31,12 @@ function HongJianCardExtract:GetCardGroup()
             end
             group.continuousNum = self.cardNum
         elseif self:isStraight(2, 2) then
-            --双顺(连对)
-            group:SetGroupType(HongJianCardGroupType.ShunZi, 2)
+            if self.cardNum / 2 >= 4 then --排炸
+                group:SetGroupType(HongJianCardGroupType.PaiZha, 2)
+            else--双顺(连对)
+                group:SetGroupType(HongJianCardGroupType.ShunZi, 2)
+            end
+            group.continuousNum = self.cardNum / 2
         elseif self:isTakeN(4,0) then
             --四炸(四带N,N=0)
             group.groupType = HongJianCardGroupType.SiZha
@@ -48,6 +52,13 @@ function HongJianCardExtract:GetCardGroup()
         elseif self:isSingle() then
             --单张
             group.groupType = HongJianCardGroupType.Single
+        elseif self:isFiveTenK() then
+            --五十K
+            if self:isSameSuit() then
+                group.groupType = HongJianCardGroupType.WuShiK_Zheng
+            else
+                group.groupType = HongJianCardGroupType.WuShiK
+            end
         else
             local isShunZi3, continuousNum = self:getMultiStraightInfo(3,2,4)
             if isShunZi3 then --三顺(飞机)
@@ -64,6 +75,16 @@ function HongJianCardExtract:GetCardGroup()
         group.weight = HongJianCardGroupWeight[group.groupType]
     end
     return self.group
+end
+
+--五十K
+function HongJianCardExtract:isFiveTenK()
+    local sortKeys = self:getHashSetSortByKey()
+    if #sortKeys == 3 and sortKeys[1].fv == 5 and sortKeys[2].fv == 10 and sortKeys[3].fv == 13 then
+        return true
+    else
+        return false
+    end
 end
 
 return HongJianCardExtract

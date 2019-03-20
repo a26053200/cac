@@ -46,9 +46,11 @@ end
 
 --计算牌型
 function HongJianConsoleMdr:On_Click_BtnRule()
-    local ce = HongJianCardExtract.New(self.selectCardList._array)
-    local group = ce:GetCardGroup()
-    print("GetCardGroup : " .. group:ToString())
+    if self.selectCardList:Size() > 0  then
+        local ce = HongJianCardExtract.New(self.selectCardList._array)
+        local group = ce:GetCardGroup()
+        print("GetCardGroup : " .. group:ToString())
+    end
 end
 
 --智能排序
@@ -56,10 +58,20 @@ function HongJianConsoleMdr:On_Click_BtnSmart()
 
 end
 
+--取消所有选择牌型
+function HongJianConsoleMdr:On_Click_BtnCancelSelect()
+    edp:Dispatcher(CardEvent.CancelAllSelect)
+end
+
+--提示牌型
+function HongJianConsoleMdr:On_Click_BtnPointOut()
+
+end
+
 function HongJianConsoleMdr:On_Click_BtnOperate()
     local str = ""
     for i = 1, self.selectCardList:Size() do
-        str = str .. self.selectCardList[i].data:ToString()
+        str = str .. self.selectCardList[i]:ToString()
     end
     print(str)
 end

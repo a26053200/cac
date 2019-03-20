@@ -8,7 +8,7 @@
 local CardEvent = class("Betel.UI.ListViewEvent")
 
 CardEvent.Click = "CardClick"
-
+CardEvent.CancelAllSelect = "CardCancelAllSelect"
 function CardEvent:Ctor()
 
 end

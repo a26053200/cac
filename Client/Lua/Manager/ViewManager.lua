@@ -110,7 +110,13 @@ function ViewManager:CreateView(viewInfo,go)
     mdr.viewInfo = viewInfo
     mdr.gameObject = go
     go.name = viewInfo.name .. " - " ..go.name
+    local rect = go:GetRect()
     go.transform.localPosition = Vector3.zero
+    if not isNull(rect)  then
+        if rect.anchorMin:Equals(rect.anchorMax) and rect.anchorMin:Equals(Vector2.New(0.5,0.5)) then
+            rect.sizeDelta = Vector2.zero
+        end
+    end
     go.transform.localEulerAngles = Vector3.zero
     --go.transform.sizeDelta = Vector2.zero
     go.transform.localScale = Vector3.one

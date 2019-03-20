@@ -42,7 +42,7 @@ end
 
 --自动注册按钮点击事件
 function BaseMediator:OnAutoRegisterEvent()
-    local buttons = LuaHelper.GetChildrenButtons(self.gameObject)
+    local buttons = LuaHelper.GetChildrenButtons(self.gameObject, true)
     for i = 0,buttons.Length - 1 do
         local funName = "On_Click_"..buttons[i].gameObject.name
         if self[funName] then
@@ -54,7 +54,7 @@ end
 
 --自动移除按钮点击事件
 function BaseMediator:OnAutoRemoveEvent()
-    local buttons = LuaHelper.GetChildrenButtons(self.gameObject)
+    local buttons = LuaHelper.GetChildrenButtons(self.gameObject, true)
     for i = 0,buttons.Length - 1 do
         LuaHelper.RemoveButtonClick(buttons[i].gameObject)
     end

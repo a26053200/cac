@@ -18,9 +18,10 @@ local LuaMonoBehaviour = require("Betel.LuaMonoBehaviour")
 ---@field public cardItemList table<number, Game.Modules.Common.View.Card>
 local CardSlot = class("CardSlot",LuaMonoBehaviour)
 
+local Offset = 0.032
 local Gap = 0
 local ZRot = -0.001
-local CardWidth = 0.038
+local CardWidth = 0.031
 
 ---@param deskPosObj UnityEngine.GameObject
 ---@param cards table<number, Game.Modules.Room.Vo.CardVo>
@@ -38,6 +39,10 @@ function CardSlot:Ctor(deskPosObj, cards, showFront, selectable)
 
     self:CreateCardSlot()
     self:Reposition()
+
+    if self.selectable then
+        self:AddGlobalEventListener(CardEvent.CancelAllSelect, self.OnCancelAllSelect)
+    end
 end
 
 function CardSlot:CreateCardSlot()
@@ -68,9 +73,19 @@ function CardSlot:OnCardClick(card)
     end
 end
 
+---@param card Game.Modules.Common.View.Card
+function CardSlot:OnCancelAllSelect(card)
+    for i = 1, self.cardItemList:Size() do
+        local card = self.cardItemList[i]
+        if card.isSelected then
+            card:UpdateSelected()
+        end
+    end
+end
+
 function CardSlot:Reposition()
     local cardNum = self.cardItemList:Size()
-    local startX = -(cardNum * CardWidth + (cardNum - 1) * Gap) / 2 + CardWidth / 2
+    local startX = -(cardNum * CardWidth + (cardNum - 1) * Gap) / 2 + CardWidth / 2 + CardWidth * 1
     for i = 1, self.cardItemList:Size() do
         local card = self.cardItemList[i]
         card.gameObject.transform.localPosition = Vector3.New(startX + (i - 1) * (CardWidth + Gap), 0, 0)

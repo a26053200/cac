@@ -112,11 +112,11 @@ end
 ---@return boolean
 function CardExtract:isSameSuit()
     local suitHashSet = self:getSuitHashSet()
-    if #suitHashSet == 1 then
-        return true
-    else
-        return false
+    local suitNum = 0
+    for i, v in pairs(suitHashSet) do
+        suitNum = suitNum + 1
     end
+    return suitNum == 1
 end
 
 --是否多带多
