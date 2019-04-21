@@ -169,12 +169,4 @@ public class Room extends BaseCommunication<Role>
             }
         }
     }
-
-    private int currTurnIndex = 0;
-    public int getNextTurn()
-    {
-        if(currTurnIndex == roleList.length)
-            currTurnIndex = 0;
-        return  currTurnIndex++;
-    }
 }

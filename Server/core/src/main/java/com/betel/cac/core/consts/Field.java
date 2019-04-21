@@ -38,5 +38,5 @@ public class Field
 
     //Hong Jian
     public static final String TURN_DURATION        = "turnDuration"; //该轮持续时间
-
+    public static final String TURN_NUM          = "turnNum"; //当前轮数
 }
