@@ -35,6 +35,7 @@ function MediatorContext:Launch()
 	self.binder:Bind(require("Game.Modules.Newbie.View.NewbieWelcomeMdr")):To(ViewConfig.NewbieWelcome.name)
 	self.binder:Bind(require("Game.Modules.Robot.View.RobotCardMdr")):To(ViewConfig.RobotCard.name)
 	self.binder:Bind(require("Game.Modules.Role.View.RoleInfoMdr")):To(ViewConfig.RoleInfo.name)
+	self.binder:Bind(require("Game.Modules.Room.View.RoomDeskMdr")):To(ViewConfig.RoomDesk.name)
 	self.binder:Bind(require("Game.Modules.Room.View.SampleRoomMdr")):To(ViewConfig.SampleRoom.name)
 	self.binder:Bind(require("Game.Modules.World.View.WorldMdr")):To(ViewConfig.World.name)
     --TODO

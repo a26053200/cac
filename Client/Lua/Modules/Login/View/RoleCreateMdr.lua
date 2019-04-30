@@ -30,7 +30,7 @@ function RoleCreateMdr:On_Click_BtnBack()
 end
 
 function RoleCreateMdr:On_Click_BtnCreate()
-    local roleName = self.gameObject:GetText("H/InputField/Text")
+    local roleName = self.gameObject:GetText("H/InputField/Text").text
     if not string.isNullOrEmpty(roleName) then
         self.loginService:CreateRole(roleName, handler(self,self.onCreateRole))
     end

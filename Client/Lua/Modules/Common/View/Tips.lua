@@ -40,7 +40,7 @@ end
 
 function Tips:DisplayShow(msg,callback)
     self.gameObject:SetActive(true)
-    self.gameObject:SetText("Text",msg)
+    self.gameObject:GetText("Text").text = msg
     local startPos = Vector3.New(self.orgPos.x, self.orgPos.y + 100, self.orgPos.z)
     local holdPos = Vector3.New(self.orgPos.x, self.orgPos.y + 115, self.orgPos.z)
     local hidePos = Vector3.New(self.orgPos.x, self.orgPos.y + 120, self.orgPos.z)

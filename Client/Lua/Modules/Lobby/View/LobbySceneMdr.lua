@@ -8,7 +8,7 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.Lobby.View.LobbySceneMdr : Game.Core.Ioc.BaseMediator
 ---@field lobbyModel Game.Modules.Lobby.Model.LobbyModel
 ---@field lobbyService Game.Modules.Lobby.Service.LobbyService
----@field roomModel Game.Modules.Room.Model.RoomModel
+---@field roleModel Game.Modules.Role.Model.RoleModel
 local LobbySceneMdr = class("LobbySceneMdr",BaseMediator)
 
 function LobbySceneMdr:OnInit()

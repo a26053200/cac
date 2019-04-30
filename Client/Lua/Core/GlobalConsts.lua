@@ -46,3 +46,10 @@ RoomRoleState =
     PlayingGame     = "PlayingGame",
     Automatic       = "Automatic"
 }
+
+--桌子的位置(相对玩家,上北下南,左西右东)
+DeskPos = {}
+DeskPos.South = "South"
+DeskPos.North = "North"
+DeskPos.West = "West"
+DeskPos.East = "East"

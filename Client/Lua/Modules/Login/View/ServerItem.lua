@@ -13,8 +13,8 @@ function ServerItem:Ctor(gameObject)
     ServerItem.super.Ctor(self,gameObject)
 end
 
-function ServerItem:Update(data,index)
-    self.gameObject:SetText("Text", data.name.." " .. data.host..":" .. data.port)
+function ServerItem:UpdateItem(data, index)
+    self.gameObject:GetText("Text").text = data.name.." " .. data.host..":" .. data.port
 end
 
 function ServerItem:OnDestroy()

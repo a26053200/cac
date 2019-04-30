@@ -45,8 +45,8 @@ function Alert:DisplayShow(title,msg,okCallback,param,cancelCallback)
     self.okCallback = okCallback
     self.param = param
     self.cancelCallback = cancelCallback
-    self.gameObject:SetText("TitleBar/Text",title)
-    self.gameObject:SetText("Text",msg)
+    self.gameObject:GetText("TitleBar/Text").text = title
+    self.gameObject:GetText("Text").text = msg
     if cancelCallback ~= nil then
         self.one_btnOk.gameObject:SetActive(false)
         self.two_btnOk.gameObject:SetActive(true)

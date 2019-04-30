@@ -20,3 +20,4 @@ ViewConfig.RobotCard = {name = "RobotCard",prefab = "Prefabs/UI/Robot/RobotCard.
 ViewConfig.HongJian = {name = "HongJian",}
 ViewConfig.HongJianScene = {name = "HongJianScene",prefab = "Prefabs/UI/HongJian/HongJianScene.prefab",}
 ViewConfig.HongJianConsole = {name = "HongJianConsole",prefab = "Prefabs/UI/HongJian/HongJianConsole.prefab",}
+ViewConfig.RoomDesk = {name = "RoomDesk",prefab = "Prefabs/UI/Room/RoomDesk.prefab",}

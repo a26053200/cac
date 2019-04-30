@@ -13,12 +13,12 @@ local RoleInfoMdr = class("RoleInfoMdr",BaseMediator)
 
 function RoleInfoMdr:OnInit()
     self.mainRoleInfo = self.roleModel.mainRoleInfo;
-    self.gameObject:SetText("TextRoleName", self.mainRoleInfo.roleName)
+    self.gameObject:GetText("TextRoleName").text = self.mainRoleInfo.roleName
 end
 
 function RoleInfoMdr:Update()
     local totalTime = Mathf.Floor(self.mainRoleInfo:GetRealTotalOnlineTime())
-    self.gameObject:SetText("TextOnlineTime", "在线:"..totalTime .. "秒")
+    self.gameObject:GetText("TextOnlineTime").text = "在线:"..totalTime .. "秒"
 end
 
 return RoleInfoMdr

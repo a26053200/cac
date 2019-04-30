@@ -11,7 +11,9 @@ local CardExtract = require('Game.Config.Card.Extracts.CardExtract')
 local HongJianCardExtract = class("Game.Config.Card.Extracts.HongJianCardExtract", CardExtract)
 
 ---@param cards table<number, Game.Config.Card.CardBaseVo>
-function HongJianCardExtract:Ctor(cards)
+---@param hasAlreadyTianZha boolean 是否已经出了最大的牌
+function HongJianCardExtract:Ctor(cards, hasAlreadyShowMasterCard)
+    self.hasAlreadyShowMasterCard = hasAlreadyShowMasterCard == nil and false or hasAlreadyShowMasterCard
     HongJianCardExtract.super.Ctor(self,cards)
 end
 
@@ -47,8 +49,13 @@ function HongJianCardExtract:GetCardGroup()
             --四带N
             group.groupType = HongJianCardGroupType.SiDaiN
         elseif self:isDouble() then
-            --对子
-            group.groupType = HongJianCardGroupType.DuiZi
+            if self:isRedColor(self.cards) then
+                group.groupType = HongJianCardGroupType.TianZha--天炸
+            elseif self.hasAlreadyShowMasterCard and self:isBlackColor(self.cards) then
+                group.groupType = HongJianCardGroupType.DiZha --地炸
+            else
+                group.groupType = HongJianCardGroupType.DuiZi--对子
+            end
         elseif self:isSingle() then
             --单张
             group.groupType = HongJianCardGroupType.Single
@@ -85,6 +92,22 @@ function HongJianCardExtract:isFiveTenK()
     else
         return false
     end
+end
+
+--是否同黑色
+---@param cards table<number, Game.Config.Card.CardBaseVo>
+---@return boolean
+function HongJianCardExtract:isBlackColor(cards)
+    return (cards[1].suit == CardSuit.Spade and  cards[2].suit == CardSuit.Club) or
+            (cards[1].suit == CardSuit.Club and  cards[2].suit == CardSuit.Spade)
+end
+
+--是否同红色
+---@param cards table<number, Game.Config.Card.CardBaseVo>
+---@return boolean
+function HongJianCardExtract:isRedColor(cards)
+    return (cards[1].suit == CardSuit.Heart and  cards[2].suit == CardSuit.Diamond) or
+            (cards[1].suit == CardSuit.Diamond and  cards[2].suit == CardSuit.Heart)
 end
 
 return HongJianCardExtract

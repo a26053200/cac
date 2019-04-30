@@ -10,10 +10,36 @@ local BaseModel = require("Game.Core.Ioc.BaseModel")
 ---@field room Game.Modules.Room.Vo.RoomVo
 ---@field roomId number @房间id
 ---@field myRoomRoleInfo Game.Modules.Room.Vo.RoomRoleVo 房间角色
+---@field roleDeskPos Game.Modules.Room.Vo.RoomRoleVo 房间角色
 local RoomModel = class("RoomModel",BaseModel)
 
 function RoomModel:Ctor()
 
+end
+
+
+--根据自己的作为计算其他人的方位
+function RoomModel:CalculateDeskPosition(pos)
+    local deskPos = {}
+    deskPos[pos] = DeskPos.South
+    if pos == 1 then
+        deskPos[2] = DeskPos.East
+        deskPos[3] = DeskPos.North
+        deskPos[4] = DeskPos.West
+    elseif pos == 2 then
+        deskPos[3] = DeskPos.East
+        deskPos[4] = DeskPos.North
+        deskPos[1] = DeskPos.West
+    elseif pos == 3 then
+        deskPos[4] = DeskPos.East
+        deskPos[1] = DeskPos.North
+        deskPos[2] = DeskPos.West
+    elseif pos == 4 then
+        deskPos[1] = DeskPos.East
+        deskPos[2] = DeskPos.North
+        deskPos[3] = DeskPos.West
+    end
+    return deskPos
 end
 
 return RoomModel

@@ -18,11 +18,12 @@ function LoadingMdr:Ctor()
 end
 
 function LoadingMdr:OnInit()
+    self.loadingBar = self.gameObject:GetSlider("LoadingBar")
     self:StartCoroutine(function ()
         local startTime = Time.time;
         while Time.time - startTime < WaitTime do
             coroutine.step(1)
-            self.gameObject:SetSlider("LoadingBar", (Time.time - startTime) / WaitTime)
+            self.loadingBar.value = (Time.time - startTime) / WaitTime
         end
         World.ins:EnterNextScene()
         vmgr:UnloadView(ViewConfig.Loading)

@@ -9,53 +9,55 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@class Game.Modules.HongJian.View.HongJianSceneMdr : Game.Core.Ioc.BaseMediator
 ---@field hongJianModel Game.Modules.HongJian.Model.HongJianModel
 ---@field hongJianService Game.Modules.HongJian.Service.HongJianService
+---@field lobbyService Game.Modules.Lobby.Service.LobbyService
 ---@field robotModel Game.Modules.Robot.Model.RobotModel
 ---@field roomModel Game.Modules.Room.Model.RoomModel
+---@field roleModel Game.Modules.Role.Model.RoleModel
 local HongJianSceneMdr = class("HongJianSceneMdr",BaseMediator)
 
---桌子的位置(相对玩家,上北下南,左西右东)
-local DeskPos = {}
-DeskPos.South = "South"
-DeskPos.North = "North"
-DeskPos.West = "West"
-DeskPos.East = "East"
 
 function HongJianSceneMdr:OnInit()
-    self.posSlot = {}
+    self:CreateRoom_HJ()--创建红尖房间
 
-    self.posSlot[DeskPos.South] = self:CreateCardSlot(DeskPos.South,self.hongJianModel.cards,true,true)
-    --其他玩家
-    local otherPos = self:CalculatePosition(self.roomModel.myRoomRoleInfo.roomPos)
-    for i, robotClient in pairs(self.robotModel.robotClientMap) do
+    self.posSlot = {}
+end
+
+--创建红尖房间
+function HongJianSceneMdr:CreateRoom_HJ()
+    self.lobbyService:CreateRoom(GameName.Hong_Jian,"1vs1",function ()
+        --房间创建成功，自己首先进入房间
+    end,function ()
+        --log("匹配失败")
+    end)
+end
+
+function HongJianSceneMdr:RegisterListeners()
+    self:AddPush(Action.PushRoomInfo, handler(self,self.OnPushRoomInfo))
+    self:AddPush(Action.PushHJCardSlot, handler(self,self.OnPushHJCardSlot))
+end
+
+function HongJianSceneMdr:OnPushRoomInfo(response)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        if self.roomModel.room.game == GameName.Hong_Jian then
+            vmgr:LoadView(ViewConfig.SampleRoom)
+        end
+    end
+end
+
+function HongJianSceneMdr:OnPushHJCardSlot(response)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        vmgr:LoadView(ViewConfig.HongJianConsole)
+        vmgr:LoadView(ViewConfig.RoomDesk)
+        self.posSlot[DeskPos.South] = self:CreateCardSlot(DeskPos.South,self.hongJianModel.cards,true,true)
+    else
+        --其他玩家
+        local robotClient = self.robotModel.robotClientMap[response.data.clientRoleId]
+        local otherPos = self.roomModel:CalculateDeskPosition(self.roomModel.myRoomRoleInfo.roomPos)
         local deskPos = otherPos[robotClient.roomRole.roomPos]
         self.posSlot[deskPos] = self:CreateCardSlot(deskPos,robotClient.cards,true, false)
     end
-
-    vmgr:LoadView(ViewConfig.HongJianConsole)
 end
 
---根据自己的作为计算其他人的方位
-function HongJianSceneMdr:CalculatePosition(pos)
-    local otherPos = {}
-    if pos == 1 then
-        otherPos[2] = DeskPos.East
-        otherPos[3] = DeskPos.North
-        otherPos[4] = DeskPos.West
-    elseif pos == 2 then
-        otherPos[3] = DeskPos.East
-        otherPos[4] = DeskPos.North
-        otherPos[1] = DeskPos.West
-    elseif pos == 3 then
-        otherPos[4] = DeskPos.East
-        otherPos[1] = DeskPos.North
-        otherPos[2] = DeskPos.West
-    elseif pos == 4 then
-        otherPos[1] = DeskPos.East
-        otherPos[2] = DeskPos.North
-        otherPos[3] = DeskPos.West
-    end
-    return otherPos
-end
 
 function HongJianSceneMdr:CreateCardSlot(deskPos, cards, showFront, selectable)
     local deskPosObj = GameObject.Find(deskPos)

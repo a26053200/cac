@@ -13,6 +13,7 @@ local HongJianService = class("HongJianService",BaseService)
 
 function HongJianService:Ctor()
     nmgr:AddPush(Action.PushHJCardSlot, handler(self,self.OnPushHJCardSlot))
+    nmgr:AddPush(Action.PushHJWhoseTurn, handler(self,self.OnPushHJWhoseTurn))
 end
 
 function HongJianService:OnPushHJCardSlot(response)
@@ -25,6 +26,14 @@ function HongJianService:OnPushHJCardSlot(response)
         end
     else
 
+    end
+end
+
+function HongJianService:OnPushHJWhoseTurn(response)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        self.hongJianModel.currTurnDuration = response.data.turnDuration    --本轮持续总时间
+        self.hongJianModel.currTurnNum = response.data.turnNum              --当前第几轮
+        self.hongJianModel.currTurnRolePos = response.data.roomPos          --本轮出牌人位置
     end
 end
 

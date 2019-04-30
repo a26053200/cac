@@ -49,7 +49,7 @@ function SampleRoomMdr:OnPushRoomGameStart(response)
     if self.roleModel.roleId == response.data.clientRoleId then
         if self.roomModel.room.game == GameName.Hong_Jian then
             vmgr:UnloadView(ViewConfig.SampleRoom)
-            World.EnterScene(WorldConfig.Room_HJ)
+            --World.EnterScene(WorldConfig.Room_HJ)
         end
     end
 end

@@ -62,10 +62,7 @@ HongJianCardGroupWeight =
     Unknown             = -1,    --没有牌型
     Single              = 0,     --单张
     DuiZi               = 0,      --对
-    ShunZi1             = 0,    --顺子 单顺
-    ShunZi2             = 0,    --顺子 双顺
-    ShunZi3             = 0,    --顺子 三顺
-    ShunZi4             = 0,    --顺子 四顺
+    ShunZi             = 0,    --顺子 单顺
     SanDaiN             = 0,     --三带N
     SiDaiN              = 0,     --四带N
     --特殊牌型,权值从小到大
@@ -78,3 +75,26 @@ HongJianCardGroupWeight =
     TianZha             = 7, --天炸：双红A
 }
 
+
+--牌的花色对于的值
+HongJianCardGroupChinese =
+{
+    --基本牌型,没有权值
+    Unknown             = "无牌型",    --没有牌型
+    Single              = "一张",     --单张
+    DuiZi               = "一对",      --对
+    ShunZi1             = "单顺",    --顺子 单顺
+    ShunZi2             = "连对",    --顺子 双顺
+    ShunZi3             = "飞机",    --顺子 三顺
+    ShunZi4             = "大飞机",    --顺子 四顺
+    SanDaiN             = "三带N",     --三带N
+    SiDaiN              = "四带N",     --四带N
+    --特殊牌型,权值从小到大
+    WuShiK              = "五十K", --五十K:不同花色
+    WuShiK_Zheng        = "正五十K", --正五十K：相同花色
+    SiZha               = "四炸", --四炸：相同比大小
+    TongHuaShun         = "同花顺", --同花顺：相同花色的顺子，优先比大小，再比花色
+    PaiZha              = "排炸", --排炸：N连对 相等长度时比大小 N >= 4
+    DiZha               = "地炸", --地炸：双黑A （前提你要有双红A，有天才有地）
+    TianZha             = "天炸", --天炸：双红A
+}

@@ -112,10 +112,11 @@ function ViewManager:CreateView(viewInfo,go)
     go.name = viewInfo.name .. " - " ..go.name
     local rect = go:GetRect()
     go.transform.localPosition = Vector3.zero
-    if not isNull(rect)  then
-        if rect.anchorMin:Equals(rect.anchorMax) and rect.anchorMin:Equals(Vector2.New(0.5,0.5)) then
-            rect.sizeDelta = Vector2.zero
-        end
+    if not isNull(rect) and rect.anchorMin == Vector2.New(0,0) and rect.anchorMax == Vector2.New(1,1) then
+        --rect.anchorMin = Vector2.zero
+        --rect.anchorMax = Vector2.one
+        rect.sizeDelta = Vector2.zero
+        rect.anchoredPosition = Vector2.zero
     end
     go.transform.localEulerAngles = Vector3.zero
     --go.transform.sizeDelta = Vector2.zero

@@ -87,7 +87,6 @@ function CardExtract:getHashSetSortByNum()
     return self._sortNums
 end
 
----@param cards table<number, Game.Config.Card.CardBaseVo>
 ---@return boolean
 function CardExtract:isSingle()
     if self.cardNum == 1 then
@@ -97,7 +96,6 @@ function CardExtract:isSingle()
     end
 end
 
----@param cards table<number, Game.Config.Card.CardBaseVo>
 ---@return boolean
 function CardExtract:isDouble()
     if self.cardNum == 2 and self.cards[1].faceValue == self.cards[2].faceValue then
@@ -108,7 +106,6 @@ function CardExtract:isDouble()
 end
 
 --是否同花
----@param cards table<number, Game.Config.Card.CardBaseVo>
 ---@return boolean
 function CardExtract:isSameSuit()
     local suitHashSet = self:getSuitHashSet()

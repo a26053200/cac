@@ -11,7 +11,7 @@ local CardSlot = require("Game.Modules.Common.Utils.CardSlot")
 local CardSlot_HJ = class("CardSlot_HJ",CardSlot)
 
 function CardSlot_HJ:Ctor(deskPosObj, cards, showFront, selectable)
-
+    CardSlot_HJ.super.Ctor(deskPosObj, cards, showFront, selectable);
 end
 
 return CardSlot_HJ

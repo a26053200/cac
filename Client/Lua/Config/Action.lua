@@ -52,3 +52,6 @@ Action.PushRoomGameStart = "push@game_start"
 
 --推送发牌
 Action.PushHJCardSlot = "push@hj_card_slot"
+
+--推送轮到谁出牌
+Action.PushHJWhoseTurn = "push@hj_whose_turn"

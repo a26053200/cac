@@ -19,6 +19,7 @@ require("Game.Config.Action")
 Alert = require("Game.Modules.Common.View.Alert")
 Tips = require("Game.Modules.Common.View.Tips")
 NetModal = require("Game.Modules.Common.View.NetModal")
+ImageHelper = require("Game.Modules.Common.View.ImageHelper")
 
 World = {}
 World.ins = nil

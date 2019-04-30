@@ -14,6 +14,12 @@ local BaseMediator = require("Game.Core.Ioc.BaseMediator")
 ---@field selectCardList table<number, Game.Config.Card.CardBaseVo>
 local HongJianConsoleMdr = class("HongJianConsoleMdr",BaseMediator)
 
+local CoolDownPos = {}
+CoolDownPos.South = Vector3.New(0, -30)
+CoolDownPos.North = Vector3.New(0, 180)
+CoolDownPos.West = Vector3.New(-262,30)
+CoolDownPos.East = Vector3.New(262,30)
+
 function HongJianConsoleMdr:OnInit()
     self.selectCardItemList = List.New()
     self.selectCardList = List.New()
@@ -21,11 +27,14 @@ function HongJianConsoleMdr:OnInit()
     self.btnOperate = self.gameObject:FindChild("BtnOperate")
     self.btnSmart = self.gameObject:FindChild("BtnSmart")
     self.btnRule = self.gameObject:FindChild("BtnRule")
+    self.turnCD = self.gameObject:FindChild("Turn/CoolDown")
     self.btnOperate:SetActive(false)
 end
 
 function HongJianConsoleMdr:RegisterListeners()
     self:AddGlobalEventListener(CardEvent.Click, self.OnCardClick)
+
+    self:AddPush(Action.PushHJWhoseTurn, handler(self,self.OnPushHJWhoseTurn))
 end
 
 ---@param card Game.Modules.Common.View.Card
@@ -41,6 +50,14 @@ function HongJianConsoleMdr:OnCardClick(card)
     self.btnOperate:SetActive(self.selectCardList:Size() > 0)
     if self.selectCardList:Size() > 0 then
 
+    end
+end
+
+function HongJianConsoleMdr:OnPushHJWhoseTurn(response)
+    if self.roleModel.roleId == response.data.clientRoleId then
+        self.hongJianModel.currTurnDuration = response.data.turnDuration    --本轮持续总时间
+        self.hongJianModel.currTurnNum = response.data.turnNum              --当前第几轮
+        self.hongJianModel.currTurnRolePos = response.data.roomPos          --本轮出牌人位置
     end
 end
 

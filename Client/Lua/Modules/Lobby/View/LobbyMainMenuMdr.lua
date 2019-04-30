@@ -30,4 +30,18 @@ function LobbyMainMenuMdr:On_Click_BtnCreate()
         --log("匹配失败")
     end)
 end
+
+
+function LobbyMainMenuMdr:On_Click_BtnGame1()
+    self:EnterGame_HJ()
+end
+
+function LobbyMainMenuMdr:On_Click_BtnGame2()
+    self:EnterGame_HJ()
+end
+
+function LobbyMainMenuMdr:EnterGame_HJ()
+    World.EnterScene(WorldConfig.Room_HJ)
+end
+
 return LobbyMainMenuMdr

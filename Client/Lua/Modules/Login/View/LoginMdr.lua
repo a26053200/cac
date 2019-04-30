@@ -24,13 +24,13 @@ function LoginMdr:OnInit()
     --vmgr:LoadView(ViewConfig.Notice)
     self.username = SystemUtils.GetPlayerPrefsString(USERNAME)
     self.password = SystemUtils.GetPlayerPrefsString(PASSWORD)
-    self.gameObject:SetInputField("V/H1/InputField", self.username)
-    self.gameObject:SetInputField("V/H2/InputField", self.password)
+    self.gameObject:GetInputField("V/H1/InputField").text = self.username
+    self.gameObject:GetInputField("V/H2/InputField").text = self.password
 end
 
 function LoginMdr:fetchInput()
-    self.username = self.gameObject:GetText("V/H1/InputField/Text")
-    self.password = self.gameObject:GetText("V/H2/InputField/Text")
+    self.username = self.gameObject:GetInputField("V/H1/InputField").text
+    self.password = self.gameObject:GetInputField("V/H2/InputField").text
 end
 
 function LoginMdr:saveInput()

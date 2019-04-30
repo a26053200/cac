@@ -15,15 +15,15 @@ function SimpleRoleItem:Ctor(gameObject)
 end
 
 ---@param data RoomRoleVo
-function SimpleRoleItem:Update(data, index)
+function SimpleRoleItem:UpdateItem(data, index)
     if data then
-        self.gameObject:SetText("Text", data.roleName)
-        self.gameObject:SetText("State", data.roleState)
-        self.gameObject:SetSprite("Icon",Res.LoadSprite(string.format(headIconUrl,tostring(data.headIcon))))
+        self.gameObject:GetText("Text").text = data.roleName
+        self.gameObject:GetText("State").text = data.roleName
+        ImageHelper.SetHeadIcon(self.gameObject:FindChild("Icon"), data.headIcon)
     else
-        self.gameObject:SetText("Text", "<N/A>")
-        self.gameObject:SetText("State", "<N/A>")
-        self.gameObject:SetSpriteAlpha("Icon", 0)
+        self.gameObject:GetText("Text").text = "<N/A>"
+        self.gameObject:GetText("State").text = "<N/A>"
+        self.gameObject:SetImageAlpha(0,"Icon")
     end
 end
 
