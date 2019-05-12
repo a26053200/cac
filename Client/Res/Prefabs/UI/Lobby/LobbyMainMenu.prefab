@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 494947231696016981}
   - component: {fileID: 361061934065102515}
   m_Layer: 5
-  m_Name: BtnCreate
+  m_Name: BtnGame2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 140, y: 110.11001}
-  m_SizeDelta: {x: 256, y: 64}
+  m_AnchoredPosition: {x: 140, y: 258.7999}
+  m_SizeDelta: {x: 256, y: 361.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6046686072888017443
 CanvasRenderer:
@@ -233,7 +233,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Create
+  m_Text: "\u7EA2\u5C16"
 --- !u!1 &8598765575440562616
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Match
+  m_Text: "\u7EA2\u5C16"
 --- !u!1 &8982737098720553506
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 3773916195765464109}
   - component: {fileID: 2014441913165572427}
   m_Layer: 5
-  m_Name: BtnMatch
+  m_Name: BtnGame1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,8 +349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -140, y: 110.11}
-  m_SizeDelta: {x: 256, y: 64}
+  m_AnchoredPosition: {x: -140, y: 258.8}
+  m_SizeDelta: {x: 256, y: 361.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1589529466595359609
 CanvasRenderer:
