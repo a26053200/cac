@@ -1,13 +1,18 @@
 package com.betel.cac.server.gate;
 
 import com.alibaba.fastjson.JSONObject;
+import com.betel.cac.core.consts.Action;
+import com.betel.cac.core.consts.Field;
+import com.betel.cac.core.consts.ServerName;
 import com.betel.config.ServerConfigVo;
 import com.betel.consts.FieldName;
 import com.betel.servers.forward.ForwardContext;
 import com.betel.servers.forward.ForwardMonitor;
 import com.betel.utils.BytesUtils;
+import io.netty.channel.Channel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 
 /**
  * @ClassName: GateJsonMonitor
@@ -38,6 +43,16 @@ public class GateJsonMonitor extends ForwardMonitor
         }
         else
             logger.info("Client has not ChannelHandlerContext");
+    }
+
+    protected void OnChannelRemoved(Channel ch)
+    {
+        super.OnChannelRemoved(ch);
+        JSONObject sendJson = new JSONObject();
+        sendJson.put(FieldName.CHANNEL_ID, ch.id());
+        //通知各服务器玩家断线
+        sendToServer(ServerName.ROOM_SERVER,"room@" + Action.PLAYER_OFFLINE,sendJson);
+        sendToServer(ServerName.LOBBY_SERVER,"lobby@" + Action.PLAYER_OFFLINE,sendJson);
     }
 }
 

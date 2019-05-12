@@ -57,14 +57,14 @@ public class HongJianBusiness extends Business<HongJianDeck>
 
         //发牌
         HongJianDeck deck = new HongJianDeck(normalRoom.getId());
-        HongJianRoom room = new HongJianRoom(normalRoom, deck, 5000);
-        roomMap.put(normalRoom.getId(), room);
-        room.getDeck().NewDeck();//新牌
-        room.getDeck().Shuffle();//洗牌
+        HongJianRoom hongJianRoom = new HongJianRoom(normalRoom, deck, 5000);
+        roomMap.put(normalRoom.getId(), hongJianRoom);
+        hongJianRoom.getDeck().NewDeck();//新牌
+        hongJianRoom.getDeck().Shuffle();//洗牌
         //发牌给每个角色
-        for (int i = 0; i < room.getRoom().getRoleList().length; i++)
+        for (int i = 0; i < hongJianRoom.getRoom().getRoleList().length; i++)
         {
-            Role role = room.getRoom().getRoleList()[i];
+            Role role = hongJianRoom.getRoom().getRoleList()[i];
             if (role != null)
             {
                 //CardSlot slot = deck.Deal(i, i == 0 ? 52 : 0);
@@ -77,26 +77,7 @@ public class HongJianBusiness extends Business<HongJianDeck>
             }
         }
 
-        room.startTurn();
-        sendWhoseTurn(room);
-    }
-
-    private void sendWhoseTurn(HongJianRoom room)
-    {
-        JSONObject turnJson = new JSONObject();
-        turnJson.put(Field.TURN_DURATION,30);
-        turnJson.put(Field.ROOM_POS,room.getCurrTurnPos());
-        turnJson.put(Field.TURN_NUM,room.getCurrTurnNum());//当前轮数,首轮必须要出牌
-        room.getRoom().pushAll(Push.HJ_WHOSE_TURN, turnJson);
-        monitor.pushToClient(roomRole.getChannelId(), ServerName.JSON_GATE_SERVER, Push.ROOM_INFO, roomJson);
-        room.nextTurn(new Handler()
-        {
-            @Override
-            public void call()
-            {
-                sendWhoseTurn(room);
-            }
-        });
+        hongJianRoom.startTurn(monitor);
     }
 
     private void turnOperate(Session session)

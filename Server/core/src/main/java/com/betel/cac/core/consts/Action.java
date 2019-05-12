@@ -33,6 +33,11 @@ public class Action
      */
     public final static String PLAYER_LOGOUT = "player_logout";
 
+    /**
+     * 与服务器断开连接
+     */
+    public final static String PLAYER_OFFLINE = "player_offline";
+
     //==================
     // Role
     //==================

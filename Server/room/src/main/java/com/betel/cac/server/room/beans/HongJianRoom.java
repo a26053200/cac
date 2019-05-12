@@ -1,7 +1,12 @@
 package com.betel.cac.server.room.beans;
 
+import com.alibaba.fastjson.JSONObject;
 import com.betel.cac.beans.Room;
+import com.betel.cac.core.consts.Field;
+import com.betel.cac.core.consts.Push;
+import com.betel.cac.core.consts.ServerName;
 import com.betel.cac.core.utils.Handler;
+import com.betel.common.Monitor;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
@@ -20,7 +25,7 @@ public class HongJianRoom
     private HongJianDeck deck;
     private int currTurnPos;
     private int currTurnNum;
-    private int turnDuration;//每轮持续时间
+    private int turnDuration;//每轮持续时间,单位 毫秒
 
     public Room getRoom()
     {
@@ -54,16 +59,38 @@ public class HongJianRoom
     }
 
     //开始轮换出牌人
-    public void startTurn()
+    public void startTurn(Monitor monitor)
     {
         currTurnPos = 0;
         currTurnNum = 0;
+        sendWhoseTurn(monitor);
     }
-    public void nextTurn(Handler autoNextTurn)
+
+    private void sendWhoseTurn(Monitor monitor)
     {
-        turnTimer.newTimeout(new TimerTask(){
+        JSONObject turnJson = new JSONObject();
+        turnJson.put(Field.TURN_DURATION, turnDuration);
+        turnJson.put(Field.ROOM_POS, getCurrTurnPos());
+        turnJson.put(Field.TURN_NUM, getCurrTurnNum()); //当前轮数,首轮必须要出牌
+        //getRoom().pushAll(Push.HJ_WHOSE_TURN, turnJson);
+        monitor.pushToClient(getRoom().getRoleList()[0].getChannelId(), ServerName.JSON_GATE_SERVER, Push.HJ_WHOSE_TURN, turnJson);
+        nextTurn(new Handler()
+        {
             @Override
-            public void run(Timeout timeout) throws Exception {
+            public void call()
+            {
+                sendWhoseTurn(monitor);
+            }
+        });
+    }
+
+    private void nextTurn(Handler autoNextTurn)
+    {
+        turnTimer.newTimeout(new TimerTask()
+        {
+            @Override
+            public void run(Timeout timeout) throws Exception
+            {
                 currTurnPos += 1;
                 currTurnNum += 1;
                 if (currTurnPos >= room.getRoleList().length)
@@ -74,9 +101,10 @@ public class HongJianRoom
         }, turnDuration, TimeUnit.MILLISECONDS);
 
     }
+
     public void stopTurnTimer()
     {
-        if(turnTimer != null)
+        if (turnTimer != null)
             turnTimer.stop();
     }
 }
